@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Header from './components/navbar';
+import Main from './components/main';
+import Footer from './components/footer';
+import Login from './components/login';
 
 function App() {
+  const [showLogin, setShowLogin] = useState(false);
+
+  const handleSignInClick = () => {
+    setShowLogin(true);
+  };
+
+  const handleHomeClick = () => {
+    setShowLogin(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex flex-col min-h-screen">
+      <Header onSignIn={handleSignInClick} onHomeClick={handleHomeClick} />
+      {showLogin ? <Login /> : <Main />}
+      <Footer />
     </div>
   );
 }
