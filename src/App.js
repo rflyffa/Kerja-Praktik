@@ -1,8 +1,8 @@
-/* eslint-disable eol-last */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/navbar';
 import Main from './components/main';
 import Footer from './components/footer';
@@ -20,11 +20,16 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header onSignIn={handleSignInClick} onHomeClick={handleHomeClick} />
-      {showLogin ? <Login /> : <Main />}
-      <Footer />
-    </div>
+    <Router>
+      <div className="flex flex-col min-h-screen">
+        <Header onSignIn={handleSignInClick} onHomeClick={handleHomeClick} />
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

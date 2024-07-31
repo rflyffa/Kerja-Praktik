@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../assets/logo.png';
 
 const Navbar = ({ onSignIn, onHomeClick }) => {
@@ -22,15 +23,15 @@ const Navbar = ({ onSignIn, onHomeClick }) => {
           <h1 className="text-2xl font-bold">KPU KOTA CIMAHI</h1>
         </div>
         <nav className="hidden md:flex space-x-4">
-          <a
-            href="#home"
+          <Link
+            to="/"
             className="text-white hover:text-gray-300 transition duration-300"
             onClick={onHomeClick}
           >
             Home
-          </a>
-          <a href="#about" className="text-white hover:text-gray-300 transition duration-300">About</a>
-          <a href="#contact" className="text-white hover:text-gray-300 transition duration-300">Contact</a>
+          </Link>
+          <Link to="#about" className="text-white hover:text-gray-300 transition duration-300">About</Link>
+          <Link to="#contact" className="text-white hover:text-gray-300 transition duration-300">Contact</Link>
         </nav>
         <div className="md:hidden">
           <button onClick={toggleMenu} className="text-white focus:outline-none">
@@ -43,21 +44,22 @@ const Navbar = ({ onSignIn, onHomeClick }) => {
       {isMenuOpen && (
         <div className="md:hidden">
           <nav className="flex flex-col space-y-2 p-4">
-            <a
-              href="#home"
+            <Link
+              to="/"
               className="text-white hover:text-gray-300 transition duration-300"
               onClick={onHomeClick}
             >
               Home
-            </a>
-            <a href="#about" className="text-white hover:text-gray-300 transition duration-300">About</a>
-            <a href="#contact" className="text-white hover:text-gray-300 transition duration-300">Contact</a>
-            <button
+            </Link>
+            <Link to="#about" className="text-white hover:text-gray-300 transition duration-300">About</Link>
+            <Link to="#contact" className="text-white hover:text-gray-300 transition duration-300">Contact</Link>
+            <Link
+              to="/login"
               className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-300"
               onClick={onSignIn}
             >
               Sign In
-            </button>
+            </Link>
           </nav>
         </div>
       )}
