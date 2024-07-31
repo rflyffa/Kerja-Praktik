@@ -1,3 +1,7 @@
+/* eslint-disable eol-last */
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable react/jsx-filename-extension */
 import React, { useState } from 'react';
 import Header from './components/navbar';
 import Main from './components/main';
