@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import Logo from '../assets/logo.png';
 
 const Navbar = ({ onSignIn, onHomeClick }) => {
@@ -30,8 +30,20 @@ const Navbar = ({ onSignIn, onHomeClick }) => {
           >
             Home
           </Link>
-          <Link to="#about" className="text-white hover:text-gray-300 transition duration-300">About</Link>
-          <Link to="#contact" className="text-white hover:text-gray-300 transition duration-300">Contact</Link>
+          <Link
+            to="/create-letter"
+            className="text-white hover:text-gray-300 transition duration-300"
+          >
+            Create Letter
+          </Link>
+          <Link
+            to="/print-letter"
+            className="text-white hover:text-gray-300 transition duration-300"
+          >
+            Printable Letter
+          </Link>
+          <a href="#about" className="text-white hover:text-gray-300 transition duration-300">About</a>
+          <a href="#contact" className="text-white hover:text-gray-300 transition duration-300">Contact</a>
         </nav>
         <div className="md:hidden">
           <button onClick={toggleMenu} className="text-white focus:outline-none">
@@ -51,15 +63,24 @@ const Navbar = ({ onSignIn, onHomeClick }) => {
             >
               Home
             </Link>
-            <Link to="#about" className="text-white hover:text-gray-300 transition duration-300">About</Link>
-            <Link to="#contact" className="text-white hover:text-gray-300 transition duration-300">Contact</Link>
             <Link
-              to="/login"
+              to="/create-letter"
+              className="text-white hover:text-gray-300 transition duration-300"
+            >
+              Create Letter
+            </Link>
+            <Link
+              to="/print-letter"
+              className="text-white hover:text-gray-300 transition duration-300"
+            >
+              Printable Letter
+            </Link>
+            <button
               className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-300"
               onClick={onSignIn}
             >
               Sign In
-            </Link>
+            </button>
           </nav>
         </div>
       )}

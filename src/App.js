@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/jsx-filename-extension */
@@ -7,6 +9,8 @@ import Header from './components/navbar';
 import Main from './components/main';
 import Footer from './components/footer';
 import Login from './components/login';
+import LetterForm from './components/letter-form'; // Import LetterForm component
+import PrintableLetter from './components/printlatter'; // Import PrintableLetter component
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -26,6 +30,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/create-letter" element={<LetterForm />} /> {/* Add route for LetterForm */}
+          <Route path="/print-letter" element={<PrintableLetter />} /> {/* Add route for PrintableLetter */}
         </Routes>
         <Footer />
       </div>
