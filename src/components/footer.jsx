@@ -20,7 +20,7 @@ const Footer = () => {
                   <a href="https://flowbite.com/" className="hover:underline">Flowbite</a>
                 </li>
                 <li>
-                  <a href="https://tailwindcss.com/" className="hover:underline">Tailwind CSS</a>
+                  <a href="https://tailwindcss.com/" className="hover:underline">Test</a>
                 </li>
               </ul>
             </div>
