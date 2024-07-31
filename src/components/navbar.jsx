@@ -32,12 +32,6 @@ const Navbar = ({ onSignIn, onHomeClick }) => {
           <a href="#about" className="text-white hover:text-gray-300 transition duration-300">About</a>
           <a href="#contact" className="text-white hover:text-gray-300 transition duration-300">Contact</a>
         </nav>
-        <button
-          className="bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-900 transition duration-300 hidden md:block"
-          onClick={onSignIn}
-        >
-          Sign In
-        </button>
         <div className="md:hidden">
           <button onClick={toggleMenu} className="text-white focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
