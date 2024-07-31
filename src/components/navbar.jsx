@@ -12,7 +12,7 @@ const Navbar = ({ onSignIn, onHomeClick }) => {
     <header className="bg-custom-red text-white shadow-md p-4">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-4">
-          <div className="bg-white rounded-full p-1 shadow-lg">
+          <div className="bg-white rounded-full p-2 shadow-lg">
             <img
               src={Logo}
               alt="Logo"
