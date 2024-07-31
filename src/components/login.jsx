@@ -1,11 +1,12 @@
 import React from 'react';
+import Logo from '../assets/logo.png';
 
 const Login = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow dark:bg-gray-800">
         <div className="flex justify-center">
-          <img className="w-20 h-20" src="/path/to/logo.png" alt="Logo" />
+          <img className="w-40 h-25" src={Logo} alt="Logo" />
         </div>
         <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 dark:text-white">
           Sign in to your account
