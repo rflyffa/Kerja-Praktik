@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Assuming you are using react-router for navigation
 import Logo from '../assets/logo.png';
 
 const Login = () => {
@@ -69,12 +68,6 @@ const Login = () => {
             >
               Sign in
             </button>
-          </div>
-          <div className="text-sm text-center">
-            <span className="text-gray-600 dark:text-gray-400">Don't have an account? </span>
-            <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
-              Register
-            </Link>
           </div>
         </form>
       </div>
