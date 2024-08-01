@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import Logo from '../assets/logo.png';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:3001/login', { email, password });
+      if (response.data.success) {
+        // Lakukan sesuatu jika login berhasil
+        console.log('Login successful');
+      } else {
+        setErrorMessage(response.data.message);
+      }
+    } catch (error) {
+      console.error('There was an error!', error);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow dark:bg-gray-800">
@@ -11,7 +31,7 @@ const Login = () => {
         <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 dark:text-white">
           Sign in to your account
         </h2>
-        <form className="mt-8 space-y-6" action="#" method="POST">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" value="true" />
           <div className="space-y-4 rounded-md shadow-sm">
             <div>
@@ -24,6 +44,8 @@ const Login = () => {
                 type="email"
                 autoComplete="email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="relative block w-full px-3 py-2 border border-gray-300 rounded-md appearance-none dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 sm:text-sm"
                 placeholder="Email address"
               />
@@ -38,11 +60,14 @@ const Login = () => {
                 type="password"
                 autoComplete="current-password"
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="relative block w-full px-3 py-2 border border-gray-300 rounded-md appearance-none dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 sm:text-sm"
                 placeholder="Password"
               />
             </div>
           </div>
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <input
