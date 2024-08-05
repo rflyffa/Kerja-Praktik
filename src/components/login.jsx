@@ -1,26 +1,39 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../assets/logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      setErrorMessage('Email dan password harus diisi.');
+      return;
+    }
     try {
-      const response = await axios.post('http://localhost:3001/login', { email, password });
+      const response = await axios.post('http://localhost:5000/login', { email, password });
+      console.log('Response:', response.data); // Debugging
       if (response.data.success) {
-        // Lakukan sesuatu jika login berhasil
-        console.log('Login successful');
+        if (response.data.role === 'admin') {
+          navigate('/admin');
+        } else if (response.data.role === 'operator') {
+          navigate('/operator');
+        }
       } else {
-        setErrorMessage(response.data.message);
+        setErrorMessage(response.data.message || 'Login gagal. Silakan coba lagi.');
       }
     } catch (error) {
       console.error('There was an error!', error);
+      setErrorMessage('Email atau Password salah.');
     }
   };
+  
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -89,7 +102,7 @@ const Login = () => {
           <div>
             <button
               type="submit"
-              className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md group hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-400"
+              className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md group hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-400 dark:ring-offset-gray-800"
             >
               Sign in
             </button>

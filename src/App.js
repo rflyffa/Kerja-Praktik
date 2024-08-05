@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-named-as-default */
@@ -9,8 +10,10 @@ import Header from './components/navbar';
 import Main from './components/main';
 import Footer from './components/footer';
 import Login from './components/login';
-import LetterForm from './components/letter-form'; // Import LetterForm component
-import PrintableLetter from './components/printlatter'; // Import PrintableLetter component
+import LetterForm from './components/letter-form';
+import PrintableLetter from './components/printlatter';
+import Admin from './components/admin'; // Import AdminDashboard component
+import Operator from './components/operator'; // Import OperatorDashboard component
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -30,8 +33,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/create-letter" element={<LetterForm />} /> {/* Add route for LetterForm */}
-          <Route path="/print-letter" element={<PrintableLetter />} /> {/* Add route for PrintableLetter */}
+          <Route path="/create-letter" element={<LetterForm />} />
+          <Route path="/print-letter" element={<PrintableLetter />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/operator" element={<Operator />} />
         </Routes>
         <Footer />
       </div>
