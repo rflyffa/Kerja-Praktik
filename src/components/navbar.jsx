@@ -30,18 +30,6 @@ const Navbar = ({ onSignIn, onHomeClick }) => {
           >
             Home
           </Link>
-          <Link
-            to="/create-letter"
-            className="text-white hover:text-gray-300 transition duration-300"
-          >
-            Create Letter
-          </Link>
-          <Link
-            to="/print-letter"
-            className="text-white hover:text-gray-300 transition duration-300"
-          >
-            Printable Letter
-          </Link>
           <a href="#about" className="text-white hover:text-gray-300 transition duration-300">About</a>
           <a href="#contact" className="text-white hover:text-gray-300 transition duration-300">Contact</a>
         </nav>
