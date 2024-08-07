@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../assets/logo.png';
+import Logo from '../../assets/logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');

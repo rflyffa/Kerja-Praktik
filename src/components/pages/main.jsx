@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Background from '../assets/background.png'; // Impor gambar latar belakang
+import Background from '../../assets/background.png';
 
 const Main = () => {
   return (
     <section
       className="bg-center bg-no-repeat bg-cover bg-gray-700 bg-blend-multiply"
       style={{
-        backgroundImage: `url(${Background})`, // Terapkan gambar latar belakang
+        backgroundImage: `url(${Background})`,
       }}
     >
       <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">

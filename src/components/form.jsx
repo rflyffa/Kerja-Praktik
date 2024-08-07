@@ -1,145 +1,137 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FaFileAlt, FaUser, FaBullseye, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 
-const Form = () => {
+const Form = ({ onSubmit }) => {
+  const [formData, setFormData] = useState({
+    nomor: '',
+    nama: '',
+    tujuan: '',
+    tanggalMulai: '',
+    tanggalSelesai: '',
+    tempat: '',
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-lg py-12 px-8 space-y-8 bg-white rounded-lg shadow dark:bg-gray-800">
-        <h2 className="text-2xl font-extrabold text-center text-gray-900 dark:text-white">
-          Welcome to the Form Page
-        </h2>
-        <form>
-          <div className="grid gap-6 mb-6 md:grid-cols-2">
-            <div>
-              <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                First name
-              </label>
-              <input
-                type="text"
-                id="first_name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="John"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Last name
-              </label>
-              <input
-                type="text"
-                id="last_name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Doe"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="company" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Company
-              </label>
-              <input
-                type="text"
-                id="company"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Flowbite"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Phone number
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="123-45-678"
-                pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="website" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Website URL
-              </label>
-              <input
-                type="url"
-                id="website"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="flowbite.com"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="visitors" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Unique visitors (per month)
-              </label>
-              <input
-                type="number"
-                id="visitors"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
-              />
-            </div>
-          </div>
-          <div className="mb-6">
-            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Email address
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="john.doe@company.com"
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="•••••••••"
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label htmlFor="confirm_password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Confirm password
-            </label>
-            <input
-              type="password"
-              id="confirm_password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="•••••••••"
-              required
-            />
-          </div>
-          <div className="flex items-start mb-6">
-            <div className="flex items-center h-5">
-              <input
-                id="remember"
-                type="checkbox"
-                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                required
-              />
-            </div>
-            <label htmlFor="remember" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-              I agree with the <a href="#" className="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.
-            </label>
-          </div>
-          <button
-            type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Submit
-          </button>
-        </form>
+    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto mt-10 bg-white shadow-2xl rounded-lg overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-white">
+        <h2 className="text-3xl font-bold">Form Surat Tugas</h2>
+        <p className="mt-2">Silakan isi detail surat tugas di bawah ini</p>
       </div>
-    </div>
+      <div className="p-8 space-y-6">
+        {/* Nomor Surat */}
+        <div className="flex items-center space-x-4">
+          <FaFileAlt className="text-gray-400 text-xl" />
+          <div className="flex-grow">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Nomor Surat:</label>
+            <input
+              type="text"
+              name="nomor"
+              value={formData.nomor}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              required
+              placeholder="Masukkan nomor surat"
+            />
+          </div>
+        </div>
+        {/* Nama */}
+        <div className="flex items-center space-x-4">
+          <FaUser className="text-gray-400 text-xl" />
+          <div className="flex-grow">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Nama:</label>
+            <input
+              type="text"
+              name="nama"
+              value={formData.nama}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              required
+              placeholder="Masukkan nama"
+            />
+          </div>
+        </div>
+        {/* Tujuan Tugas */}
+        <div className="flex items-start space-x-4">
+          <FaBullseye className="text-gray-400 text-xl mt-3" />
+          <div className="flex-grow">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Tujuan Tugas:</label>
+            <textarea
+              name="tujuan"
+              value={formData.tujuan}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              required
+              rows="3"
+              placeholder="Deskripsikan tujuan tugas"
+            ></textarea>
+          </div>
+        </div>
+        {/* Tanggal Mulai dan Selesai */}
+        <div className="flex space-x-4">
+          <div className="flex items-center space-x-4 flex-1">
+            <FaCalendarAlt className="text-gray-400 text-xl" />
+            <div className="flex-grow">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai:</label>
+              <input
+                type="date"
+                name="tanggalMulai"
+                value={formData.tanggalMulai}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                required
+              />
+            </div>
+          </div>
+          <div className="flex items-center space-x-4 flex-1">
+            <FaCalendarAlt className="text-gray-400 text-xl" />
+            <div className="flex-grow">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal Selesai:</label>
+              <input
+                type="date"
+                name="tanggalSelesai"
+                value={formData.tanggalSelesai}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                required
+              />
+            </div>
+          </div>
+        </div>
+        {/* Tempat */}
+        <div className="flex items-center space-x-4">
+          <FaMapMarkerAlt className="text-gray-400 text-xl" />
+          <div className="flex-grow">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Tempat:</label>
+            <input
+              type="text"
+              name="tempat"
+              value={formData.tempat}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              required
+              placeholder="Masukkan tempat tugas"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="px-8 py-4 bg-gray-50 border-t border-gray-200 flex justify-end">
+        <button 
+          type="submit" 
+          className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-md hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition"
+        >
+          Generate Surat Tugas
+        </button>
+      </div>
+    </form>
   );
 };
 

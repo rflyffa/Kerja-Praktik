@@ -29,7 +29,7 @@ const Navbar = ({ onSignIn, onHomeClick }) => {
         <nav className="hidden md:flex items-center space-x-4">
           {!isMainPage && ( // Hide Home on the main page
             <Link
-              to="/"
+              to="/dashboard"
               className="relative group"
               onClick={onHomeClick}
             >

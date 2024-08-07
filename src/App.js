@@ -7,11 +7,11 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/navbar';
-import Main from './components/main';
+import Main from './components/pages/main';
 import Footer from './components/footer';
-import Login from './components/login';
-import Admin from './components/admin'; // Import AdminDashboard component
-import Operator from './components/operator'; // Import OperatorDashboard component
+import Login from './components/pages/login';
+import Dashboard from './components/pages/dashboard';
+import Form from './components/form';
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -31,8 +31,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/operator" element={<Operator />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/form" element={<Form />} />
         </Routes>
         <Footer />
       </div>
