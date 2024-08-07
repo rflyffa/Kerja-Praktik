@@ -29,7 +29,7 @@ const Navbar = ({ onSignIn, onHomeClick }) => {
         <nav className="hidden md:flex items-center space-x-4">
           {!isMainPage && ( // Hide Home on the main page
             <Link
-              to="/dashboard"
+              to="/"
               className="relative group"
               onClick={onHomeClick}
             >
@@ -40,12 +40,6 @@ const Navbar = ({ onSignIn, onHomeClick }) => {
                 Home
               </span>
             </Link>
-          )}
-          {!isMainPage && !isLoginPage && (
-            <>
-              <a href="#about" className="text-white hover:text-gray-300 transition duration-300">About</a>
-              <a href="#contact" className="text-white hover:text-gray-300 transition duration-300">Contact</a>
-            </>
           )}
         </nav>
         <div className="md:hidden">
@@ -72,12 +66,6 @@ const Navbar = ({ onSignIn, onHomeClick }) => {
                   Home
                 </span>
               </Link>
-            )}
-            {!isMainPage && !isLoginPage && (
-              <>
-                <a href="#about" className="text-white hover:text-gray-300 transition duration-300">About</a>
-                <a href="#contact" className="text-white hover:text-gray-300 transition duration-300">Contact</a>
-              </>
             )}
             <button
               className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-300"

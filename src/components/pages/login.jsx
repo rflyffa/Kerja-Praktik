@@ -4,36 +4,34 @@ import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/logo.png';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      setErrorMessage('Email dan password harus diisi.');
+    if (!username || !password) {
+      setErrorMessage('Username dan password harus diisi.');
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5000/login', { email, password });
+      const response = await axios.post('http://localhost:5000/login', { username, password });
       console.log('Response:', response.data); // Debugging
       if (response.data.success) {
         if (response.data.role === 'admin') {
-          navigate('/admin');
+          navigate('/dashboard');
         } else if (response.data.role === 'operator') {
-          navigate('/operator');
+          navigate('/dashboard');
         }
       } else {
         setErrorMessage(response.data.message || 'Login gagal. Silakan coba lagi.');
       }
     } catch (error) {
       console.error('There was an error!', error);
-      setErrorMessage('Email atau Password salah.');
+      setErrorMessage('Username atau Password salah.');
     }
   };
-  
-  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -48,19 +46,19 @@ const Login = () => {
           <input type="hidden" name="remember" value="true" />
           <div className="space-y-4 rounded-md shadow-sm">
             <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
+              <label htmlFor="username" className="sr-only">
+                Username
               </label>
               <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="relative block w-full px-3 py-2 border border-gray-300 rounded-md appearance-none dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 sm:text-sm"
-                placeholder="Email address"
+                placeholder="Username"
               />
             </div>
             <div>

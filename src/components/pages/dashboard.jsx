@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFileAlt, FaEye, FaBook } from 'react-icons/fa';
+import { FaFileAlt, FaEye, FaBook, FaClipboard } from 'react-icons/fa';
 
 const Dashboard = () => {
     return (
@@ -24,9 +24,9 @@ const Dashboard = () => {
                     />
                     <DashboardCard
                         to="/create-letter-3"
-                        icon={<FaBook className="w-12 h-12 text-purple-500" />}
-                        title="E-Learning"
-                        description="Akses materi pembelajaran online"
+                        icon={<FaClipboard className="w-12 h-12 text-purple-500" />}
+                        title="Log Surat"
+                        description="Lihat dan kelola log surat yang telah dibuat"
                     />
                 </div>
             </div>
