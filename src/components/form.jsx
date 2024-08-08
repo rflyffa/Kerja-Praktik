@@ -21,7 +21,7 @@ const Form = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto mt-10 bg-white shadow-2xl rounded-lg overflow-hidden">
+    <form onSubmit={handleSubmit} className="max-w-2x1 mx-auto mt-40 bg-white shadow-1x1 rounded-lg overflow-hidden">
       <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-white">
         <h2 className="text-3xl font-bold">Form Surat Tugas</h2>
         <p className="mt-2">Silakan isi detail surat tugas di bawah ini</p>
