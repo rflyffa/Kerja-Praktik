@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/logo.png';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -19,6 +19,7 @@ const Login = () => {
       const response = await axios.post('http://localhost:5000/login', { username, password });
       console.log('Response:', response.data); // Debugging
       if (response.data.success) {
+        onLogin();
         if (response.data.role === 'admin') {
           navigate('/dashboard');
         } else if (response.data.role === 'operator') {
@@ -35,7 +36,7 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow dark:bg-gray-800">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow dark:bg-gray-800 mt-16"> {/* Added mt-16 */}
         <div className="flex justify-center">
           <img className="w-40 h-25" src={Logo} alt="Logo" />
         </div>
