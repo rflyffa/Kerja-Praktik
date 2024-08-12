@@ -13,7 +13,8 @@ import Main from './components/pages/main';
 import Footer from './components/footer';
 import Login from './components/pages/login';
 import Dashboard from './components/pages/dashboard';
-import Form from './components/form';
+import Suratoptions from './components/pages/suratoptions';
+import Createsurat from './components/pages/createsurat';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -52,7 +53,18 @@ function App() {
               isAuthenticated ? <Dashboard /> : <Navigate to="/login" />
             }
           />
-          <Route path="/form" element={<Form />} />
+          <Route
+            path="/surat-tugas-options"
+            element={
+              isAuthenticated ? <Suratoptions /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/createsurat"
+            element={
+              isAuthenticated ? <Createsurat /> : <Navigate to="/login" />
+            }
+          />
         </Routes>
         <Footer />
       </div>
