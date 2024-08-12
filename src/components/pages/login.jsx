@@ -19,10 +19,8 @@ const Login = ({ onLogin }) => {
       const response = await axios.post('http://localhost:5000/login', { username, password });
       console.log('Response:', response.data); // Debugging
       if (response.data.success) {
-        onLogin();
-        if (response.data.role === 'admin') {
-          navigate('/dashboard');
-        } else if (response.data.role === 'operator') {
+        onLogin(response.data.role); // Pass the role to the onLogin function
+        if (response.data.role === 'admin' || response.data.role === 'operator') {
           navigate('/dashboard');
         }
       } else {

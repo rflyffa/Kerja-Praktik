@@ -17,13 +17,16 @@ import Form from './components/form';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState(''); // Add state for user role
 
-  const handleSignIn = () => {
+  const handleSignIn = (role) => {
     setIsAuthenticated(true);
+    setUserRole(role); // Set the user role after sign in
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    setUserRole(''); // Clear the user role on logout
   };
 
   return (
@@ -33,6 +36,7 @@ function App() {
           onSignIn={handleSignIn}
           onLogout={handleLogout}
           isAuthenticated={isAuthenticated}
+          userRole={userRole} // Pass the user role to the Navbar
         />
         <Routes>
           <Route path="/" element={<Main />} />

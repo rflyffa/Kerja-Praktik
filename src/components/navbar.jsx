@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Logo from '../assets/logo.png'; // Path to your logo
 import { HomeIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 
-const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated }) => {
+const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false); // State for profile menu
   const [scrolling, setScrolling] = useState(false); // State for scroll detection
@@ -80,12 +80,9 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated }) => {
               </button>
               {isProfileMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white text-gray-900 rounded-lg shadow-lg">
-                  <Link
-                    to="/profile"
-                    className="block px-4 py-2 text-sm hover:bg-gray-100"
-                  >
-                    Profile
-                  </Link>
+                  <div className="px-4 py-2 text-sm">
+                    Logged in as: <strong>{userRole}</strong>
+                  </div>
                   <button
                     onClick={onLogout}
                     className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
@@ -137,12 +134,9 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated }) => {
                 </button>
                 {isProfileMenuOpen && (
                   <div className="flex flex-col space-y-2 p-4">
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100"
-                    >
-                      Profile
-                    </Link>
+                    <div className="px-4 py-2 text-sm text-gray-900">
+                      Logged in as: <strong>{userRole}</strong>
+                    </div>
                     <button
                       onClick={onLogout}
                       className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
