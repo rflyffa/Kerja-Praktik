@@ -23,6 +23,10 @@ const Createsurat = () => {
         navigate('/daftar-surat-tugas');
     };
 
+    const handleBackClick = () => {
+        navigate('/surat-tugas-options');
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-12 px-4 sm:px-6 lg:px-8">
             <div className="mt-20 max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
@@ -83,20 +87,29 @@ const Createsurat = () => {
                             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                         />
                     </div>
-                    <div className="flex justify-end space-x-4">
-                        <button
-                            type="submit"
-                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Simpan
-                        </button>
+                    <div className="flex justify-between items-center">
                         <button
                             type="button"
-                            onClick={() => window.print()}
-                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                            onClick={handleBackClick}
+                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                         >
-                            Cetak
+                            Back
                         </button>
+                        <div className="flex space-x-4">
+                            <button
+                                type="submit"
+                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                                Simpan
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => window.print()}
+                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                            >
+                                Cetak
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
