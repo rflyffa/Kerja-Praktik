@@ -13,6 +13,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
   const isFormPage = location.pathname === '/form'; // Check if on Form page
   const isDashboardPage = location.pathname === '/dashboard'; // Check if on Dashboard page
   const isSuratOptionsPage = location.pathname === '/surat-tugas-options'; // Check if on Suratoptions page
+  const isCreateSuratPage = location.pathname === '/createsurat'; // Check if on Createsurat page
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,7 +39,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
   };
 
   // Determine the "Home" link destination
-  const homeLink = isFormPage || isSuratOptionsPage ? '/dashboard' : (isDashboardPage ? '/dashboard' : '/');
+  const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage) ? '/dashboard' : (isDashboardPage ? '/dashboard' : '/');
 
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolling ? 'bg-custom-red bg-opacity-75 shadow-md' : 'bg-custom-red'} text-white p-4`}>
