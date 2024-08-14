@@ -17,7 +17,7 @@ const Dashboard = () => {
                         description="Buat dan kelola surat tugas dengan mudah"
                     />
                     <DashboardCard
-                        to="/create-letter-2"
+                        to="/surat-tugas-options"
                         icon={<FaEye className="w-12 h-12 text-green-600" />}
                         title="Surat Visum"
                         description="Proses surat visum dengan cepat dan efisien"
@@ -58,7 +58,7 @@ const DashboardCard = ({ to, icon, title, description }) => {
                     Masuk
                 </button>
                 <Link 
-                    to={to} 
+                    to="/history" 
                     className="block text-center text-indigo-600 hover:underline text-sm"
                 >
                     View

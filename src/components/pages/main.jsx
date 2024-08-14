@@ -11,7 +11,7 @@ const Main = () => {
       }}
     >
       <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
-        <h1 className="mb-4 text-3xl font-bold tracking-tight leading-none text-white md:text-4xl lg:text-5xl">
+        <h1 className="mt-20 text-3xl font-bold tracking-tight leading-none text-white md:text-4xl lg:text-5xl">
           SELAMAT DATANG DI SISTEM PEMBUATAN SURAT TUGAS DINAS KOTA CIMAHI
         </h1>
         <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">

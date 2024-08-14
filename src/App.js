@@ -1,4 +1,8 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable eol-last */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable react/jsx-indent-props */
+/* eslint-disable linebreak-style */
 /* eslint-disable object-curly-newline */
 /* eslint-disable linebreak-style */
 /* eslint-disable react/jsx-one-expression-per-line */
@@ -15,6 +19,7 @@ import Login from './components/pages/login';
 import Dashboard from './components/pages/dashboard';
 import Suratoptions from './components/pages/suratoptions';
 import Createsurat from './components/pages/createsurat';
+import History from './components/pages/history';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -63,6 +68,12 @@ function App() {
             path="/createsurat"
             element={
               isAuthenticated ? <Createsurat /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/history"
+            element={
+              isAuthenticated ? <History /> : <Navigate to="/login" />
             }
           />
         </Routes>
