@@ -20,7 +20,7 @@ const Createsurat = () => {
         // Simpan data ke database atau state global
         console.log(formData);
         // Redirect ke halaman daftar surat tugas
-        navigate('/daftar-surat-tugas');
+        navigate('/history');
     };
 
     const handleBackClick = () => {
