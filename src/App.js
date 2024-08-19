@@ -53,10 +53,10 @@ function App() {
             }
           />
           <Route
-            path="/dashboard"
-            element={
-              isAuthenticated ? <Dashboard /> : <Navigate to="/login" />
-            }
+          path="/dashboard"
+          element={
+            isAuthenticated ? <Dashboard userRole={userRole} /> : <Navigate to="/login" />
+           }
           />
           <Route
             path="/surat-tugas-options"
