@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Createsurat = () => {
     const [formData, setFormData] = useState({
@@ -17,10 +18,15 @@ const Createsurat = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Simpan data ke database atau state global
-        console.log(formData);
-        // Redirect ke halaman daftar surat tugas
-        navigate('/history');
+        axios.post('http://localhost:5000/createsurat', formData)
+            .then((response) => {
+                console.log(response.data);
+                // Redirect to the history page
+                navigate('/history');
+            })
+            .catch((error) => {
+                console.error('There was an error saving the surat!', error);
+            });
     };
 
     const handleBackClick = () => {

@@ -1,8 +1,3 @@
-/* eslint-disable linebreak-style */
-/* eslint-disable consistent-return */
-/* eslint-disable linebreak-style */
-/* eslint-disable comma-dangle */
-/* eslint-disable linebreak-style */
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
@@ -14,21 +9,39 @@ const PORT = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-const db = mysql.createConnection({
+// Existing login database connection
+const loginDb = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'login'
 });
 
-db.connect((err) => {
+loginDb.connect((err) => {
   if (err) {
-    console.error('Error connecting to the database:', err);
+    console.error('Error connecting to the login database:', err);
     return;
   }
-  console.log('Connected to the database.');
+  console.log('Connected to the login database.');
 });
 
+// New surat_tugas database connection
+const suratDb = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'surat_tugas'
+});
+
+suratDb.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the surat_tugas database:', err);
+    return;
+  }
+  console.log('Connected to the surat_tugas database.');
+});
+
+// POST route to handle login
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
@@ -36,7 +49,7 @@ app.post('/login', (req, res) => {
   }
 
   const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
-  db.query(query, [username, password], (err, results) => {
+  loginDb.query(query, [username, password], (err, results) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
@@ -48,6 +61,32 @@ app.post('/login', (req, res) => {
     } else {
       res.status(401).json({ success: false, message: 'Invalid username or password.' });
     }
+  });
+});
+
+// POST route to save surat data
+app.post('/createsurat', (req, res) => {
+  const { nomor, kepada, untuk, tanggal, tempat } = req.body;
+
+  const query = 'INSERT INTO surat (nomor, kepada, untuk, tanggal, tempat) VALUES (?, ?, ?, ?, ?)';
+  suratDb.query(query, [nomor, kepada, untuk, tanggal, tempat], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json({ success: true, message: 'Surat created successfully.' });
+  });
+});
+
+// GET route to fetch all surat data
+app.get('/history', (req, res) => {
+  const query = 'SELECT * FROM surat ORDER BY id DESC';
+  suratDb.query(query, (err, results) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json(results);
   });
 });
 

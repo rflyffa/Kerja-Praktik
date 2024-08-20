@@ -1,73 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
+import axios from 'axios';
 
 const History = () => {
-    const [letters, setLetters] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [suratList, setSuratList] = useState([]);
 
     useEffect(() => {
-        // Fetch letters from your API or database
-        fetch('/api/letters')  // Update this URL with your actual API endpoint
-            .then(response => response.json())
-            .then(data => {
-                setLetters(data);
-                setLoading(false);
+        axios.get('http://localhost:5000/history')
+            .then((response) => {
+                setSuratList(response.data);
             })
-            .catch(error => {
-                setError('Error fetching letters.');
-                setLoading(false);
+            .catch((error) => {
+                console.error('There was an error fetching the surat data!', error);
             });
     }, []);
 
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
-
-    const filteredLetters = letters.filter(letter =>
-        letter.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        letter.content.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
     return (
-        <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="mt-40 max-w-7xl mx-auto">
-                <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-8">
-                    Log Surat
-                </h2>
-                <div className="mb-8 flex justify-center">
-                    <div className="relative w-full sm:w-1/2 md:w-1/3">
-                        <input
-                            type="text"
-                            value={searchTerm}
-                            onChange={handleSearchChange}
-                            placeholder="Cari surat..."
-                            className="w-full p-3 pl-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        />
-                        <AiOutlineSearch className="absolute left-3 top-3 text-gray-500" />
-                    </div>
-                </div>
-                {loading ? (
-                    <div className="flex justify-center items-center">
-                        <div className="animate-spin h-12 w-12 border-4 border-indigo-500 border-t-transparent rounded-full"></div>
-                    </div>
-                ) : error ? (
-                    <div className="text-red-500 text-center text-lg">{error}</div>
-                ) : (
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {filteredLetters.length > 0 ? (
-                            filteredLetters.map(letter => (
-                                <div key={letter.id} className="bg-white p-6 shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl">
-                                    <h3 className="text-xl font-semibold text-gray-900 mb-2">{letter.title}</h3>
-                                    <p className="text-gray-600">{letter.content}</p>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="text-gray-600 text-center">Tidak ada surat ditemukan.</p>
-                        )}
-                    </div>
-                )}
+        <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="mt-20 max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                <h2 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">History Surat Tugas</h2>
+                <ul className="space-y-4">
+                    {suratList.map((surat) => (
+                        <li key={surat.id} className="p-4 bg-gray-100 rounded-lg shadow-sm">
+                            <p><strong>Nomor:</strong> {surat.nomor}</p>
+                            <p><strong>Kepada:</strong> {surat.kepada}</p>
+                            <p><strong>Untuk:</strong> {surat.untuk}</p>
+                            <p><strong>Tanggal:</strong> {surat.tanggal}</p>
+                            <p><strong>Tempat:</strong> {surat.tempat}</p>
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     );
