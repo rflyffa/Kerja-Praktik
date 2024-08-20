@@ -1,4 +1,7 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/order */
+/* eslint-disable linebreak-style */
 /* eslint-disable eol-last */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable react/jsx-indent-props */
@@ -20,6 +23,8 @@ import Dashboard from './components/pages/dashboard';
 import Suratoptions from './components/pages/suratoptions';
 import Createsurat from './components/pages/createsurat';
 import History from './components/pages/history';
+import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,6 +33,7 @@ function App() {
   const handleSignIn = (role) => {
     setIsAuthenticated(true);
     setUserRole(role); // Set the user role after sign in
+    toast.success('Login berhasil!'); // Show success notification
   };
 
   const handleLogout = () => {
@@ -44,6 +50,7 @@ function App() {
           isAuthenticated={isAuthenticated}
           userRole={userRole} // Pass the user role to the Navbar
         />
+        <ToastContainer /> {/* Add ToastContainer here */}
         <Routes>
           <Route path="/" element={<Main />} />
           <Route
@@ -53,10 +60,10 @@ function App() {
             }
           />
           <Route
-          path="/dashboard"
-          element={
-            isAuthenticated ? <Dashboard userRole={userRole} /> : <Navigate to="/login" />
-           }
+            path="/dashboard"
+            element={
+              isAuthenticated ? <Dashboard userRole={userRole} /> : <Navigate to="/login" />
+            }
           />
           <Route
             path="/surat-tugas-options"
@@ -84,3 +91,4 @@ function App() {
 }
 
 export default App;
+
