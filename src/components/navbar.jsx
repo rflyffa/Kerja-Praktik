@@ -14,7 +14,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
   const isDashboardPage = location.pathname === '/dashboard'; // Check if on Dashboard page
   const isSuratOptionsPage = location.pathname === '/surat-tugas-options'; // Check if on SuratOptions page
   const isCreateSuratPage = location.pathname === '/createsurat'; // Check if on CreateSurat page
-  const isHistoryPage = location.pathname === '/history'; // Check if on CreateSurat page
+  const isHistoryPage = location.pathname === '/history'; // Check if on History page
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,7 +68,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
               </span>
             </Link>
           )}
-          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage) && isAuthenticated && ( // Show Profile button on Dashboard, SuratOptions, and CreateSurat pages
+          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && ( // Show Profile button on Dashboard, SuratOptions, CreateSurat, and History pages
             <div className="relative">
               <button
                 onClick={toggleProfileMenu}
@@ -126,7 +126,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
                 </span>
               </Link>
             )}
-            {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage) && isAuthenticated && ( // Show Profile button on Dashboard, SuratOptions, and CreateSurat pages
+            {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && ( // Show Profile button on Dashboard, SuratOptions, CreateSurat, and History pages
               <>
                 <button
                   onClick={toggleProfileMenu}
