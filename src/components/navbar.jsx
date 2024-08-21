@@ -43,7 +43,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
   const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) ? '/dashboard' : (isDashboardPage ? '/dashboard' : '/');
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolling ? 'bg-custom-red bg-opacity-75 shadow-lg' : 'bg-custom-red'} text-white p-4`}>
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolling ? 'bg-custom-red bg-opacity-70 shadow-lg' : 'bg-custom-red'} text-white p-4`}>
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-4">
           <img
