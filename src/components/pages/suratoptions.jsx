@@ -45,7 +45,7 @@ const SuratTugasCard = ({ to, icon, title, description }) => {
                 <p className="text-gray-600 text-center">{description}</p>
             </div>
             <div className="px-6 py-4 bg-gray-50">
-                <button className="w-full bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold text-lg">
+                <button className="w-full bg-gradient-to-r from-black via-gray-800 to-black text-white py-3 px-4 rounded-md hover:from-black hover:via-gray-700 hover:to-black transition duration-300 font-semibold text-lg">
                     Buat Surat
                 </button>
             </div>
