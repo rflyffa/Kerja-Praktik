@@ -52,7 +52,7 @@ const DashboardCard = ({ to, icon, title, description, userRole }) => {
         {userRole === 'operator' && (
           <button 
             onClick={handleClick}
-            className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300 mb-2"
+            className="w-full bg-gradient-to-r from-black via-gray-800 to-black text-white py-2 px-4 rounded-md hover:from-gray-800 hover:via-black hover:to-gray-800 transition duration-300 mb-2"
           >
             Masuk
           </button>

@@ -60,7 +60,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
               className="relative group"
               onClick={onHomeClick}
             >
-              <div className="flex items-center justify-center p-3 bg-indigo-600 rounded-full transition-transform transform hover:scale-105 hover:bg-indigo-700 shadow-md">
+              <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
                 <HomeIcon className="h-6 w-6 text-white" />
               </div>
               <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-10 bg-black text-white text-xs rounded-lg px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -74,7 +74,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
                 onClick={toggleProfileMenu}
                 className="relative group"
               >
-                <div className="flex items-center justify-center p-3 bg-indigo-600 rounded-full transition-transform transform hover:scale-105 hover:bg-indigo-700 shadow-md">
+                <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
                   <UserCircleIcon className="h-6 w-6 text-white" />
                 </div>
                 <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-10 bg-black text-white text-xs rounded-lg px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -118,7 +118,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
                 className="relative group"
                 onClick={onHomeClick}
               >
-                <div className="flex items-center justify-center p-3 bg-indigo-600 rounded-full transition-transform transform hover:scale-105 hover:bg-indigo-700 shadow-md">
+                <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
                   <HomeIcon className="h-6 w-6 text-white" />
                 </div>
                 <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-10 bg-black text-white text-xs rounded-lg px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -132,7 +132,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
                   onClick={toggleProfileMenu}
                   className="relative group"
                 >
-                  <div className="flex items-center justify-center p-3 bg-indigo-600 rounded-full transition-transform transform hover:scale-105 hover:bg-indigo-700 shadow-md">
+                  <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
                     <UserCircleIcon className="h-6 w-6 text-white" />
                   </div>
                   <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-10 bg-black text-white text-xs rounded-lg px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

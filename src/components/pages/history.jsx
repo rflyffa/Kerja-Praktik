@@ -52,31 +52,31 @@ const History = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-12 px-4 sm:px-6 lg:px-8">
             <div className="mt-20 max-w-6xl mx-auto">
-                <h2 className="text-4xl font-extrabold text-900 mb-8 text-center">History Surat Tugas</h2>
+                <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">History Surat Tugas</h2>
                 
                 <div className="mb-6 flex justify-between items-center">
-                    <div className="relative">
+                    <div className="relative flex items-center">
+                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
                         <input
                             type="text"
                             placeholder="Search..."
-                            className="pl-10 pr-4 py-2 rounded-full border-2 border-indigo-300 focus:outline-none focus:border-indigo-500"
+                            className="pl-10 pr-4 py-2 rounded-full border-2 border-transparent bg-gradient-to-r from-black via-gray-800 to-black text-white focus:outline-none focus:border-transparent placeholder:text-gray-400"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <FaSearch className="absolute left-3 top-3 text-indigo-400" />
                     </div>
                     <div className="flex space-x-4">
                         <button
                             onClick={() => handleSort('tanggal')}
-                            className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition duration-300 flex items-center"
+                            className="px-4 py-2 bg-gradient-to-r from-black via-gray-800 to-black text-white rounded-md hover:scale-105 transition duration-300 flex items-center"
                         >
-                            Sort by Date <FaSort className="ml-2" />
+                            Sort by Date <FaSort className="ml-2 text-white" />
                         </button>
                         <button
                             onClick={() => handleSort('nomor')}
-                            className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition duration-300 flex items-center"
+                            className="px-4 py-2 bg-gradient-to-r from-black via-gray-800 to-black text-white rounded-md hover:scale-105 transition duration-300 flex items-center"
                         >
-                            Sort by Number <FaSort className="ml-2" />
+                            Sort by Number <FaSort className="ml-2 text-white" />
                         </button>
                     </div>
                 </div>
@@ -88,25 +88,25 @@ const History = () => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {sortedAndFilteredSuratList.map((surat) => (
-                            <div key={surat.id} className="bg-white rounded-lg shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1">
-                                <div className="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
-                                    <h3 className="text-xl font-semibold text-white truncate">{surat.nomor}</h3>
+                            <div key={surat.id} className="bg-white rounded-lg shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1 flex flex-col">
+                                <div className="bg-gradient-to-r from-black via-gray-800 to-black text-white px-6 py-4 flex-none">
+                                    <h3 className="text-xl font-semibold truncate">{surat.nomor}</h3>
                                 </div>
-                                <div className="p-6 space-y-4">
-                                    <div className="flex items-center">
-                                        <FaUser className="text-indigo-500 mr-3" />
+                                <div className="p-6 flex-1 bg-gradient-to-r from-blue-200 via-blue-100 to-blue-200 text-gray-900 flex flex-col">
+                                    <div className="flex items-center mb-2">
+                                        <FaUser className="text-black mr-3" />
                                         <p className="truncate"><span className="font-semibold">Kepada:</span> {surat.kepada}</p>
                                     </div>
-                                    <div className="flex items-start">
-                                        <FaFileAlt className="text-indigo-500 mr-3 mt-1" />
+                                    <div className="flex items-start mb-2">
+                                        <FaFileAlt className="text-black mr-3" />
                                         <p className="line-clamp-2"><span className="font-semibold">Untuk:</span> {surat.untuk}</p>
                                     </div>
-                                    <div className="flex items-center">
-                                        <FaCalendar className="text-indigo-500 mr-3" />
+                                    <div className="flex items-center mb-2">
+                                        <FaCalendar className="text-black mr-3" />
                                         <p><span className="font-semibold">Tanggal:</span> {new Date(surat.tanggal).toLocaleDateString()}</p>
                                     </div>
                                     <div className="flex items-center">
-                                        <FaMapMarkerAlt className="text-indigo-500 mr-3" />
+                                        <FaMapMarkerAlt className="text-black mr-3" />
                                         <p className="truncate"><span className="font-semibold">Tempat:</span> {surat.tempat}</p>
                                     </div>
                                 </div>
