@@ -36,7 +36,9 @@ const DashboardCard = ({ to, icon, title, description, userRole }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(to);
+    if (userRole === 'operator') {
+      navigate(to);
+    }
   };
 
   return (
@@ -49,13 +51,21 @@ const DashboardCard = ({ to, icon, title, description, userRole }) => {
         <p className="text-gray-600 text-center">{description}</p>
       </div>
       <div className="px-6 py-4 bg-gray-50 text-center">
-        {userRole === 'operator' && (
-          <button 
-            onClick={handleClick}
-            className="w-full bg-gradient-to-r from-black via-gray-800 to-black text-white py-2 px-4 rounded-md hover:from-gray-800 hover:via-black hover:to-gray-800 transition duration-300 mb-2"
-          >
-            Masuk
-          </button>
+        <button 
+          onClick={handleClick}
+          disabled={userRole !== 'operator'}
+          className={`w-full text-white py-2 px-4 rounded-md mb-2 transition duration-300 ${
+            userRole === 'operator'
+              ? 'bg-gradient-to-r from-black via-gray-800 to-black hover:from-gray-800 hover:via-black hover:to-gray-800'
+              : 'bg-gray-300 cursor-not-allowed'
+          }`}
+        >
+          Masuk
+        </button>
+        {userRole !== 'operator' && (
+          <div className="text-red-500 text-sm mb-2">
+            Button ini hanya bisa diakses oleh operator
+          </div>
         )}
         <Link 
           to="/history" 

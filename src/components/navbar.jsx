@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Logo from '../assets/logo.png'; // Path to your logo
+import Logo from '../assets/logo.png';
 import { HomeIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 
 const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false); // State for profile menu
-  const [scrolling, setScrolling] = useState(false); // State for scroll detection
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [scrolling, setScrolling] = useState(false);
 
   const location = useLocation();
   const isMainPage = location.pathname === '/';
-  const isFormPage = location.pathname === '/form'; // Check if on Form page
-  const isDashboardPage = location.pathname === '/dashboard'; // Check if on Dashboard page
-  const isSuratOptionsPage = location.pathname === '/surat-tugas-options'; // Check if on SuratOptions page
-  const isCreateSuratPage = location.pathname === '/createsurat'; // Check if on CreateSurat page
-  const isHistoryPage = location.pathname === '/history'; // Check if on History page
+  const isFormPage = location.pathname === '/form';
+  const isDashboardPage = location.pathname === '/dashboard';
+  const isSuratOptionsPage = location.pathname === '/surat-tugas-options';
+  const isCreateSuratPage = location.pathname === '/createsurat';
+  const isHistoryPage = location.pathname === '/history';
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) { // Adjust this value based on when you want to trigger the transparency
+      if (window.scrollY > 50) {
         setScrolling(true);
       } else {
         setScrolling(false);
@@ -35,21 +35,9 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const toggleProfileMenu = () => {
-    setIsProfileMenuOpen(!isProfileMenuOpen);
-  };
-
-  // Handle mouse enter and leave events for profile menu
-  const handleMouseEnter = () => {
-    setIsProfileMenuOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsProfileMenuOpen(false);
-  };
-
-  // Determine the "Home" link destination
-  const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) ? '/dashboard' : (isDashboardPage ? '/dashboard' : '/');
+  const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage)
+    ? '/dashboard'
+    : (isDashboardPage ? '/dashboard' : '/');
 
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolling ? 'bg-custom-red bg-opacity-70 shadow-lg' : 'bg-custom-red'} text-white p-4`}>
@@ -63,9 +51,9 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
           <h1 className="text-xl md:text-2xl font-bold">KPU KOTA CIMAHI</h1>
         </div>
         <nav className="hidden md:flex items-center space-x-4">
-          {!isMainPage && ( // Hide Home on the main page
+          {!isMainPage && (
             <Link
-              to={homeLink} // Navigate to the dynamic home link
+              to={homeLink}
               className="relative group"
               onClick={onHomeClick}
             >
@@ -77,13 +65,13 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
               </span>
             </Link>
           )}
-          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && ( // Show Profile button on Dashboard, SuratOptions, CreateSurat, and History pages
-            <div className="relative">
-              <button 
-                className="relative group"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              >
+          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && (
+            <div
+              className="relative"
+              onMouseEnter={() => setIsProfileMenuOpen(true)}
+              onMouseLeave={() => setIsProfileMenuOpen(false)}
+            >
+              <button className="relative group">
                 <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
                   <UserCircleIcon className="h-6 w-6 text-white" />
                 </div>
@@ -124,7 +112,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
           <nav className="flex flex-col space-y-2 p-4">
             {!isMainPage && (
               <Link
-                to={homeLink} // Navigate to the dynamic home link
+                to={homeLink}
                 className="relative group"
                 onClick={onHomeClick}
               >
@@ -136,10 +124,10 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
                 </span>
               </Link>
             )}
-            {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && ( // Show Profile button on Dashboard, SuratOptions, CreateSurat, and History pages
+            {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && (
               <>
                 <button
-                  onClick={toggleProfileMenu}
+                  onClick={toggleMenu}
                   className="relative group"
                 >
                   <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
