@@ -39,6 +39,15 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
+  // Handle mouse enter and leave events for profile menu
+  const handleMouseEnter = () => {
+    setIsProfileMenuOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsProfileMenuOpen(false);
+  };
+
   // Determine the "Home" link destination
   const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) ? '/dashboard' : (isDashboardPage ? '/dashboard' : '/');
 
@@ -70,9 +79,10 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
           )}
           {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && ( // Show Profile button on Dashboard, SuratOptions, CreateSurat, and History pages
             <div className="relative">
-              <button
-                onClick={toggleProfileMenu}
+              <button 
                 className="relative group"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
               >
                 <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
                   <UserCircleIcon className="h-6 w-6 text-white" />
@@ -140,7 +150,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
                   </span>
                 </button>
                 {isProfileMenuOpen && (
-                  <div className="flex flex-col space-y-2 p-4 bg-white rounded-lg shadow-lg border border-gray-200">
+                  <div className="absolute right-0 mt-2 w-48 bg-white text-gray-900 rounded-lg shadow-lg border border-gray-200">
                     <div className="flex items-center px-4 py-3 border-b border-gray-200">
                       <UserCircleIcon className="h-8 w-8 text-gray-500 mr-2" />
                       <div>

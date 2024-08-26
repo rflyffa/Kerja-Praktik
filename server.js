@@ -90,6 +90,60 @@ app.get('/history', (req, res) => {
   });
 });
 
+// GET route to fetch a specific surat by ID
+app.get('/history/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT * FROM surat WHERE id = ?';
+  suratDb.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    if (result.length > 0) {
+      res.json(result[0]);
+    } else {
+      res.status(404).json({ success: false, message: 'Surat not found.' });
+    }
+  });
+});
+
+// PUT route to update a surat by ID
+app.put('/history/:id', (req, res) => {
+  const { id } = req.params;
+  const { nomor, kepada, untuk, tanggal, tempat } = req.body;
+  const query = 'UPDATE surat SET nomor = ?, kepada = ?, untuk = ?, tanggal = ?, tempat = ? WHERE id = ?';
+  
+  suratDb.query(query, [nomor, kepada, untuk, tanggal, tempat, id], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    if (result.affectedRows > 0) {
+      res.json({ success: true, message: 'Surat updated successfully.' });
+    } else {
+      res.status(404).json({ success: false, message: 'Surat not found.' });
+    }
+  });
+});
+
+// DELETE route to delete a surat by ID
+app.delete('/history/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM surat WHERE id = ?';
+  
+  suratDb.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    if (result.affectedRows > 0) {
+      res.json({ success: true, message: 'Surat deleted successfully.' });
+    } else {
+      res.status(404).json({ success: false, message: 'Surat not found.' });
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
