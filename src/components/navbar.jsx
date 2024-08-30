@@ -46,7 +46,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
           <img
             src={Logo}
             alt="Logo"
-            className="h-19 w-19 md:h-20 md:w-20 object-cover"
+            className="h-19 w-19 md:h-18 md:w-20 object-cover"
           />
           <h1 className="text-xl md:text-2xl font-bold">KPU KOTA CIMAHI</h1>
         </div>

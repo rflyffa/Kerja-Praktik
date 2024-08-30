@@ -43,7 +43,7 @@ const Footer = () => {
         <hr className="my-6 border-gray-200 sm:mx-auto lg:my-8" />
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm sm:text-center">
-            © 2023 <a href="/" className="hover:underline">KPU Kota Cimahi™</a>. Hak Cipta Dilindungi.
+            © 2023 <a href="https://www.bing.com/ck/a?!&&p=fb43ea50bff144eaJmltdHM9MTcyNDk3NjAwMCZpZ3VpZD0yOGIxOWJmZi00ZjFmLTZlM2YtMGRhNy04ZjhkNGU1YTZmYTkmaW5zaWQ9NTIxMQ&ptn=3&ver=2&hsh=3&fclid=28b19bff-4f1f-6e3f-0da7-8f8d4e5a6fa9&psq=jdih+kpu+cimahi&u=a1aHR0cHM6Ly9qZGloLmtwdS5nby5pZC9qYWJhci9jaW1haGkv&ntb=1" className="hover:underline">KPU Kota Cimahi™</a>. Hak Cipta Dilindungi.
           </span>
           <div className="flex mt-4 space-x-5 sm:justify-center sm:mt-0">
             <a href="https://www.facebook.com/jdih.kpucimahi" className="hover:text-blue-400 transition-colors">
