@@ -18,21 +18,20 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolling(true);
-      } else {
-        setScrolling(false);
-      }
+      setScrolling(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    if (isProfileMenuOpen) setIsProfileMenuOpen(false);
+  };
+
+  const toggleProfileMenu = () => {
+    setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
   const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage)
@@ -42,20 +41,22 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolling ? 'bg-custom-red bg-opacity-70 shadow-lg' : 'bg-custom-red'} text-white p-4`}>
       <div className="container mx-auto flex justify-between items-center">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 md:space-x-4">
           <img
             src={Logo}
             alt="Logo"
-            className="h-19 w-19 md:h-18 md:w-20 object-cover"
+            className="h-10 w-10 md:h-16 md:w-16 object-cover"
           />
-          <h1 className="text-xl md:text-2xl font-bold">KPU KOTA CIMAHI</h1>
+          <h1 className="text-lg md:text-xl font-bold">KPU KOTA CIMAHI</h1>
         </div>
         <nav className="hidden md:flex items-center space-x-4">
           {!isMainPage && (
             <Link
               to={homeLink}
               className="relative group"
-              onClick={onHomeClick}
+              onClick={() => {
+                if (onHomeClick) onHomeClick();
+              }}
             >
               <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
                 <HomeIcon className="h-6 w-6 text-white" />
@@ -80,7 +81,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
                 </span>
               </button>
               {isProfileMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white text-gray-900 rounded-lg shadow-lg border border-gray-200">
+                <div className="absolute right-0 mt-2 w-48 bg-white text-gray-900 rounded-lg shadow-lg border border-gray-200 z-40">
                   <div className="flex items-center px-4 py-3 border-b border-gray-200">
                     <UserCircleIcon className="h-8 w-8 text-gray-500 mr-2" />
                     <div>
@@ -107,58 +108,66 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
           </button>
         </div>
       </div>
-      {isMenuOpen && (
-        <div className="md:hidden">
-          <nav className="flex flex-col space-y-2 p-4">
-            {!isMainPage && (
-              <Link
-                to={homeLink}
-                className="relative group"
-                onClick={onHomeClick}
+      <div className={`fixed top-0 right-0 w-64 h-full bg-white text-gray-900 shadow-lg transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} z-30 md:hidden`}>
+        <div className="flex justify-end p-4">
+          <button onClick={toggleMenu} className="text-gray-900">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <nav className="flex flex-col space-y-2 p-4">
+          {!isMainPage && (
+            <Link
+              to={homeLink}
+              className="relative group"
+              onClick={() => {
+                toggleMenu(); // Close menu on link click
+                if (onHomeClick) onHomeClick(); // Trigger onHomeClick
+              }}
+            >
+              <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
+                <HomeIcon className="h-6 w-6 text-white" />
+              </div>
+              <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-10 bg-black text-white text-xs rounded-lg px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                Home
+              </span>
+            </Link>
+          )}
+          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && (
+            <div className="relative">
+              <button
+                onClick={toggleProfileMenu}
+                className="relative group w-full"
               >
                 <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
-                  <HomeIcon className="h-6 w-6 text-white" />
+                  <UserCircleIcon className="h-6 w-6 text-white" />
                 </div>
                 <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-10 bg-black text-white text-xs rounded-lg px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Home
+                  Profile
                 </span>
-              </Link>
-            )}
-            {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && (
-              <>
-                <button
-                  onClick={toggleMenu}
-                  className="relative group"
-                >
-                  <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
-                    <UserCircleIcon className="h-6 w-6 text-white" />
-                  </div>
-                  <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-10 bg-black text-white text-xs rounded-lg px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Profile
-                  </span>
-                </button>
-                {isProfileMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white text-gray-900 rounded-lg shadow-lg border border-gray-200">
-                    <div className="flex items-center px-4 py-3 border-b border-gray-200">
-                      <UserCircleIcon className="h-8 w-8 text-gray-500 mr-2" />
-                      <div>
-                        <p className="text-sm font-medium text-gray-800">Logged in as:</p>
-                        <p className="text-sm font-semibold text-gray-900">{userRole}</p>
-                      </div>
+              </button>
+              {isProfileMenuOpen && (
+                <div className="absolute bottom-0 top-20 left-0 w-full bg-white text-gray-900 rounded-lg shadow-lg border border-gray-200 z-40 mt-2">
+                  <div className="flex items-center px-4 py-3 border-b border-gray-200">
+                    <UserCircleIcon className="h-8 w-8 text-gray-500 mr-2" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-800">Logged in as:</p>
+                      <p className="text-sm font-semibold text-gray-900">{userRole}</p>
                     </div>
-                    <button
-                      onClick={onLogout}
-                      className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-b-lg transition duration-150 ease-in-out"
-                    >
-                      Logout
-                    </button>
                   </div>
-                )}
-              </>
-            )}
-          </nav>
-        </div>
-      )}
+                  <button
+                    onClick={onLogout}
+                    className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-b-lg transition duration-150 ease-in-out"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </nav>
+      </div>
     </header>
   );
 };
