@@ -1,4 +1,6 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable indent */
+/* eslint-disable linebreak-style */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/order */
 /* eslint-disable linebreak-style */
@@ -33,8 +35,15 @@ function App() {
   const handleSignIn = (role) => {
     setIsAuthenticated(true);
     setUserRole(role); // Set the user role after sign in
-    toast.success('Login berhasil!'); // Show success notification
-  };
+    toast.success('Login berhasil!', {
+        position: 'top-center', // Mengatur posisi toast ke bawah tengah
+        autoClose: 1200, // Durasi toast muncul dalam milidetik (opsional)
+        hideProgressBar: false, // Menampilkan atau menyembunyikan progress bar (opsional)
+        closeOnClick: true, // Menutup toast ketika di klik (opsional)
+        pauseOnHover: true, // Pause toast ketika di hover (opsional)
+        draggable: true, // Membuat toast bisa di drag (opsional)
+    });
+};
 
   const handleLogout = () => {
     setIsAuthenticated(false);
