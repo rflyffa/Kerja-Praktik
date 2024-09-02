@@ -80,7 +80,6 @@ const History = () => {
                 <body>
                     <div class="header">
                         <h2>SURAT TUGAS</h2>
-                        
                     </div>
                     <div class="content">
                         <div class="field">
@@ -112,14 +111,23 @@ const History = () => {
                 </body>
             </html>
         `;
+
+        // Open a new window
         const newWindow = window.open('', '_blank', 'width=800,height=600');
-        newWindow.document.write(printContent);
-        newWindow.document.close();
-        newWindow.focus();
-        newWindow.print();
-        newWindow.close();
+
+        if (newWindow) {
+            newWindow.document.open();
+            newWindow.document.write(printContent);
+            newWindow.document.close();
+            newWindow.focus();
+            newWindow.print();
+            newWindow.close();
+        } else {
+            console.error('Failed to open new window for printing.');
+        }
     };
-    
+
+
 
     const sortedAndFilteredSuratList = suratList
         .filter(surat =>
@@ -147,7 +155,7 @@ const History = () => {
                 <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
                     History Surat Tugas
                 </h2>
-                
+
                 <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <div className="relative flex items-center w-full sm:w-auto">
                         <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -175,7 +183,7 @@ const History = () => {
                         <button
                             onClick={() => navigate('/createsurat')} // Tambahkan ini
                             className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-                         >
+                        >
                             Buat Surat
                         </button>
                     </div>
@@ -210,26 +218,25 @@ const History = () => {
                                         <p className="truncate text-sm"><span className="font-semibold">Tempat:</span> {surat.tempat}</p>
                                     </div>
                                 </div>
-                                <div className="flex-none px-4 py-2 bg-gray-100 flex justify-between items-center">
+                                <div className="flex-none px-4 py-2 bg-gray-100 flex justify-end items-center space-x-2">
                                     <button
                                         onClick={() => handleEdit(surat)}
-                                        className="bg-green-500 text-white px-3 py-1 rounded-full hover:bg-green-600 transition duration-300 text-sm flex items-center"
+                                        className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
                                     >
-                                        <FaEdit className="mr-1" /> Edit
+                                        <FaEdit />
                                     </button>
                                     <button
                                         onClick={() => handleDelete(surat.id)}
-                                        className="bg-red-500 text-white px-3 py-1 rounded-full hover:bg-red-600 transition duration-300 text-sm flex items-center"
+                                        className="text-red-500 hover:bg-red-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
                                     >
-                                        <FaTrash className="mr-1" /> Delete
+                                        <FaTrash />
                                     </button>
                                     <button
                                         onClick={() => handlePrint(surat)}
-                                        className="bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition duration-300 text-sm flex items-center"
+                                        className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
                                     >
-                                        <FaPrint className="mr-1" /> Cetak
+                                        <FaPrint />
                                     </button>
-                                   
                                 </div>
                             </div>
                         ))}
@@ -251,7 +258,7 @@ const History = () => {
                                     <label htmlFor="nomor" className="block text-sm font-medium text-gray-700 mb-1">Nomor:</label>
                                     <input
                                         type="text"
-                                           id="nomor"
+                                        id="nomor"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
                                         value={editingSurat.nomor}
                                         onChange={(e) => setEditingSurat({ ...editingSurat, nomor: e.target.value })}
