@@ -82,7 +82,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
               </button>
               {isProfileMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white text-gray-900 rounded-lg shadow-lg border border-gray-200 z-40">
-                  <div className="flex items-center px-4 py-3 border-b border-gray-200">
+                  <div className="flex items-center px-4 py-3 border-b border-gray-200 bg-white">
                     <UserCircleIcon className="h-8 w-8 text-gray-500 mr-2" />
                     <div>
                       <p className="text-sm font-medium text-gray-800">Logged in as:</p>
@@ -91,7 +91,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
                   </div>
                   <button
                     onClick={onLogout}
-                    className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-b-lg transition duration-150 ease-in-out"
+                    className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-b-lg transition duration-150 ease-in-out bg-white"
                   >
                     Logout
                   </button>
@@ -108,7 +108,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
           </button>
         </div>
       </div>
-      <div className={`fixed top-0 right-0 w-64 h-full bg-white text-gray-900 shadow-lg transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} z-30 md:hidden`}>
+      <div className={`fixed top-0 right-0 w-64 h-full bg-custom-red text-gray-900 shadow-lg transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} z-30 md:hidden`}>
         <div className="flex justify-end p-4">
           <button onClick={toggleMenu} className="text-gray-900">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -149,7 +149,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
               </button>
               {isProfileMenuOpen && (
                 <div className="absolute bottom-0 top-20 left-0 w-full bg-white text-gray-900 rounded-lg shadow-lg border border-gray-200 z-40 mt-2">
-                  <div className="flex items-center px-4 py-3 border-b border-gray-200">
+                  <div className="flex items-center px-4 py-3 border-b border-gray-200 bg-white">
                     <UserCircleIcon className="h-8 w-8 text-gray-500 mr-2" />
                     <div>
                       <p className="text-sm font-medium text-gray-800">Logged in as:</p>
@@ -158,7 +158,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
                   </div>
                   <button
                     onClick={onLogout}
-                    className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-b-lg transition duration-150 ease-in-out"
+                    className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-b-lg transition duration-150 ease-in-out bg-white"
                   >
                     Logout
                   </button>
