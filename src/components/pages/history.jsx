@@ -199,7 +199,7 @@ const History = () => {
                             Number <FaSort className="ml-1" />
                         </button>
                         <button
-                            onClick={() => navigate('/createsurat')} // Tambahkan ini
+                            onClick={() => navigate('/createsuratketua')} // Tambahkan ini
                             className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
                         >
                             Buat Surat
