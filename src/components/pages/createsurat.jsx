@@ -35,32 +35,34 @@ const Createsurat = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="mt-20 max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+            <div className="mt-20 max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-8">
                 <h2 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">Buat Surat Tugas</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label htmlFor="nomor" className="block text-sm font-medium text-gray-700">Nomor Surat</label>
-                        <input
-                            type="text"
-                            name="nomor"
-                            id="nomor"
-                            value={formData.nomor}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            placeholder="Masukkan nomor surat"
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="kepada" className="block text-sm font-medium text-gray-700">Kepada</label>
-                        <input
-                            type="text"
-                            name="kepada"
-                            id="kepada"
-                            value={formData.kepada}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            placeholder="Masukkan nama penerima"
-                        />
+                    <div className="grid grid-cols-2 gap-6">
+                        <div>
+                            <label htmlFor="nomor" className="block text-sm font-medium text-gray-700">Nomor Surat</label>
+                            <input
+                                type="text"
+                                name="nomor"
+                                id="nomor"
+                                value={formData.nomor}
+                                onChange={handleChange}
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="176/PL.02.1-ST/3277/2024"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="kepada" className="block text-sm font-medium text-gray-700">Kepada</label>
+                            <input
+                                type="text"
+                                name="kepada"
+                                id="kepada"
+                                value={formData.kepada}
+                                onChange={handleChange}
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="Daftar Terlampir"
+                            />
+                        </div>
                     </div>
                     <div>
                         <label htmlFor="untuk" className="block text-sm font-medium text-gray-700">Untuk</label>
@@ -74,28 +76,30 @@ const Createsurat = () => {
                             placeholder="Masukkan tujuan surat"
                         ></textarea>
                     </div>
-                    <div>
-                        <label htmlFor="tanggal" className="block text-sm font-medium text-gray-700">Tanggal</label>
-                        <input
-                            type="date"
-                            name="tanggal"
-                            id="tanggal"
-                            value={formData.tanggal}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="tempat" className="block text-sm font-medium text-gray-700">Tempat</label>
-                        <input
-                            type="text"
-                            name="tempat"
-                            id="tempat"
-                            value={formData.tempat}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            placeholder="Masukkan tempat"
-                        />
+                    <div className="grid grid-cols-2 gap-6">
+                        <div>
+                            <label htmlFor="tanggal" className="block text-sm font-medium text-gray-700">Hari/Tanggal</label>
+                            <input
+                                type="date"
+                                name="tanggal"
+                                id="tanggal"
+                                value={formData.tanggal}
+                                onChange={handleChange}
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="tempat" className="block text-sm font-medium text-gray-700">Tempat</label>
+                            <input
+                                type="text"
+                                name="tempat"
+                                id="tempat"
+                                value={formData.tempat}
+                                onChange={handleChange}
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                placeholder="Wilayah Kelurahan se Kota Cimahi"
+                            />
+                        </div>
                     </div>
                     <div className="flex justify-between items-center mt-6">
                         <button
