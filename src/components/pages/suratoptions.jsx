@@ -14,7 +14,7 @@ const Suratoptions = () => {
                 </p>
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
                     <SuratTugasCard
-                        to="/createsurat"
+                        to="/createsuratketua"
                         icon={<FaUserTie className="w-16 h-16 text-indigo-600" />}
                         title="Surat Tugas Ketua KPU"
                         description="Buat surat tugas resmi untuk Ketua KPU dengan template yang telah disediakan."

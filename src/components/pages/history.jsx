@@ -70,7 +70,18 @@ const History = () => {
                         .content { margin-top: 20px; }
                         .content p { margin: 10px 0; font-size: 16px; }
                         .content .field { margin-bottom: 20px; }
-                        .content .field span { font-weight: bold; display: inline-block; width: 150px; }
+                        .content .field span { 
+                            display: inline-block; 
+                            width: 150px; 
+                            vertical-align: top; 
+                            padding-top: 4px; /* Geser Menimbang sedikit ke bawah */
+                        }
+                        .content .field ol { margin: 0; padding: 0; list-style-type: lower-alpha; }
+                        .content .field ol li { 
+                            margin-left: 145px; 
+                            line-height: 1.2;
+                            margin-bottom: 10px; /* Tambahkan margin antar item */
+                        }
                         .footer { margin-top: 50px; text-align: center; font-size: 14px; color: #555; }
                         .footer p { margin: 5px 0; }
                         .signature { margin-top: 60px; text-align: right; }
@@ -84,6 +95,14 @@ const History = () => {
                     <div class="content">
                         <div class="field">
                             <span>Nomor:</span> ${surat.nomor}
+                        </div>
+                        <div class="field">
+                            <span>Menimbang:</span> 
+                            <ol>
+                                <li>Undang - Undang Nomor 7 Tahun 2017 tentang Pemilihan Umum (lembaran Negara Republik Indonesia Tahun 2017 Nomor 182, Tambahan Lembaran Negara Republik Indonesia Nomor 6109);</li>
+                                <li>Peraturan Komisi Pemilihan Umum Nomor 3 Tahun 2023 tentang Tugas, fungsi, Susunan Organisasi, dan Tata Kerja Sekretariat Jenderal Komisi Pemilihan Umum, Sekretariat Komisi Pemilihan Umum Provinsi, dan Sekretariat Komisi Pemilihan Umum Kabupaten/Kota;</li>
+                                <li>Biaya Perjalanan Dinas ditanggung oleh APBN.</li>
+                            </ol>
                         </div>
                         <div class="field">
                             <span>Kepada:</span> ${surat.kepada}
@@ -111,10 +130,10 @@ const History = () => {
                 </body>
             </html>
         `;
-
+    
         // Open a new window
         const newWindow = window.open('', '_blank', 'width=800,height=600');
-
+    
         if (newWindow) {
             newWindow.document.open();
             newWindow.document.write(printContent);
@@ -126,8 +145,7 @@ const History = () => {
             console.error('Failed to open new window for printing.');
         }
     };
-
-
+        
 
     const sortedAndFilteredSuratList = suratList
         .filter(surat =>

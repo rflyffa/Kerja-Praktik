@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Createsurat = () => {
+const Createsuratketua = () => {
     const [formData, setFormData] = useState({
         nomor: '',
         kepada: '',
@@ -18,7 +18,7 @@ const Createsurat = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:5000/createsurat', formData)
+        axios.post('http://localhost:5000/createsuratketua', formData)
             .then((response) => {
                 console.log(response.data);
                 // Redirect to the history page
@@ -122,4 +122,4 @@ const Createsurat = () => {
     );
 };
 
-export default Createsurat;
+export default Createsuratketua;

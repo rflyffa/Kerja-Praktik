@@ -23,7 +23,7 @@ import Footer from './components/footer';
 import Login from './components/pages/login';
 import Dashboard from './components/pages/dashboard';
 import Suratoptions from './components/pages/suratoptions';
-import Createsurat from './components/pages/createsurat';
+import Createsuratketua from './components/pages/createsuratketua';
 import History from './components/pages/history';
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast
@@ -81,9 +81,9 @@ function App() {
             }
           />
           <Route
-            path="/createsurat"
+            path="/createsuratketua"
             element={
-              isAuthenticated ? <Createsurat /> : <Navigate to="/login" />
+              isAuthenticated ? <Createsuratketua /> : <Navigate to="/login" />
             }
           />
           <Route

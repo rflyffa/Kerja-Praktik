@@ -1,3 +1,13 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable linebreak-style */
+/* eslint-disable object-curly-newline */
+/* eslint-disable no-unused-vars */
+/* eslint-disable linebreak-style */
+/* eslint-disable consistent-return */
+/* eslint-disable linebreak-style */
+/* eslint-disable comma-dangle */
+/* eslint-disable linebreak-style */
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
@@ -65,7 +75,7 @@ app.post('/login', (req, res) => {
 });
 
 // POST route to save surat data
-app.post('/createsurat', (req, res) => {
+app.post('/createsuratketua', (req, res) => {
   const { nomor, kepada, untuk, tanggal, tempat } = req.body;
 
   const query = 'INSERT INTO surat (nomor, kepada, untuk, tanggal, tempat) VALUES (?, ?, ?, ?, ?)';
