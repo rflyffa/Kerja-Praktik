@@ -13,8 +13,10 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
   const isFormPage = location.pathname === '/form';
   const isDashboardPage = location.pathname === '/dashboard';
   const isSuratOptionsPage = location.pathname === '/surat-tugas-options';
-  const isCreateSuratPage = location.pathname === '/createsurat';
+  const isCreateSuratPage = location.pathname === '/createsuratketua';
+  const isCreateSura2tPage = location.pathname === '/createsuratsekre';
   const isHistoryPage = location.pathname === '/history';
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,7 +36,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
-  const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage)
+  const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage ||isCreateSura2tPage)
     ? '/dashboard'
     : (isDashboardPage ? '/dashboard' : '/');
 
@@ -66,7 +68,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
               </span>
             </Link>
           )}
-          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && (
+          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage || isCreateSura2tPage) && isAuthenticated && (
             <div
               className="relative"
               onMouseEnter={() => setIsProfileMenuOpen(true)}

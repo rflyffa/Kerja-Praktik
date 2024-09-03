@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaCalendar, FaUser, FaMapMarkerAlt, FaFileAlt, FaSearch, FaSort, FaTrash, FaEdit, FaTimes, FaPrint } from 'react-icons/fa';
+<img src="/assets/ketua.png" alt="Ketua" />
+
 
 const History = () => {
     const [suratList, setSuratList] = useState([]);
@@ -10,7 +12,7 @@ const History = () => {
     const [sortField, setSortField] = useState('tanggal');
     const [sortDirection, setSortDirection] = useState('desc');
     const [editingSurat, setEditingSurat] = useState(null);
-
+    const [totalSurat, setTotalSurat] = useState(0);
     const navigate = useNavigate(); // Tambahkan ini
 
     useEffect(() => {
@@ -21,6 +23,7 @@ const History = () => {
         try {
             const response = await axios.get('http://localhost:5000/history');
             setSuratList(response.data);
+            setTotalSurat(response.data.length);  // Update totalSurat with the length of the data
             setIsLoading(false);
         } catch (error) {
             console.error('There was an error fetching the surat data!', error);
@@ -63,35 +66,10 @@ const History = () => {
                 <head>
                     <title>Print Surat</title>
                     <style>
-                        @font-face {
-                            font-family: 'Bookman Old Style';
-                            src: local('Bookman Old Style'), local('Bookman');
-                        }
-    
-                        body { 
-                            font-family: 'Bookman Old Style', serif; 
-                            padding: 40px; 
-                        }
+                        body { font-family: Arial, sans-serif; padding: 40px; }
                         .header { text-align: center; margin-bottom: 40px; }
-                        .header h2 { 
-                            font-size: 24px; 
-                            margin: 0; 
-                            position: relative;
-                            display: inline-block; 
-                        }
-                        .underline-container {
-                            display: flex;
-                            justify-content: center;
-                            margin-top: 10px; /* Add space between title and underline */
-                        }
-                        .underline {
-                            width: 600px; /* Adjust the width of the underline */
-                            border-bottom: 2px solid black; /* Line color and thickness */
-                        }
-                        .header h3 { 
-                            font-size: 18px; /* Smaller font size for the number */
-                            margin: 5px 0; 
-                        }
+                        .header h2 { font-size: 24px; margin: 0; }
+                        .header h3 { font-size: 20px; margin: 5px 0; }
                         .content { margin-top: 20px; }
                         .content p { margin: 10px 0; font-size: 16px; }
                         .content .field { margin-bottom: 20px; }
@@ -99,28 +77,12 @@ const History = () => {
                             display: inline-block; 
                             width: 150px; 
                             vertical-align: top; 
-                            font-weight: bold; /* Make label bold */
                         }
-                        .content .field ol { 
-                            margin: 0; 
-                            padding: 0; 
-                            list-style-type: lower-alpha; 
-                            margin-left: 0; /* Remove default left margin */
-                            padding-left: 0; /* Remove default padding */
-                        }
+                        .content .field ol { margin: 0; padding: 0; list-style-type: lower-alpha; }
                         .content .field ol li { 
-                            margin-left: 0; /* Align list items with the content */
+                            margin-left: 145px; 
                             line-height: 1.2;
                             margin-bottom: 10px; 
-                        }
-                        .content .field.flex-container { 
-                            display: flex; 
-                            align-items: flex-start; /* Align items at the top */
-                            margin-bottom: 20px; 
-                        }
-                        .content .field.flex-container .text { 
-                            flex: 1; /* Take up the remaining space */
-                            margin-left: 10px; /* Add space between label and content */
                         }
                         .footer { margin-top: 50px; text-align: center; font-size: 14px; color: #555; }
                         .footer p { margin: 5px 0; }
@@ -137,25 +99,22 @@ const History = () => {
                 <body>
                     <div class="header">
                         <h2>SURAT TUGAS</h2>
-                        <div class="underline-container">
-                            <div class="underline"></div>
-                        </div>
-                        <h3>Nomor: ${surat.nomor}</h3> <!-- Moved below the title -->
                     </div>
                     <div class="content">
-                        <div class="field flex-container">
-                            <span>Menimbang:</span>
-                            <div class="text">
-                                <ol>
-                                    <li>Undang - Undang Nomor 7 Tahun 2017 tentang Pemilihan Umum (lembaran Negara Republik Indonesia Tahun 2017 Nomor 182, Tambahan Lembaran Negara Republik Indonesia Nomor 6109);</li>
-                                    <li>Peraturan Komisi Pemilihan Umum Nomor 3 Tahun 2023 tentang Tugas, fungsi, Susunan Organisasi, dan Tata Kerja Sekretariat Jenderal Komisi Pemilihan Umum, Sekretariat Komisi Pemilihan Umum Provinsi, dan Sekretariat Komisi Pemilihan Umum Kabupaten/Kota;</li>
-                                    <li>Biaya Perjalanan Dinas ditanggung oleh APBN.</li>
-                                </ol>
-                            </div>
+                        <div class="field">
+                            <span>Nomor:</span> ${surat.nomor}
                         </div>
-                        <div class="field flex-container">
-                            <span>Dasar:</span>
-                            <div class="text">
+                        <div class="field">
+                            <span>Menimbang:</span> 
+                            <ol>
+                                <li>Undang - Undang Nomor 7 Tahun 2017 tentang Pemilihan Umum (lembaran Negara Republik Indonesia Tahun 2017 Nomor 182, Tambahan Lembaran Negara Republik Indonesia Nomor 6109);</li>
+                                <li>Peraturan Komisi Pemilihan Umum Nomor 3 Tahun 2023 tentang Tugas, fungsi, Susunan Organisasi, dan Tata Kerja Sekretariat Jenderal Komisi Pemilihan Umum, Sekretariat Komisi Pemilihan Umum Provinsi, dan Sekretariat Komisi Pemilihan Umum Kabupaten/Kota;</li>
+                                <li>Biaya Perjalanan Dinas ditanggung oleh APBN.</li>
+                            </ol>
+                        </div>
+                        <div class="field">
+                            <span>Dasar:</span> 
+                            <div class="inline-block">
                                 Nota Dinas Kepala Sub Bagian Perencanaan, Data dan Informasi Nomor /PL.02.1-ND/3277/2024 tanggal Juli Perihal Permohonan Fasilitasi Perjalanan Dinas ke Kelurahan se Kota Cimahi
                             </div>
                         </div>
@@ -188,7 +147,107 @@ const History = () => {
                     </div>
                 </body>
             </html>
-        `;
+        `;const handlePrint = (surat) => {
+            const printContent = `
+                <html>
+                    <head>
+                        <title>Print Surat</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; padding: 40px; }
+                            .header { text-align: center; margin-bottom: 40px; }
+                            .header h2 { font-size: 24px; margin: 0; }
+                            .header h3 { font-size: 20px; margin: 5px 0; }
+                            .content { margin-top: 20px; }
+                            .content p { margin: 10px 0; font-size: 16px; }
+                            .content .field { margin-bottom: 20px; }
+                            .content .field span { 
+                                display: inline-block; 
+                                width: 150px; 
+                                vertical-align: top; 
+                            }
+                            .content .field ol { margin: 0; padding: 0; list-style-type: lower-alpha; }
+                            .content .field ol li { 
+                                margin-left: 145px; 
+                                line-height: 1.2;
+                                margin-bottom: 10px; 
+                            }
+                            .footer { margin-top: 50px; text-align: center; font-size: 14px; color: #555; }
+                            .footer p { margin: 5px 0; }
+                            .signature { margin-top: 60px; text-align: right; }
+                            .signature p { margin: 5px 0; }
+                            .inline-block { 
+                                display: inline-block; 
+                                vertical-align: top; 
+                                width: calc(100% - 150px); 
+                            }
+                            .title { text-align: center; font-weight: bold; margin-top: 30px; }
+                            .image { text-align: right; margin-top: 20px; }
+                            .image img { height: 100px; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <h2>SURAT TUGAS</h2>
+                        </div>
+                        <div class="content">
+                            <div class="field">
+                                <span>Nomor:</span> ${surat.nomor}
+                            </div>
+                            <div class="field">
+                                <span>Menimbang:</span> 
+                                <ol>
+                                    <li>Undang - Undang Nomor 7 Tahun 2017 tentang Pemilihan Umum (lembaran Negara Republik Indonesia Tahun 2017 Nomor 182, Tambahan Lembaran Negara Republik Indonesia Nomor 6109);</li>
+                                    <li>Peraturan Komisi Pemilihan Umum Nomor 3 Tahun 2023 tentang Tugas, fungsi, Susunan Organisasi, dan Tata Kerja Sekretariat Jenderal Komisi Pemilihan Umum, Sekretariat Komisi Pemilihan Umum Provinsi, dan Sekretariat Komisi Pemilihan Umum Kabupaten/Kota;</li>
+                                    <li>Biaya Perjalanan Dinas ditanggung oleh APBN.</li>
+                                </ol>
+                            </div>
+                            <div class="field">
+                                <span>Dasar:</span> 
+                                <div class="inline-block">
+                                    Nota Dinas Kepala Sub Bagian Perencanaan, Data dan Informasi Nomor /PL.02.1-ND/3277/2024 tanggal Juli Perihal Permohonan Fasilitasi Perjalanan Dinas ke Kelurahan se Kota Cimahi
+                                </div>
+                            </div>
+                            <div class="title">
+                                <p>KETUA KOMISI PEMILIHAN UMUM KOTA CIMAHI</p>
+                                <p>MEMBERI TUGAS</p>
+                            </div>
+                            <div class="field">
+                                <span>Kepada:</span> ${surat.kepada}
+                            </div>
+                            <div class="field">
+                                <span>Untuk:</span> ${surat.untuk}
+                            </div>
+                            <div class="field">
+                                <span>Hari/Tanggal:</span> ${new Date(surat.tanggal).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                            </div>
+                            <div class="field">
+                                <span>Tempat:</span> ${surat.tempat}
+                            </div>
+                        </div>
+                        <div class="signature">
+                            <div class="image">
+                                <img src={ketuaImage} alt="Ketua" />
+                            </div>
+                            <p>Cimahi, ${new Date(surat.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                            <p>KETUA KOMISI PEMILIHAN UMUM</p>
+                            <p>KOTA CIMAHI</p>
+                            <br /><br /><br />
+                            <p><strong>Anzhar Ishal Afryand</strong></p>
+                        </div>
+                        <div class="footer">
+                            <p></p>
+                        </div>
+                    </body>
+                </html>
+            `;
+        
+            const printWindow = window.open('', '', 'height=800,width=600');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+        };
+        
     
         const newWindow = window.open('', '_blank', 'width=800,height=600');
     
@@ -203,9 +262,7 @@ const History = () => {
             console.error('Failed to open new window for printing.');
         }
     };
-    
-        
-                    
+                
     const sortedAndFilteredSuratList = suratList
         .filter(surat =>
             surat.nomor.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -218,53 +275,60 @@ const History = () => {
             return 0;
         });
 
-    if (isLoading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-indigo-400">
-                <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-indigo-600"></div>
-            </div>
-        );
-    }
-
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-400 py-8 px-4 sm:px-6 lg:px-8">
-            <div className="mt-20 max-w-7xl mx-auto">
-                <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
-                    History Surat Tugas
-                </h2>
-
-                <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <div className="relative flex items-center w-full sm:w-auto">
-                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                        <input
-                            type="text"
-                            placeholder="Search..."
-                            className="pl-10 pr-4 py-2 w-full sm:w-64 rounded-full border-2 border-gray-300 bg-white text-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex space-x-2">
-                        <button
-                            onClick={() => handleSort('tanggal')}
-                            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-                        >
-                            Date <FaSort className="ml-1" />
-                        </button>
-                        <button
-                            onClick={() => handleSort('nomor')}
-                            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-                        >
-                            Number <FaSort className="ml-1" />
-                        </button>
-                        <button
-                            onClick={() => navigate('/surat-tugas-options')} // Tambahkan ini
-                            className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-                        >
-                            Buat Surat
-                        </button>
-                    </div>
+        if (isLoading) {
+            return (
+                <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-indigo-400">
+                    <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-indigo-600"></div>
                 </div>
+            );
+        }
+    
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-400 py-8 px-4 sm:px-6 lg:px-8">
+                <div className="mt-20 max-w-7xl mx-auto">
+                    <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
+                        History Surat Tugas
+                    </h2>
+                    <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
+    <div className="relative flex items-center w-full sm:w-auto">
+        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        <input
+            type="text"
+            placeholder="Search..."
+            className="pl-10 pr-4 py-2 w-full sm:w-64 rounded-full border-2 border-gray-300 bg-white text-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+        />
+    </div>
+    <div className="flex space-x-2">
+        <button
+            onClick={() => handleSort('tanggal')}
+            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+        >
+            Date <FaSort className="ml-1" />
+        </button>
+        <button
+            onClick={() => handleSort('nomor')}
+            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+        >
+            Number <FaSort className="ml-1" />
+        </button>
+        <button
+            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+        >
+            Total Surat: {totalSurat}
+        </button>
+        <button
+            onClick={() => navigate('/createsuratketua')}
+            className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+        >
+            Buat Surat
+        </button>
+        {/* Total Surat Button */}
+    </div>
+</div>
+
+
 
                 {sortedAndFilteredSuratList.length === 0 ? (
                     <div className="bg-white rounded-lg shadow-xl p-8 text-center">
