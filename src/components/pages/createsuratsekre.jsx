@@ -22,7 +22,7 @@ const Createsuratsekre= () => {
             .then((response) => {
                 console.log(response.data);
                 // Redirect to the history page
-                navigate('/history');
+                navigate('/historysuratsekre');
             })
             .catch((error) => {
                 console.error('There was an error saving the surat!', error);
@@ -36,7 +36,7 @@ const Createsuratsekre= () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-12 px-4 sm:px-6 lg:px-8">
             <div className="mt-20 max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-8">
-                <h2 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">Buat Surat Tugas</h2>
+                <h2 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">Buat Surat Tugas Sekretaris</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-2 gap-6">
                         <div>

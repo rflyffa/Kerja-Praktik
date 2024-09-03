@@ -15,7 +15,8 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
   const isSuratOptionsPage = location.pathname === '/surat-tugas-options';
   const isCreateSuratPage = location.pathname === '/createsuratketua';
   const isCreateSura2tPage = location.pathname === '/createsuratsekre';
-  const isHistoryPage = location.pathname === '/history';
+  const isHistoryPage = location.pathname === '/historysuratketua';
+  const isHistory2Page = location.pathname === '/historysuratsekre';
   
 
   useEffect(() => {
@@ -36,7 +37,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
-  const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage ||isCreateSura2tPage)
+  const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage ||isCreateSura2tPage || isHistory2Page)
     ? '/dashboard'
     : (isDashboardPage ? '/dashboard' : '/');
 
@@ -68,7 +69,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
               </span>
             </Link>
           )}
-          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage || isCreateSura2tPage) && isAuthenticated && (
+          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage || isCreateSura2tPage || isHistory2Page) && isAuthenticated && (
             <div
               className="relative"
               onMouseEnter={() => setIsProfileMenuOpen(true)}

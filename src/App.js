@@ -25,7 +25,8 @@ import Dashboard from './components/pages/dashboard';
 import Suratoptions from './components/pages/suratoptions';
 import Createsuratketua from './components/pages/createsuratketua';
 import Createsuratsekre from './components/pages/createsuratsekre';
-import History from './components/pages/history';
+import Historysuratketua from './components/pages/historysuratketua';
+import Historysuratsekre from './components/pages/historysuratsekre';
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast
 
@@ -94,9 +95,15 @@ function App() {
             }
           />
           <Route
-            path="/history"
+            path="/historysuratketua"
             element={
-              isAuthenticated ? <History /> : <Navigate to="/login" />
+              isAuthenticated ? <Historysuratketua /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/historysuratsekre"
+            element={
+              isAuthenticated ? <Historysuratsekre /> : <Navigate to="/login" />
             }
           />
         </Routes>

@@ -15,12 +15,14 @@ const Suratoptions = () => {
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
                     <SuratTugasCard
                         to="/createsuratketua"
+                        historyLink="/historysuratketua" // Link untuk history surat ketua
                         icon={<FaUserTie className="w-16 h-16 text-indigo-600" />}
                         title="Surat Tugas Ketua KPU"
                         description="Buat surat tugas resmi untuk Ketua KPU dengan template yang telah disediakan."
                     />
                     <SuratTugasCard
                         to="/createsuratsekre"
+                        historyLink="/historysuratsekre" // Link untuk history surat sekretaris
                         icon={<FaFileSignature className="w-16 h-16 text-green-600" />}
                         title="Surat Tugas Sekretaris"
                         description="Generasi surat tugas untuk Sekretaris dengan cepat dan mudah menggunakan form yang tersedia."
@@ -31,7 +33,7 @@ const Suratoptions = () => {
     );
 };
 
-const SuratTugasCard = ({ to, icon, title, description }) => {
+const SuratTugasCard = ({ to, historyLink, icon, title, description }) => {
     return (
         <Link 
             to={to} 
@@ -49,7 +51,7 @@ const SuratTugasCard = ({ to, icon, title, description }) => {
                     Buat Surat
                 </button>
                 <Link 
-                    to="/history" 
+                    to={historyLink} 
                     className="block text-indigo-600 hover:text-indigo-800 text-base font-small transition-colors duration-300"
                 >
                     View History

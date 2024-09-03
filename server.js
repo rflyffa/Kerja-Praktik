@@ -92,7 +92,7 @@ app.post('/createsuratketua', (req, res) => {
 app.post('/createsuratsekre', (req, res) => {
   const { nomor, kepada, untuk, tanggal, tempat } = req.body;
 
-  const query = 'INSERT INTO surat (nomor, kepada, untuk, tanggal, tempat) VALUES (?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO surat_sekretaris (nomor, kepada, untuk, tanggal, tempat) VALUES (?, ?, ?, ?, ?)';
   suratDb.query(query, [nomor, kepada, untuk, tanggal, tempat], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
@@ -102,8 +102,8 @@ app.post('/createsuratsekre', (req, res) => {
   });
 });
 
-// GET route to fetch all surat data
-app.get('/history', (req, res) => {
+// GET route to fetch all surat ketua data
+app.get('/historysuratketua', (req, res) => {
   const query = 'SELECT * FROM surat ORDER BY id DESC';
   suratDb.query(query, (err, results) => {
     if (err) {
@@ -114,8 +114,8 @@ app.get('/history', (req, res) => {
   });
 });
 
-// GET route to fetch a specific surat by ID
-app.get('/history/:id', (req, res) => {
+// GET route to fetch a specific surat ketua by ID
+app.get('/historysuratketua/:id', (req, res) => {
   const { id } = req.params;
   const query = 'SELECT * FROM surat WHERE id = ?';
   suratDb.query(query, [id], (err, result) => {
@@ -131,8 +131,8 @@ app.get('/history/:id', (req, res) => {
   });
 });
 
-// PUT route to update a surat by ID
-app.put('/history/:id', (req, res) => {
+// PUT route to update a surat ketua by ID
+app.put('/historysuratketua/:id', (req, res) => {
   const { id } = req.params;
   const { nomor, kepada, untuk, tanggal, tempat } = req.body;
   const query = 'UPDATE surat SET nomor = ?, kepada = ?, untuk = ?, tanggal = ?, tempat = ? WHERE id = ?';
@@ -150,10 +150,76 @@ app.put('/history/:id', (req, res) => {
   });
 });
 
-// DELETE route to delete a surat by ID
-app.delete('/history/:id', (req, res) => {
+// DELETE route to delete a surat ketua by ID
+app.delete('/historysuratketua/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM surat WHERE id = ?';
+  
+  suratDb.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    if (result.affectedRows > 0) {
+      res.json({ success: true, message: 'Surat deleted successfully.' });
+    } else {
+      res.status(404).json({ success: false, message: 'Surat not found.' });
+    }
+  });
+});
+
+// GET route to fetch all surat ketua data
+app.get('/historysuratsekre', (req, res) => {
+  const query = 'SELECT * FROM surat_sekretaris ORDER BY id DESC';
+  suratDb.query(query, (err, results) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json(results);
+  });
+});
+
+// GET route to fetch a specific surat ketua by ID
+app.get('/historysuratsekre/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT * FROM surat_sekretaris WHERE id = ?';
+  suratDb.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    if (result.length > 0) {
+      res.json(result[0]);
+    } else {
+      res.status(404).json({ success: false, message: 'Surat not found.' });
+    }
+  });
+});
+
+// PUT route to update a surat ketua by ID
+app.put('/historysuratsekre/:id', (req, res) => {
+  const { id } = req.params;
+  const { nomor, kepada, untuk, tanggal, tempat } = req.body;
+  const query = 'UPDATE surat_sekretaris SET nomor = ?, kepada = ?, untuk = ?, tanggal = ?, tempat = ? WHERE id = ?';
+  
+  suratDb.query(query, [nomor, kepada, untuk, tanggal, tempat, id], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    if (result.affectedRows > 0) {
+      res.json({ success: true, message: 'Surat updated successfully.' });
+    } else {
+      res.status(404).json({ success: false, message: 'Surat not found.' });
+    }
+  });
+});
+
+// DELETE route to delete a surat ketua by ID
+app.delete('/historysuratsekre/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM surat_sekretaris WHERE id = ?';
   
   suratDb.query(query, [id], (err, result) => {
     if (err) {

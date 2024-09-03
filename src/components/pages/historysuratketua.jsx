@@ -5,7 +5,7 @@ import { FaCalendar, FaUser, FaMapMarkerAlt, FaFileAlt, FaSearch, FaSort, FaTras
 <img src="/assets/ketua.png" alt="Ketua" />
 
 
-const History = () => {
+const Historysuratketua = () => {
     const [suratList, setSuratList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -21,7 +21,7 @@ const History = () => {
 
     const fetchSuratList = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/history');
+            const response = await axios.get('http://localhost:5000/historysuratketua');
             setSuratList(response.data);
             setTotalSurat(response.data.length);  // Update totalSurat with the length of the data
             setIsLoading(false);
@@ -33,7 +33,7 @@ const History = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/history/${id}`);
+            await axios.delete(`http://localhost:5000/historysuratketua/${id}`);
             fetchSuratList();
         } catch (error) {
             console.error('There was an error deleting the surat!', error);
@@ -46,7 +46,7 @@ const History = () => {
 
     const handleUpdate = async () => {
         try {
-            await axios.put(`http://localhost:5000/history/${editingSurat.id}`, editingSurat);
+            await axios.put(`http://localhost:5000/historysuratketua/${editingSurat.id}`, editingSurat);
             setEditingSurat(null);
             fetchSuratList();
         } catch (error) {
@@ -230,7 +230,7 @@ const History = () => {
             <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-400 py-8 px-4 sm:px-6 lg:px-8">
                 <div className="mt-20 max-w-7xl mx-auto">
                     <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
-                        History Surat Tugas
+                        History Surat Tugas Ketua
                     </h2>
                     <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
     <div className="relative flex items-center w-full sm:w-auto">
@@ -262,14 +262,28 @@ const History = () => {
             Total Surat: {totalSurat}
         </button>
         <button
-            onClick={() => navigate('/createsuratketua')}
-            className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-        >
+            onClick={() => navigate('/surat-tugas-options')}
+            className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+            >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="2"
+            stroke="currentColor"
+            className="w-4 h-4 mr-2"
+    >
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 4.5v15m7.5-7.5h-15"
+        />
+        </svg>
             Buat Surat
         </button>
-        {/* Total Surat Button */}
+         {/* Total Surat Button */}
+        </div>
     </div>
-</div>
 
 
 
@@ -413,4 +427,4 @@ const History = () => {
     );
 };
 
-export default History;
+export default Historysuratketua;
