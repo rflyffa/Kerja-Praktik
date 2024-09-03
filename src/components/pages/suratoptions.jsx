@@ -44,10 +44,16 @@ const SuratTugasCard = ({ to, icon, title, description }) => {
                 <h3 className="text-2xl font-semibold text-gray-900 text-center mb-4">{title}</h3>
                 <p className="text-gray-600 text-center">{description}</p>
             </div>
-            <div className="px-6 py-4 bg-gray-50">
-                <button className="w-full bg-gradient-to-r from-black via-gray-800 to-black text-white py-3 px-4 rounded-md hover:from-black hover:via-gray-700 hover:to-black transition duration-300 font-semibold text-lg">
+            <div className="px-6 py-4 bg-gray-50 text-center">
+                <button className="w-full bg-gradient-to-r from-black via-gray-800 to-black text-white py-3 px-4 rounded-md hover:from-black hover:via-gray-700 hover:to-black transition duration-300 font-semibold text-lg mb-2">
                     Buat Surat
                 </button>
+                <Link 
+                    to="/history" 
+                    className="block text-indigo-600 hover:text-indigo-800 text-base font-small transition-colors duration-300"
+                >
+                    View History
+                </Link>
             </div>
         </Link>
     );

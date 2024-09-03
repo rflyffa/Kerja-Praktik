@@ -17,6 +17,7 @@ const Dashboard = ({ userRole }) => {
               title="Surat Tugas"
               description="Buat dan kelola surat tugas dengan mudah"
               userRole={userRole}
+              hideViewHistory={true}  // Tambahkan prop ini
             />
             <DashboardCard
               to=""
@@ -32,7 +33,7 @@ const Dashboard = ({ userRole }) => {
   );
 };
 
-const DashboardCard = ({ to, icon, title, description, userRole }) => {
+const DashboardCard = ({ to, icon, title, description, userRole, hideViewHistory }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -67,12 +68,14 @@ const DashboardCard = ({ to, icon, title, description, userRole }) => {
             (Hanya bisa diakses oleh operator)
           </div>
         )}
-        <Link 
-          to="/history" 
-          className="block text-indigo-600 hover:text-indigo-800 text-base font-small transition-colors duration-300"
-        >
-          View History
-        </Link>
+        {!hideViewHistory && (
+          <Link 
+            to="/history" 
+            className="block text-indigo-600 hover:text-indigo-800 text-base font-small transition-colors duration-300"
+          >
+            View History
+          </Link>
+        )}
       </div>
     </div>
   );
