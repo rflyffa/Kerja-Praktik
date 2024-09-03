@@ -74,18 +74,23 @@ const History = () => {
                             display: inline-block; 
                             width: 150px; 
                             vertical-align: top; 
-                            padding-top: 4px; /* Geser Menimbang sedikit ke bawah */
                         }
                         .content .field ol { margin: 0; padding: 0; list-style-type: lower-alpha; }
                         .content .field ol li { 
                             margin-left: 145px; 
                             line-height: 1.2;
-                            margin-bottom: 10px; /* Tambahkan margin antar item */
+                            margin-bottom: 10px; 
                         }
                         .footer { margin-top: 50px; text-align: center; font-size: 14px; color: #555; }
                         .footer p { margin: 5px 0; }
                         .signature { margin-top: 60px; text-align: right; }
                         .signature p { margin: 5px 0; }
+                        .inline-block { 
+                            display: inline-block; 
+                            vertical-align: top; 
+                            width: calc(100% - 150px); 
+                        }
+                        .title { text-align: center; font-weight: bold; margin-top: 30px; }
                     </style>
                 </head>
                 <body>
@@ -105,13 +110,23 @@ const History = () => {
                             </ol>
                         </div>
                         <div class="field">
+                            <span>Dasar:</span> 
+                            <div class="inline-block">
+                                Nota Dinas Kepala Sub Bagian Perencanaan, Data dan Informasi Nomor /PL.02.1-ND/3277/2024 tanggal Juli Perihal Permohonan Fasilitasi Perjalanan Dinas ke Kelurahan se Kota Cimahi
+                            </div>
+                        </div>
+                        <div class="title">
+                            <p>KETUA KOMISI PEMILIHAN UMUM KOTA CIMAHI</p>
+                            <p>MEMBERI TUGAS</p>
+                        </div>
+                        <div class="field">
                             <span>Kepada:</span> ${surat.kepada}
                         </div>
                         <div class="field">
                             <span>Untuk:</span> ${surat.untuk}
                         </div>
                         <div class="field">
-                            <span>Tanggal:</span> ${new Date(surat.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            <span>Hari/Tanggal:</span> ${new Date(surat.tanggal).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
                         </div>
                         <div class="field">
                             <span>Tempat:</span> ${surat.tempat}
@@ -131,7 +146,6 @@ const History = () => {
             </html>
         `;
     
-        // Open a new window
         const newWindow = window.open('', '_blank', 'width=800,height=600');
     
         if (newWindow) {
@@ -145,8 +159,7 @@ const History = () => {
             console.error('Failed to open new window for printing.');
         }
     };
-        
-
+                
     const sortedAndFilteredSuratList = suratList
         .filter(surat =>
             surat.nomor.toLowerCase().includes(searchTerm.toLowerCase()) ||
