@@ -20,7 +20,7 @@ const Suratoptions = () => {
                         description="Buat surat tugas resmi untuk Ketua KPU dengan template yang telah disediakan."
                     />
                     <SuratTugasCard
-                        to="/create-surat-tugas-sekretaris"
+                        to="/createsuratsekre"
                         icon={<FaFileSignature className="w-16 h-16 text-green-600" />}
                         title="Surat Tugas Sekretaris"
                         description="Generasi surat tugas untuk Sekretaris dengan cepat dan mudah menggunakan form yang tersedia."

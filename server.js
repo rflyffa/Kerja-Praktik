@@ -74,7 +74,7 @@ app.post('/login', (req, res) => {
   });
 });
 
-// POST route to save surat data
+// POST route to save surat ketua data
 app.post('/createsuratketua', (req, res) => {
   const { nomor, kepada, untuk, tanggal, tempat } = req.body;
 
@@ -84,7 +84,21 @@ app.post('/createsuratketua', (req, res) => {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
     }
-    res.json({ success: true, message: 'Surat created successfully.' });
+    res.json({ success: true, message: 'Surat ketua created successfully.' });
+  });
+});
+
+// POST route to save surat sekre data
+app.post('/createsuratsekre', (req, res) => {
+  const { nomor, kepada, untuk, tanggal, tempat } = req.body;
+
+  const query = 'INSERT INTO surat (nomor, kepada, untuk, tanggal, tempat) VALUES (?, ?, ?, ?, ?)';
+  suratDb.query(query, [nomor, kepada, untuk, tanggal, tempat], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json({ success: true, message: 'Surat sekre created successfully.' });
   });
 });
 

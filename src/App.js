@@ -24,6 +24,7 @@ import Login from './components/pages/login';
 import Dashboard from './components/pages/dashboard';
 import Suratoptions from './components/pages/suratoptions';
 import Createsuratketua from './components/pages/createsuratketua';
+import Createsuratsekre from './components/pages/createsuratsekre';
 import History from './components/pages/history';
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast
@@ -84,6 +85,12 @@ function App() {
             path="/createsuratketua"
             element={
               isAuthenticated ? <Createsuratketua /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/createsuratsekre"
+            element={
+              isAuthenticated ? <Createsuratsekre /> : <Navigate to="/login" />
             }
           />
           <Route
