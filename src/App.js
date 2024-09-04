@@ -79,8 +79,8 @@ function App() {
           <Route
             path="/surat-tugas-options"
             element={
-              isAuthenticated ? <Suratoptions /> : <Navigate to="/login" />
-            }
+              isAuthenticated ? <Suratoptions userRole={userRole} /> : <Navigate to="/login" />
+           }
           />
           <Route
             path="/createsuratketua"

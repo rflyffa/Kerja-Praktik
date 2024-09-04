@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaFileSignature, FaUserTie } from 'react-icons/fa';
+import { toast } from 'react-toastify'; // Import toast for alerts
 
-const Suratoptions = () => {
+const Suratoptions = ({ userRole }) => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-16 px-4 sm:px-6 lg:px-8">
             <div className="mt-20 mb-10 max-w-4xl mx-auto">
@@ -19,6 +20,7 @@ const Suratoptions = () => {
                         title="Surat Tugas Ketua KPU"
                         description="Buat surat tugas resmi untuk Ketua KPU dengan template yang telah disediakan."
                         historyLink="/historysuratketua" // Update link
+                        userRole={userRole} // Pass userRole here
                     />
                     <SuratTugasCard
                         to="/createsuratsekre"
@@ -26,6 +28,7 @@ const Suratoptions = () => {
                         title="Surat Tugas Sekretaris"
                         description="Generasi surat tugas untuk Sekretaris dengan cepat dan mudah menggunakan form yang tersedia."
                         historyLink="/historysuratsekre" // Update link
+                        userRole={userRole} // Pass userRole here
                     />
                 </div>
             </div>
@@ -33,12 +36,26 @@ const Suratoptions = () => {
     );
 };
 
-const SuratTugasCard = ({ to, icon, title, description, historyLink }) => {
+const SuratTugasCard = ({ to, icon, title, description, historyLink, userRole }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        if (userRole === 'admin') {
+            toast.info('Hanya bisa diakses oleh operator.', {
+                position: 'top-center',
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+        } else {
+            navigate(to); // Navigate to the link
+        }
+    };
+
     return (
-        <Link 
-            to={to} 
-            className="bg-white overflow-hidden shadow-xl rounded-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col"
-        >
+        <div className="bg-white overflow-hidden shadow-xl rounded-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col">
             <div className="p-8 flex-grow">
                 <div className="flex justify-center mb-6">
                     {icon}
@@ -47,7 +64,10 @@ const SuratTugasCard = ({ to, icon, title, description, historyLink }) => {
                 <p className="text-gray-600 text-center">{description}</p>
             </div>
             <div className="px-6 py-4 bg-gray-50">
-                <button className="w-full bg-gradient-to-r from-black via-gray-800 to-black text-white py-3 px-4 rounded-md hover:from-black hover:via-gray-700 hover:to-black transition duration-300 font-semibold text-lg mb-2">
+                <button
+                    onClick={handleClick}
+                    className="w-full bg-gradient-to-r from-black via-gray-800 to-black text-white py-3 px-4 rounded-md hover:from-black hover:via-gray-700 hover:to-black transition duration-300 font-semibold text-lg mb-2 text-center"
+                >
                     Buat Surat
                 </button>
                 <div className="flex justify-center">
@@ -59,7 +79,7 @@ const SuratTugasCard = ({ to, icon, title, description, historyLink }) => {
                     </Link>
                 </div>
             </div>
-        </Link>
+        </div>
     );
 };
 
