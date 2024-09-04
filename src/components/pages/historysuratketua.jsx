@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaCalendar, FaUser, FaMapMarkerAlt, FaFileAlt, FaSearch, FaSort, FaTrash, FaEdit, FaTimes, FaPrint } from 'react-icons/fa';
-<img src="/assets/ketua.png" alt="Ketua" />
-
-
+import { FaCalendar, FaUser, FaMapMarkerAlt, FaFileAlt, FaSearch, FaSort, FaTrash, FaEdit, FaTimes, FaPrint, FaComment } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 const Historysuratketua = () => {
     const [suratList, setSuratList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -31,13 +29,55 @@ const Historysuratketua = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        try {
-            await axios.delete(`http://localhost:5000/historysuratketua/${id}`);
-            fetchSuratList();
-        } catch (error) {
-            console.error('There was an error deleting the surat!', error);
-        }
+    const handleComment = (surat) => {
+        // Logic to handle adding a comment to the surat
+        console.log(`Commenting on surat: ${surat.id}`);
+        // You can open a modal, navigate to another page, or display an input field for the comment
+    };
+    const handleDelete = (id) => {
+        // Create the toast and get its ID
+        const toastId = toast.info(
+            <div className="flex flex-col items-center justify-center text-center">
+                <p className="text-lg font-medium text-gray-900">Are you sure you want to delete this letter?</p>
+                <div className="flex justify-center mt-3">
+                    <button
+                        onClick={async () => {
+                            try {
+                                // Attempt to delete the surat
+                                await axios.delete(`http://localhost:5000/historysuratketua/${id}`);
+                                fetchSuratList();
+                                // Show success message and dismiss the original toast
+                                toast.success('Letter deleted successfully.', {
+                                    autoClose: 1000
+                                });
+                                toast.dismiss(toastId);
+                            } catch (error) {
+                                console.error('There was an error deleting the surat!', error);
+                                // Show error message and dismiss the original toast
+                                toast.error('Failed to delete the surat.');
+                                toast.dismiss(toastId);
+                            }
+                        }}
+                        className="px-4 py-2 mr-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-300 focus:outline-none"
+                    >
+                        Delete
+                    </button>
+                    <button
+                        onClick={() => toast.dismiss(toastId)}
+                        className="px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition duration-300 focus:outline-none"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </div>,
+            {
+                position: 'top-center',
+                autoClose: false,
+                closeOnClick: false,
+                draggable: false,
+                // You can add a custom class here if needed
+            }
+        );
     };
 
     const handleEdit = (surat) => {
@@ -191,9 +231,9 @@ const Historysuratketua = () => {
                     </div>
                 </body>
             </html>
-        `; 
+        `;
         const newWindow = window.open('', '_blank', 'width=800,height=600');
-    
+
         if (newWindow) {
             newWindow.document.open();
             newWindow.document.write(printContent);
@@ -205,7 +245,7 @@ const Historysuratketua = () => {
             console.error('Failed to open new window for printing.');
         }
     };
-                
+
     const sortedAndFilteredSuratList = suratList
         .filter(surat =>
             surat.nomor.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -218,75 +258,72 @@ const Historysuratketua = () => {
             return 0;
         });
 
-        if (isLoading) {
-            return (
-                <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-indigo-400">
-                    <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-indigo-600"></div>
-                </div>
-            );
-        }
-    
+    if (isLoading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-400 py-8 px-4 sm:px-6 lg:px-8">
-                <div className="mt-20 max-w-7xl mx-auto">
-                    <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
-                        History Surat Tugas Ketua
-                    </h2>
-                    <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
-    <div className="relative flex items-center w-full sm:w-auto">
-        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-        <input
-            type="text"
-            placeholder="Search..."
-            className="pl-10 pr-4 py-2 w-full sm:w-64 rounded-full border-2 border-gray-300 bg-white text-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-        />
-    </div>
-    <div className="flex space-x-2">
-        <button
-            onClick={() => handleSort('tanggal')}
-            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-        >
-            Date <FaSort className="ml-1" />
-        </button>
-        <button
-            onClick={() => handleSort('nomor')}
-            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-        >
-            Number <FaSort className="ml-1" />
-        </button>
-        <button
-            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-        >
-            Total Surat: {totalSurat}
-        </button>
-        <button
-            onClick={() => navigate('/surat-tugas-options')}
-            className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-            >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="2"
-            stroke="currentColor"
-            className="w-4 h-4 mr-2"
-    >
-        <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 4.5v15m7.5-7.5h-15"
-        />
-        </svg>
-            Buat Surat
-        </button>
-         {/* Total Surat Button */}
-        </div>
-    </div>
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-indigo-400">
+                <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-indigo-600"></div>
+            </div>
+        );
+    }
 
-
-
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-400 py-8 px-4 sm:px-6 lg:px-8">
+            <div className="mt-20 max-w-7xl mx-auto">
+                <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
+                    History Surat Tugas Ketua
+                </h2>
+                <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <div className="relative flex items-center w-full sm:w-auto">
+                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            className="pl-10 pr-4 py-2 w-full sm:w-64 rounded-full border-2 border-gray-300 bg-white text-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    <div className="flex space-x-2">
+                        <button
+                            onClick={() => handleSort('tanggal')}
+                            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                        >
+                            Date <FaSort className="ml-1" />
+                        </button>
+                        <button
+                            onClick={() => handleSort('nomor')}
+                            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                        >
+                            Number <FaSort className="ml-1" />
+                        </button>
+                        <button
+                            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                        >
+                            Total Surat: {totalSurat}
+                        </button>
+                        <button
+                            onClick={() => navigate('/surat-tugas-options')}
+                            className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="2"
+                                stroke="currentColor"
+                                className="w-4 h-4 mr-2"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M12 4.5v15m7.5-7.5h-15"
+                                />
+                            </svg>
+                            Buat Surat
+                        </button>
+                        {/* Total Surat Button */}
+                    </div>
+                </div>
                 {sortedAndFilteredSuratList.length === 0 ? (
                     <div className="bg-white rounded-lg shadow-xl p-8 text-center">
                         <p className="text-xl text-gray-600">No results found.</p>
@@ -317,6 +354,12 @@ const Historysuratketua = () => {
                                     </div>
                                 </div>
                                 <div className="flex-none px-4 py-2 bg-gray-100 flex justify-end items-center space-x-2">
+                                    <button
+                                        onClick={() => handleComment(surat)}
+                                        className="text-yellow-500 hover:bg-yellow-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                    >
+                                        <FaComment />
+                                    </button>
                                     <button
                                         onClick={() => handleEdit(surat)}
                                         className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"

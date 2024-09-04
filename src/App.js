@@ -15,7 +15,7 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/navbar';
 import Main from './components/pages/main';
@@ -27,29 +27,43 @@ import Createsuratketua from './components/pages/createsuratketua';
 import Createsuratsekre from './components/pages/createsuratsekre';
 import Historysuratketua from './components/pages/historysuratketua';
 import Historysuratsekre from './components/pages/historysuratsekre';
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(''); // Add state for user role
+  const [userRole, setUserRole] = useState('');
+
+  useEffect(() => {
+    // Load authentication status and user role from localStorage
+    const storedAuthStatus = localStorage.getItem('isAuthenticated') === 'true';
+    const storedUserRole = localStorage.getItem('userRole') || '';
+
+    setIsAuthenticated(storedAuthStatus);
+    setUserRole(storedUserRole);
+  }, []);
 
   const handleSignIn = (role) => {
     setIsAuthenticated(true);
-    setUserRole(role); // Set the user role after sign in
+    setUserRole(role);
+    localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('userRole', role);
+
     toast.success('Login berhasil!', {
-        position: 'top-center', // Mengatur posisi toast ke bawah tengah
-        autoClose: 1200, // Durasi toast muncul dalam milidetik (opsional)
-        hideProgressBar: false, // Menampilkan atau menyembunyikan progress bar (opsional)
-        closeOnClick: true, // Menutup toast ketika di klik (opsional)
-        pauseOnHover: true, // Pause toast ketika di hover (opsional)
-        draggable: true, // Membuat toast bisa di drag (opsional)
+        position: 'top-center',
+        autoClose: 1200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
     });
-};
+  };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    setUserRole(''); // Clear the user role on logout
+    setUserRole('');
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userRole');
   };
 
   return (
@@ -59,9 +73,9 @@ function App() {
           onSignIn={handleSignIn}
           onLogout={handleLogout}
           isAuthenticated={isAuthenticated}
-          userRole={userRole} // Pass the user role to the Navbar
+          userRole={userRole}
         />
-        <ToastContainer /> {/* Add ToastContainer here */}
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route
