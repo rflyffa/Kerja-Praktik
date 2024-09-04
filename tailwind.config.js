@@ -22,6 +22,9 @@ module.exports = {
         'bg-parallax': 'bgParallax 20s infinite linear',
         'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'wiggle': 'wiggle 0.5s ease-in-out infinite',
+        'card-hover': 'cardHover 0.3s ease-out',
+        'hover-shake': 'hoverShake 0.5s ease-out',
+        'fade-slide': 'fadeSlide 0.7s ease-out',
       },
       keyframes: {
         fadeIn: {
@@ -49,6 +52,19 @@ module.exports = {
         wiggle: {
           '0%, 100%': { transform: 'rotate(-3deg)' },
           '50%': { transform: 'rotate(3deg)' },
+        },
+        cardHover: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(1.05)' },
+        },
+        hoverShake: {
+          '0%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+          '100%': { transform: 'rotate(-3deg)' },
+        },
+        fadeSlide: {
+          '0%': { opacity: '0', transform: 'translateY(-20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
     },

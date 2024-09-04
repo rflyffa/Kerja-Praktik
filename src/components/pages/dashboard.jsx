@@ -42,7 +42,7 @@ const DashboardCard = ({ to, icon, title, description, userRole, hideViewHistory
   };
 
   return (
-    <div className="bg-white overflow-hidden shadow-xl rounded-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 max-w-xs mx-auto">
+    <div className="bg-white overflow-hidden shadow-xl rounded-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 max-w-xs mx-auto animate-card-hover">
       <div className="p-6">
         <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-indigo-100 to-indigo-200 rounded-full mb-4 mx-auto shadow-md">
           {icon}
@@ -57,7 +57,6 @@ const DashboardCard = ({ to, icon, title, description, userRole, hideViewHistory
         >
           Masuk
         </button>
-        {/* Admin dan operator dapat mengakses tombol Masuk */}
         {!hideViewHistory && (
           <Link 
             to="/history" 
