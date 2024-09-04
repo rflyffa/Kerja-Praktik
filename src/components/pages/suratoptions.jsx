@@ -18,12 +18,14 @@ const Suratoptions = () => {
                         icon={<FaUserTie className="w-16 h-16 text-indigo-600" />}
                         title="Surat Tugas Ketua KPU"
                         description="Buat surat tugas resmi untuk Ketua KPU dengan template yang telah disediakan."
+                        historyLink="/historysuratketua" // Update link
                     />
                     <SuratTugasCard
                         to="/createsuratsekre"
                         icon={<FaFileSignature className="w-16 h-16 text-green-600" />}
                         title="Surat Tugas Sekretaris"
                         description="Generasi surat tugas untuk Sekretaris dengan cepat dan mudah menggunakan form yang tersedia."
+                        historyLink="/historysuratsekre" // Update link
                     />
                 </div>
             </div>
@@ -31,7 +33,7 @@ const Suratoptions = () => {
     );
 };
 
-const SuratTugasCard = ({ to, icon, title, description }) => {
+const SuratTugasCard = ({ to, icon, title, description, historyLink }) => {
     return (
         <Link 
             to={to} 
@@ -45,12 +47,20 @@ const SuratTugasCard = ({ to, icon, title, description }) => {
                 <p className="text-gray-600 text-center">{description}</p>
             </div>
             <div className="px-6 py-4 bg-gray-50">
-                <button className="w-full bg-gradient-to-r from-black via-gray-800 to-black text-white py-3 px-4 rounded-md hover:from-black hover:via-gray-700 hover:to-black transition duration-300 font-semibold text-lg">
+                <button className="w-full bg-gradient-to-r from-black via-gray-800 to-black text-white py-3 px-4 rounded-md hover:from-black hover:via-gray-700 hover:to-black transition duration-300 font-semibold text-lg mb-2">
                     Buat Surat
                 </button>
+                <div className="flex justify-center">
+                    <Link 
+                        to={historyLink}
+                        className="text-blue-500 hover:text-blue-700 text-lg font-semibold"
+                    >
+                        View History
+                    </Link>
+                </div>
             </div>
         </Link>
     );
 };
 
-export default Suratoptions;
+export default Suratoptions;
