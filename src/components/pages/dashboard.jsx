@@ -17,7 +17,7 @@ const Dashboard = ({ userRole }) => {
               title="Surat Tugas"
               description="Buat dan kelola surat tugas dengan mudah"
               userRole={userRole}
-              hideViewHistory={true}  // Tambahkan prop ini
+              hideViewHistory={true}
             />
             <DashboardCard
               to=""
@@ -25,6 +25,7 @@ const Dashboard = ({ userRole }) => {
               title="Surat Visum"
               description="Proses surat visum dengan cepat dan efisien"
               userRole={userRole}
+              hideViewHistory={true}
             />
           </div>
         </div>
@@ -37,9 +38,7 @@ const DashboardCard = ({ to, icon, title, description, userRole, hideViewHistory
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (userRole === 'operator') {
-      navigate(to);
-    }
+    navigate(to);
   };
 
   return (
@@ -54,20 +53,11 @@ const DashboardCard = ({ to, icon, title, description, userRole, hideViewHistory
       <div className="px-6 py-4 bg-gray-50 text-center">
         <button 
           onClick={handleClick}
-          disabled={userRole !== 'operator'}
-          className={`w-full text-white py-2 px-4 rounded-lg mb-3 transition duration-300 text-base font-semibold ${
-            userRole === 'operator'
-              ? 'bg-gradient-to-r from-black via-gray-800 to-black hover:from-gray-800 hover:via-black hover:to-gray-800'
-              : 'bg-gray-300 cursor-not-allowed'
-          }`}
+          className="w-full text-white py-2 px-4 rounded-lg mb-3 transition duration-300 text-base font-semibold bg-gradient-to-r from-black via-gray-800 to-black hover:from-gray-800 hover:via-black hover:to-gray-800"
         >
           Masuk
         </button>
-        {userRole !== 'operator' && (
-          <div className="text-red-500 text-sm mb-2">
-            (Hanya bisa diakses oleh operator)
-          </div>
-        )}
+        {/* Admin dan operator dapat mengakses tombol Masuk */}
         {!hideViewHistory && (
           <Link 
             to="/history" 
