@@ -17,6 +17,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
   const isCreateSura2tPage = location.pathname === '/createsuratsekre';
   const isHistoryPage = location.pathname === '/historysuratketua';
   const isHistory2Page = location.pathname === '/historysuratsekre';
+  const isCreatesuratvisumPage = location.pathname === '/createsuratvisum';
   const isHistoryvisumPage = location.pathname === '/historysuratvisum';
   
 
@@ -38,7 +39,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
     setIsProfileMenuOpen(!isProfileMenuOpen);
   };
 
-  const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage ||isCreateSura2tPage || isHistory2Page || isHistoryvisumPage)
+  const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage ||isCreateSura2tPage || isHistory2Page || isCreatesuratvisumPage|| isHistoryvisumPage)
     ? '/dashboard'
     : (isDashboardPage ? '/dashboard' : '/');
 
@@ -70,7 +71,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
               </span>
             </Link>
           )}
-          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage || isCreateSura2tPage || isHistory2Page ||isHistoryvisumPage) && isAuthenticated && (
+          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage || isCreateSura2tPage || isHistory2Page || isCreatesuratvisumPage|| isHistoryvisumPage) && isAuthenticated && (
             <div
               className="relative"
               onMouseEnter={() => setIsProfileMenuOpen(true)}
