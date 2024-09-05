@@ -84,9 +84,7 @@ const Historysuratsekre = ({ userRole }) => {
 
     const handleEdit = (surat) => {
         if (userRole === 'admin') {
-            toast.error('Admin tidak diperbolehkan mengedit surat.', {
-                autoClose: 1000
-            });
+            toast.error('Admin tidak diperbolehkan mengedit surat.');
             return;
         }
         setEditingSurat(surat);
@@ -129,10 +127,11 @@ const Historysuratsekre = ({ userRole }) => {
                         body { 
                             font-family: 'Bookman Old Style', serif; 
                             padding: 40px; 
+                            font-size: 14px; /* Ukuran font default yang lebih kecil */
                         }
                         .header { text-align: center; margin-bottom: 40px; }
                         .header h2 { 
-                            font-size: 24px; 
+                            font-size: 20px; /* Ukuran font judul yang lebih kecil */
                             margin: 0; 
                             position: relative;
                             display: inline-block; 
@@ -147,49 +146,65 @@ const Historysuratsekre = ({ userRole }) => {
                             border-bottom: 2px solid black; /* Line color and thickness */
                         }
                         .header h3 { 
-                            font-size: 18px; /* Smaller font size for the number */
+                            font-size: 16px; /* Ukuran font nomor yang lebih kecil */
                             margin: 5px 0; 
                         }
                         .content { margin-top: 20px; }
-                        .content p { margin: 10px 0; font-size: 16px; }
-                        .content .field { margin-bottom: 20px; }
+                        .content p { 
+                            margin: 10px 0; 
+                            font-size: 14px; /* Ukuran font isi konten yang lebih kecil */
+                        }
+                        .content .field { 
+                            margin-bottom: 20px; 
+                            display: flex; /* Align children horizontally */
+                            align-items: flex-start; /* Align items to the top */
+                        }
                         .content .field span { 
-                            display: inline-block; 
                             width: 150px; 
-                            vertical-align: top; 
-                            font-weight: bold; /* Make label bold */
+                            white-space: nowrap; /* Prevent label from wrapping */
                         }
                         .content .field ol { 
-                            margin: 0; 
+                            margin: 0;
                             padding: 0; 
                             list-style-type: lower-alpha; 
-                            margin-left: 0; /* Remove default left margin */
-                            padding-left: 0; /* Remove default padding */
+                            margin-left: 10px; /* Adjust left margin to align with text */
                         }
                         .content .field ol li {  
-                            margin-left: 0; /* Align list items with the content */
-                            line-height: 1.2;
                             margin-bottom: 10px; 
                         }
-                        .content .field.flex-container { 
-                            display: flex; 
-                            align-items: flex-start; /* Align items at the top */
-                            margin-bottom: 20px; 
-                        }
-                        .content .field.flex-container .text { 
+                        .content .field .text { 
                             flex: 1; /* Take up the remaining space */
                             margin-left: 10px; /* Add space between label and content */
+                            word-wrap: break-word; /* Break long words to prevent overflow */
+                            max-width: calc(100% - 160px); /* Limit width based on label width */
+                            overflow-wrap: break-word; /* Ensure long text wraps within the container */
                         }
-                        .footer { margin-top: 50px; text-align: center; font-size: 14px; color: #555; }
-                        .footer p { margin: 5px 0; }
-                        .signature { margin-top: 60px; text-align: right; }
-                        .signature p { margin: 5px 0; }
-                        .inline-block { 
-                            display: inline-block; 
-                            vertical-align: top; 
-                            width: calc(100% - 150px); 
+                        .footer { 
+                            margin-top: 50px; 
+                            text-align: center; 
+                            font-size: 12px; /* Ukuran font footer yang lebih kecil */
                         }
-                        .title { text-align: center; font-weight: bold; margin-top: 30px; }
+                        .footer p { 
+                            margin: 5px 0; 
+                        }
+                        .signature { 
+                            margin-top: 60px; 
+                            text-align: right; 
+                            font-size: 14px; /* Ukuran font untuk tanda tangan */
+                        }
+                        .signature p { 
+                            margin: 5px 0; 
+                        }
+                        .title { 
+                            text-align: center; 
+                            font-weight: bold; 
+                            margin-top: 30px; 
+                        }
+                        .additional-info { 
+                            margin-top: 20px; 
+                            font-size: 12px; /* Ukuran font untuk informasi tambahan yang lebih kecil */
+                            text-align: justify; /* Ensure text aligns well */
+                        }
                     </style>
                 </head>
                 <body>
@@ -198,10 +213,10 @@ const Historysuratsekre = ({ userRole }) => {
                         <div class="underline-container">
                             <div class="underline"></div>
                         </div>
-                        <h3>Nomor: ${surat.nomor}</h3> <!-- Moved below the title -->
+                        <h3>Nomor: ${surat.nomor}</h3>
                     </div>
                     <div class="content">
-                        <div class="field flex-container">
+                        <div class="field">
                             <span>Menimbang:</span>
                             <div class="text">
                                 <ol>
@@ -211,7 +226,7 @@ const Historysuratsekre = ({ userRole }) => {
                                 </ol>
                             </div>
                         </div>
-                        <div class="field flex-container">
+                        <div class="field">
                             <span>Dasar:</span>
                             <div class="text">
                                 Nota Dinas Kepala Sub Bagian Perencanaan, Data dan Informasi Nomor /PL.02.1-ND/3277/2024 tanggal Juli Perihal Permohonan Fasilitasi Perjalanan Dinas ke Kelurahan se Kota Cimahi
@@ -222,16 +237,31 @@ const Historysuratsekre = ({ userRole }) => {
                             <p>MEMBERI TUGAS</p>
                         </div>
                         <div class="field">
-                            <span>Kepada:</span> ${surat.kepada}
+                            <span>Kepada:</span>
+                            <div class="text">
+                                ${surat.kepada}
+                            </div>
                         </div>
                         <div class="field">
-                            <span>Untuk:</span> ${surat.untuk}
+                            <span>Untuk:</span>
+                            <div class="text">
+                                ${surat.untuk}
+                            </div>
                         </div>
                         <div class="field">
-                            <span>Hari/Tanggal:</span> ${new Date(surat.tanggal).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                            <span>Hari/Tanggal:</span>
+                            <div class="text">
+                                ${new Date(surat.tanggal).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                            </div>
                         </div>
                         <div class="field">
-                            <span>Tempat:</span> ${surat.tempat}
+                            <span>Tempat:</span>
+                            <div class="text">
+                                ${surat.tempat}
+                            </div>
+                        </div>
+                        <div class="additional-info">
+                            <p>Demikian Surat Tugas ini dibuat untuk Dapat dilaksanakan dengan penuh tangung jawab dan melaporkannya.</p>
                         </div>
                     </div>
                     <div class="signature">
