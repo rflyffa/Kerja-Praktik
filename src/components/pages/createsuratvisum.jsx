@@ -13,14 +13,16 @@ const Createsuratvisum = () => {
     const navigate = useNavigate();
 
     const handleChange = (e, index) => {
-        if (e.target.name === 'namaPelaksana') {
+        const { name, value } = e.target;
+
+        if (name === 'namaPelaksana') {
             const newNamaPelaksana = [...formData.namaPelaksana];
-            newNamaPelaksana[index] = e.target.value;
+            newNamaPelaksana[index] = value;
             setFormData({ ...formData, namaPelaksana: newNamaPelaksana });
         } else {
-            setFormData({ ...formData, [e.target.name]: e.target.value });
+            setFormData({ ...formData, [name]: value });
         }
-        setErrors({ ...errors, [e.target.name]: '' });
+        setErrors({ ...errors, [name]: '' });
     };
 
     const handleAddPelaksana = () => {

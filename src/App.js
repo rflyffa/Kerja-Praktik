@@ -37,13 +37,15 @@ function App() {
   const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
-    // Load authentication status and user role from localStorage
     const storedAuthStatus = localStorage.getItem('isAuthenticated') === 'true';
     const storedUserRole = localStorage.getItem('userRole') || '';
-
+  
+    console.log('Stored Auth Status:', storedAuthStatus);
+    console.log('Stored User Role:', storedUserRole);
+  
     setIsAuthenticated(storedAuthStatus);
     setUserRole(storedUserRole);
-  }, []);
+  }, []);  
 
   const handleSignIn = (role) => {
     setIsAuthenticated(true);
@@ -101,37 +103,37 @@ function App() {
           <Route
             path="/createsuratketua"
             element={
-              isAuthenticated ? <Createsuratketua /> : <Navigate to="/login" />
+              isAuthenticated ? <Createsuratketua userRole={userRole} /> : <Navigate to="/login" />
             }
           />
           <Route
             path="/createsuratsekre"
             element={
-              isAuthenticated ? <Createsuratsekre /> : <Navigate to="/login" />
+              isAuthenticated ? <Createsuratsekre userRole={userRole} /> : <Navigate to="/login" />
             }
           />
           <Route
             path="/historysuratketua"
             element={
-              isAuthenticated ? <Historysuratketua /> : <Navigate to="/login" />
+              isAuthenticated ? <Historysuratketua userRole={userRole} /> : <Navigate to="/login" />
             }
           />
           <Route
             path="/historysuratsekre"
             element={
-              isAuthenticated ? <Historysuratsekre /> : <Navigate to="/login" />
+              isAuthenticated ? <Historysuratsekre userRole={userRole} /> : <Navigate to="/login" />
             }
           />
           <Route
             path="/createsuratvisum"
             element={
-              isAuthenticated ? <Createsuratvisum /> : <Navigate to="/login" />
+              isAuthenticated ? <Createsuratvisum userRole={userRole} /> : <Navigate to="/login" />
             }
           />
           <Route
             path="/historysuratvisum"
             element={
-              isAuthenticated ? <Historysuratvisum /> : <Navigate to="/login" />
+              isAuthenticated ? <Historysuratvisum userRole={userRole} /> : <Navigate to="/login" />
             }
           />
         </Routes>

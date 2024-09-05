@@ -7,7 +7,8 @@ const HistorySuratVisum = () => {
     const [suratVisum, setSuratVisum] = useState([]);
     const [isEditing, setIsEditing] = useState(false); // New state for tracking edit mode
     const [currentSurat, setCurrentSurat] = useState(null); // State for the surat being edited
-    const [formData, setFormData] = useState({ // State for the form data
+    const [formData, setFormData] = useState({ 
+        jam: '',// State for the form data
         nama_pelaksana: '',
         hari: '',
         tanggal: ''
@@ -68,63 +69,127 @@ const HistorySuratVisum = () => {
     };
 
     const handlePrint = (surat) => {
+        // Split the names and remove any extra spaces
+        const names = surat.nama_pelaksana.split(',').map(name => name.trim());
+    
+        // Create table rows for each name with appropriate numbering
+        const rows = names.map((name, index) => `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${name}</td>
+                ${index === 0 ? `
+                    <td rowspan="${names.length}">${surat.hari}</td>
+                    <td rowspan="${names.length}">${new Date(surat.tanggal).toLocaleDateString()}</td>
+                ` : ''}
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        `).join('');
+    
+        // HTML content for printing
         const printContent = `
-            <html>
+            <!DOCTYPE html>
+            <html lang="en">
             <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Print Surat Visum</title>
                 <style>
-                    body { font-family: Arial, sans-serif; margin: 20px; }
-                    h2 { text-align: center; margin-bottom: 20px; }
-                    p { margin: 10px 0; }
-                    .content { max-width: 800px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; }
-                    .content p { font-size: 14px; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-                    table, th, td { border: 1px solid black; }
-                    th, td { padding: 8px; text-align: left; vertical-align: top; }
-                    .sign-section { margin-top: 40px; display: flex; justify-content: space-between; }
-                    .sign-section .sign-box { text-align: center; }
-                    .sign-section .sign-box img { height: 50px; margin-top: 10px; }
-                    .sign-section .sign-box p { margin: 0; }
+                    body {
+                        font-family: 'Bookman Old Style', serif; /* Use Bookman Old Style font */
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .container {
+                        width: 80%;
+                        margin: 0 auto;
+                        padding-top: 20px;
+                        position: relative;
+                        min-height: 700px; /* Adjust as needed to ensure enough space */
+                        box-sizing: border-box;
+                    }
+                    .header {
+                        text-align: center;
+                        margin-bottom: 20px;
+                    }
+                    .header p {
+                        margin: 5px 0;
+                    }
+                    .center-text {
+                        text-align: center;
+                        margin-bottom: 20px; /* Adjust spacing as needed */
+                        font-weight: bold; /* Optional: Makes the text bold */
+                    }
+                    .table-container {
+                        width: 100%;
+                        border-collapse: collapse;
+                        border-spacing: 0;
+                        margin-bottom: 100px; /* Space for the signature */
+                    }
+                    table, th, td {
+                        border: 1px solid black;
+                    }
+                    th, td {
+                        padding: 8px;
+                        text-align: center;
+                    }
+                    .signature {
+                        position: absolute;
+                        bottom: -250px; /* Adjust distance from bottom */
+                        right: -20px; /* Adjust distance from right */
+                        text-align: center;
+                        width: 300px; /* Adjust width as needed */
+                    }
+                    .signature p {
+                        font-size: small;
+                        margin: 5px 0;
+                    }
+                    .signature strong {
+                        font-weight: bold;
+                    }
+                    img.signature-img {
+                        width: 150px; /* Adjust size as needed */
+                        height: auto; /* Maintain aspect ratio */
+                    }
                 </style>
             </head>
             <body>
-                <div class="content">
-                    <h2>Form Bukti Kehadiran Pelaksanaan Perjalanan Dinas Jabatan<br>Dalam Kota sampai dengan 8 (delapan) jam</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Pelaksana SPD</th>
-                                <th>Hari</th>
-                                <th>Tanggal</th>
-                                <th>Pejabat/Petugas yang Mengesahkan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>${surat.nama_pelaksana.split(',').join('<br>')}</td>
-                                <td>${surat.hari}</td>
-                                <td>${new Date(surat.tanggal).toLocaleDateString()}</td>
-                                <td>
-                                    <div class="sign-section">
-                                        <div class="sign-box">
-                                            <p>Nama:</p>
-                                            <p>Nama Pejabat</p>
-                                        </div>
-                                        <div class="sign-box">
-                                            <p>Jabatan:</p>
-                                            <p>Jabatan Pejabat</p>
-                                        </div>
-                                        <div class="sign-box">
-                                            <p>Tanda Tangan:</p>
-                                            <img src="path/to/tanda_tangan.png" alt="Tanda Tangan" />
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                <div class="container">
+                    <div class="header">
+                        <h2>LAMPIRAN I.B</h2>
+                        <p>PERATURAN DIREKTUR JENDERAL PERBENDAHARAAN</p>
+                        <p>NOMOR PER-22/PB/2013 TENTANG KETENTUAN LEBIH</p>
+                        <p>LANJUT PELAKSANAAN PERJALANAN DINAS DALAM</p>
+                        <p>NEGERI BAGI PEJABAT NEGARA PEGAWAI NEGERI DAN PEGAWAI TIDAK TETAP</p>
+                    </div>
+                    
+                    <!-- New Section Above Table -->
+                    <p class="center-text">Form Bukti Kehadiran Pelaksanaan Perjalanan Dinas Jabatan Dalam Kota sampai dengan 8 (delapan) jam</p>
+    
+                    <table class="table-container">
+                        <tr>
+                            <th rowspan="2">NO</th>
+                            <th rowspan="2">Pelaksana SPD</th>
+                            <th rowspan="2">Hari</th>
+                            <th rowspan="2">Tanggal</th>
+                            <th colspan="3">Pejabat/Petugas yang mengesahkan</th>
+                        </tr>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Jabatan</th>
+                            <th>Tanda Tangan</th>
+                        </tr>
+                        ${rows}
                     </table>
+    
+                    <div class="signature">
+                        <img src="/assets/ketua.png" alt="Ketua Komisi Pemilihan Umum" class="signature-img" />
+                        <p>KETUA KOMISI PEMILIHAN UMUM</p>
+                        <p>KOTA CIMAHI</p>
+                        <br /><br /><br />
+                        <p><strong>Anzhar Ishal Afryand</strong></p>
+                    </div>
                 </div>
             </body>
             </html>
@@ -144,6 +209,8 @@ const HistorySuratVisum = () => {
         };
     };
     
+    
+      
     const handleEdit = (surat) => {
         setIsEditing(true);
         setCurrentSurat(surat);
