@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaCalendar, FaUser, FaMapMarkerAlt, FaFileAlt, FaSearch, FaSort, FaTrash, FaEdit, FaTimes, FaPrint, FaComment } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-const Historysuratsekre = () => {
+const Historysuratsekre = ({userRole}) => {
     const [suratList, setSuratList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -35,7 +35,11 @@ const Historysuratsekre = () => {
         // You can open a modal, navigate to another page, or display an input field for the comment
     };
     const handleDelete = (id) => {
-        // Create the toast and get its ID
+        if (userRole === 'admin') {
+            toast.error('Admin tidak dapat menghapus surat.');
+            return;
+        }
+
         const toastId = toast.info(
             <div className="flex flex-col items-center justify-center text-center">
                 <p className="text-lg font-medium text-gray-900">Are you sure you want to delete this letter?</p>
@@ -43,17 +47,14 @@ const Historysuratsekre = () => {
                     <button
                         onClick={async () => {
                             try {
-                                // Attempt to delete the surat
                                 await axios.delete(`http://localhost:5000/historysuratsekre/${id}`);
                                 fetchSuratList();
-                                // Show success message and dismiss the original toast
                                 toast.success('Letter deleted successfully.', {
                                     autoClose: 1000
                                 });
                                 toast.dismiss(toastId);
                             } catch (error) {
                                 console.error('There was an error deleting the surat!', error);
-                                // Show error message and dismiss the original toast
                                 toast.error('Failed to delete the surat.');
                                 toast.dismiss(toastId);
                             }
@@ -75,22 +76,32 @@ const Historysuratsekre = () => {
                 autoClose: false,
                 closeOnClick: false,
                 draggable: false,
-                // You can add a custom class here if needed
             }
         );
     };
 
     const handleEdit = (surat) => {
+        if (userRole === 'admin') {
+            toast.error('Admin tidak diperbolehkan mengedit surat.');
+            return;
+        }
         setEditingSurat(surat);
     };
-
+    
     const handleUpdate = async () => {
+        if (userRole === 'admin') {
+            toast.error('Admin tidak diperbolehkan mengupdate surat.');
+            return;
+        }
+    
         try {
             await axios.put(`http://localhost:5000/historysuratsekre/${editingSurat.id}`, editingSurat);
             setEditingSurat(null);
             fetchSuratList();
+            toast.success('Surat berhasil diupdate.');
         } catch (error) {
             console.error('There was an error updating the surat!', error);
+            toast.error('Gagal mengupdate surat.');
         }
     };
 
