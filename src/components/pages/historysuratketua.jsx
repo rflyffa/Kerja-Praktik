@@ -36,7 +36,9 @@ const Historysuratketua = ({ userRole }) => {
     };
     const handleDelete = (id) => {
         if (userRole === 'admin') {
-            toast.error('Admin tidak dapat menghapus surat.');
+            toast.error('Admin tidak dapat menghapus surat.', {
+                autoClose: 1000
+            });
             return;
         }
 
@@ -82,18 +84,20 @@ const Historysuratketua = ({ userRole }) => {
 
     const handleEdit = (surat) => {
         if (userRole === 'admin') {
-            toast.error('Admin tidak diperbolehkan mengedit surat.');
+            toast.error('Admin tidak diperbolehkan mengedit surat.', {
+                autoClose: 1000
+            });
             return;
         }
         setEditingSurat(surat);
     };
-    
+
     const handleUpdate = async () => {
         if (userRole === 'admin') {
             toast.error('Admin tidak diperbolehkan mengupdate surat.');
             return;
         }
-    
+
         try {
             await axios.put(`http://localhost:5000/historysuratketua/${editingSurat.id}`, editingSurat);
             setEditingSurat(null);
@@ -103,7 +107,7 @@ const Historysuratketua = ({ userRole }) => {
             console.error('There was an error updating the surat!', error);
             toast.error('Gagal mengupdate surat.');
         }
-    };    
+    };
 
     const handleSort = (field) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';

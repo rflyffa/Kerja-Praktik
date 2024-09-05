@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaCalendar, FaUser, FaMapMarkerAlt, FaFileAlt, FaSearch, FaSort, FaTrash, FaEdit, FaTimes, FaPrint, FaComment } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-const Historysuratsekre = ({userRole}) => {
+const Historysuratsekre = ({ userRole }) => {
     const [suratList, setSuratList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -36,7 +36,9 @@ const Historysuratsekre = ({userRole}) => {
     };
     const handleDelete = (id) => {
         if (userRole === 'admin') {
-            toast.error('Admin tidak dapat menghapus surat.');
+            toast.error('Admin tidak dapat menghapus surat.', {
+                autoClose: 1000
+            });
             return;
         }
 
@@ -82,18 +84,20 @@ const Historysuratsekre = ({userRole}) => {
 
     const handleEdit = (surat) => {
         if (userRole === 'admin') {
-            toast.error('Admin tidak diperbolehkan mengedit surat.');
+            toast.error('Admin tidak diperbolehkan mengedit surat.', {
+                autoClose: 1000
+            });
             return;
         }
         setEditingSurat(surat);
     };
-    
+
     const handleUpdate = async () => {
         if (userRole === 'admin') {
             toast.error('Admin tidak diperbolehkan mengupdate surat.');
             return;
         }
-    
+
         try {
             await axios.put(`http://localhost:5000/historysuratsekre/${editingSurat.id}`, editingSurat);
             setEditingSurat(null);
