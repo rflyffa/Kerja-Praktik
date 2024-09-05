@@ -3,18 +3,17 @@ import axios from 'axios';
 import { FaEdit, FaTrash, FaPrint } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
-const HistorySuratVisum = () => {
+const HistorySuratVisum = ({ userRole }) => {
     const [suratVisum, setSuratVisum] = useState([]);
-    const [isEditing, setIsEditing] = useState(false); // New state for tracking edit mode
-    const [currentSurat, setCurrentSurat] = useState(null); // State for the surat being edited
+    const [isEditing, setIsEditing] = useState(false);
+    const [currentSurat, setCurrentSurat] = useState(null);
     const [formData, setFormData] = useState({ 
-        jam: '',// State for the form data
+        jam: '',
         nama_pelaksana: '',
         hari: '',
         tanggal: ''
     });
 
-    // Fetch surat visum data when the component mounts
     useEffect(() => {
         fetchSuratVisum();
     }, []);
@@ -30,6 +29,10 @@ const HistorySuratVisum = () => {
     };
 
     const handleDelete = (id) => {
+        if (userRole === 'admin') {
+            toast.error('Admin tidak dapat menghapus surat.');
+            return;
+        }
         const toastId = toast.info(
             <div className="flex flex-col items-center justify-center text-center">
                 <p className="text-lg font-medium text-gray-900">Are you sure you want to delete this letter?</p>
@@ -47,15 +50,15 @@ const HistorySuratVisum = () => {
                                 toast.dismiss(toastId);
                             }
                         }}
-                        className="px-4 py-2 mr-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-300 focus:outline-none"
+                        className="p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-300 focus:outline-none"
                     >
-                        Delete
+                        <FaTrash />
                     </button>
                     <button
                         onClick={() => toast.dismiss(toastId)}
-                        className="px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition duration-300 focus:outline-none"
+                        className="p-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition duration-300 focus:outline-none"
                     >
-                        Cancel
+                        <FaTrash />
                     </button>
                 </div>
             </div>,
@@ -209,9 +212,11 @@ const HistorySuratVisum = () => {
         };
     };
     
-    
-      
     const handleEdit = (surat) => {
+        if (userRole === 'admin') {
+            toast.error('Admin tidak diperbolehkan mengupdate surat.');
+            return;
+        }
         setIsEditing(true);
         setCurrentSurat(surat);
         setFormData({
