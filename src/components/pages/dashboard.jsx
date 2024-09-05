@@ -12,7 +12,7 @@ const Dashboard = ({ userRole }) => {
         <div className="flex justify-center">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2">
             <DashboardCard
-              to="/surat-tugas-options"
+              to="/surat-tugas-options" // Navigasi ke suratoptions.jsx
               icon={<FaFileAlt className="w-12 h-12 text-blue-600" />}
               title="Surat Tugas"
               description="Buat dan kelola surat tugas dengan mudah"
@@ -20,7 +20,7 @@ const Dashboard = ({ userRole }) => {
               hideViewHistory={true}
             />
             <DashboardCard
-              to=""
+              to="/createsuratvisum" // Navigasi ke createsuratvisum.jsx
               icon={<FaEye className="w-12 h-12 text-green-600" />}
               title="Surat Visum"
               description="Proses surat visum dengan cepat dan efisien"
