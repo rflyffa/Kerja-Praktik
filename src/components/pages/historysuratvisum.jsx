@@ -71,39 +71,79 @@ const HistorySuratVisum = () => {
         const printContent = `
             <html>
             <head>
-                <title>Print Surat</title>
+                <title>Print Surat Visum</title>
                 <style>
                     body { font-family: Arial, sans-serif; margin: 20px; }
                     h2 { text-align: center; margin-bottom: 20px; }
                     p { margin: 10px 0; }
-                    .content { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; }
+                    .content { max-width: 800px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; }
                     .content p { font-size: 14px; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                    table, th, td { border: 1px solid black; }
+                    th, td { padding: 8px; text-align: left; vertical-align: top; }
+                    .sign-section { margin-top: 40px; display: flex; justify-content: space-between; }
+                    .sign-section .sign-box { text-align: center; }
+                    .sign-section .sign-box img { height: 50px; margin-top: 10px; }
+                    .sign-section .sign-box p { margin: 0; }
                 </style>
             </head>
             <body>
                 <div class="content">
-                    <h2>Surat Visum</h2>
-                    <p><strong>Nama Pelaksana:</strong> ${surat.nama_pelaksana}</p>
-                    <p><strong>Hari:</strong> ${surat.hari}</p>
-                    <p><strong>Tanggal:</strong> ${new Date(surat.tanggal).toLocaleDateString()}</p>
+                    <h2>Form Bukti Kehadiran Pelaksanaan Perjalanan Dinas Jabatan<br>Dalam Kota sampai dengan 8 (delapan) jam</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Pelaksana SPD</th>
+                                <th>Hari</th>
+                                <th>Tanggal</th>
+                                <th>Pejabat/Petugas yang Mengesahkan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>${surat.nama_pelaksana.split(',').join('<br>')}</td>
+                                <td>${surat.hari}</td>
+                                <td>${new Date(surat.tanggal).toLocaleDateString()}</td>
+                                <td>
+                                    <div class="sign-section">
+                                        <div class="sign-box">
+                                            <p>Nama:</p>
+                                            <p>Nama Pejabat</p>
+                                        </div>
+                                        <div class="sign-box">
+                                            <p>Jabatan:</p>
+                                            <p>Jabatan Pejabat</p>
+                                        </div>
+                                        <div class="sign-box">
+                                            <p>Tanda Tangan:</p>
+                                            <img src="path/to/tanda_tangan.png" alt="Tanda Tangan" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </body>
             </html>
         `;
+    
         const newWindow = window.open('', '_blank');
         newWindow.document.open();
         newWindow.document.write(printContent);
         newWindow.document.close();
-
+    
         newWindow.focus();
         newWindow.print();
-
+    
         // Optional: Close window after print
         newWindow.onafterprint = () => {
             newWindow.close();
         };
     };
-
+    
     const handleEdit = (surat) => {
         setIsEditing(true);
         setCurrentSurat(surat);

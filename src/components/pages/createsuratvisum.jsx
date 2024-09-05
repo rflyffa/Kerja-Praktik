@@ -5,25 +5,40 @@ import axios from 'axios';
 const Createsuratvisum = () => {
     const [formData, setFormData] = useState({
         jam: '',
-        namaPelaksana: '',
+        namaPelaksana: [''],  // Array to store multiple names
         hari: '',
         tanggal: '',
     });
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleChange = (e, index) => {
+        if (e.target.name === 'namaPelaksana') {
+            const newNamaPelaksana = [...formData.namaPelaksana];
+            newNamaPelaksana[index] = e.target.value;
+            setFormData({ ...formData, namaPelaksana: newNamaPelaksana });
+        } else {
+            setFormData({ ...formData, [e.target.name]: e.target.value });
+        }
         setErrors({ ...errors, [e.target.name]: '' });
     };
 
-    const handleSubmit = (e) => {
+    const handleAddPelaksana = () => {
+        setFormData({ ...formData, namaPelaksana: [...formData.namaPelaksana, ''] });
+    };
+
+    const handleRemovePelaksana = (index) => {
+        const newNamaPelaksana = formData.namaPelaksana.filter((_, i) => i !== index);
+        setFormData({ ...formData, namaPelaksana: newNamaPelaksana });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Validate form
         const newErrors = {};
         if (!formData.jam) newErrors.jam = 'Jam is required';
-        if (!formData.namaPelaksana) newErrors.namaPelaksana = 'Nama Pelaksana is required';
+        if (formData.namaPelaksana.some((name) => !name)) newErrors.namaPelaksana = 'All Pelaksana names are required';
         if (!formData.hari) newErrors.hari = 'Hari is required';
         if (!formData.tanggal) newErrors.tanggal = 'Tanggal is required';
 
@@ -32,14 +47,20 @@ const Createsuratvisum = () => {
             return;
         }
 
-        axios.post('http://localhost:5000/createsuratvisum', formData)
-            .then((response) => {
-                console.log(response.data);
-                navigate('/historysuratvisum');
-            })
-            .catch((error) => {
-                console.error('There was an error saving the data!', error);
-            });
+        try {
+            // Prepare data to send
+            const payload = {
+                jam: formData.jam,
+                namaPelaksana: formData.namaPelaksana.join(', '), // Join array of names into a single string
+                hari: formData.hari,
+                tanggal: formData.tanggal
+            };
+
+            await axios.post('http://localhost:5000/createsuratvisum', payload);
+            navigate('/historysuratvisum');
+        } catch (error) {
+            console.error('There was an error saving the data!', error);
+        }
     };
 
     const handleBackClick = () => {
@@ -66,30 +87,57 @@ const Createsuratvisum = () => {
                         </div>
                         <div>
                             <label htmlFor="namaPelaksana" className="block text-sm font-medium text-gray-700">Nama Pelaksana</label>
-                            <input
-                                type="text"
-                                name="namaPelaksana"
-                                id="namaPelaksana"
-                                value={formData.namaPelaksana}
-                                onChange={handleChange}
-                                className={`mt-1 block w-full border ${errors.namaPelaksana ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-                                placeholder="Masukkan Nama Pelaksana"
-                            />
+                            {formData.namaPelaksana.map((pelaksana, index) => (
+                                <div key={index} className="flex items-center mt-2">
+                                    <span className="mr-2">{index + 1}.</span>
+                                    <input
+                                        type="text"
+                                        name="namaPelaksana"
+                                        value={pelaksana}
+                                        onChange={(e) => handleChange(e, index)}
+                                        className={`block w-full border ${errors.namaPelaksana ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                                        placeholder="Masukkan Nama Pelaksana"
+                                    />
+                                    {formData.namaPelaksana.length > 1 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => handleRemovePelaksana(index)}
+                                            className="ml-2 text-red-600 hover:text-red-800"
+                                        >
+                                            X
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
                             {errors.namaPelaksana && <p className="text-red-500 text-sm">{errors.namaPelaksana}</p>}
+                            <button
+                                type="button"
+                                onClick={handleAddPelaksana}
+                                className="mt-2 text-blue-600 hover:text-blue-800"
+                            >
+                                + Tambah Pelaksana
+                            </button>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label htmlFor="hari" className="block text-sm font-medium text-gray-700">Hari</label>
-                            <input
-                                type="text"
+                            <select
                                 name="hari"
                                 id="hari"
                                 value={formData.hari}
                                 onChange={handleChange}
                                 className={`mt-1 block w-full border ${errors.hari ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-                                placeholder="Masukkan Hari"
-                            />
+                            >
+                                <option value="">Pilih Hari</option>
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jumat">Jumat</option>
+                                <option value="Sabtu">Sabtu</option>
+                                <option value="Minggu">Minggu</option>
+                            </select>
                             {errors.hari && <p className="text-red-500 text-sm">{errors.hari}</p>}
                         </div>
                         <div>
