@@ -17,7 +17,7 @@ const Dashboard = ({ userRole }) => {
               title="Surat Tugas"
               description="Buat dan kelola surat tugas dengan mudah"
               userRole={userRole}
-              hideViewHistory={true}
+              hideViewHistory={true} // No view history link for "Surat Tugas"
             />
             <DashboardCard
               to="/createsuratvisum" // Navigasi ke createsuratvisum.jsx
@@ -25,7 +25,7 @@ const Dashboard = ({ userRole }) => {
               title="Surat Visum"
               description="Proses surat visum dengan cepat dan efisien"
               userRole={userRole}
-              hideViewHistory={true}
+              hideViewHistory={false} // Show view history link for "Surat Visum"
             />
           </div>
         </div>
@@ -59,7 +59,7 @@ const DashboardCard = ({ to, icon, title, description, userRole, hideViewHistory
         </button>
         {!hideViewHistory && (
           <Link 
-            to="/history" 
+            to="/historysuratvisum"  // Navigasi ke halaman historysuratvisum.jsx
             className="block text-indigo-600 hover:text-indigo-800 text-base font-small transition-colors duration-300"
           >
             View History

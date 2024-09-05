@@ -234,6 +234,86 @@ app.delete('/historysuratsekre/:id', (req, res) => {
   });
 });
 
+// POST route to save surat visum data
+app.post('/createsuratvisum', (req, res) => {
+  const { jam, namaPelaksana, hari, tanggal } = req.body;
+
+  const query = 'INSERT INTO surat_visum (jam, nama_pelaksana, hari, tanggal) VALUES (?, ?, ?, ?)';
+  suratDb.query(query, [jam, namaPelaksana, hari, tanggal], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json({ success: true, message: 'Surat visum created successfully.' });
+  });
+});
+
+// GET route to fetch all surat visum data
+app.get('/historysuratvisum', (req, res) => {
+  const query = 'SELECT * FROM surat_visum ORDER BY id DESC';
+  suratDb.query(query, (err, results) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json(results);
+  });
+});
+
+// GET route to fetch a specific surat visum by ID
+app.get('/historysuratvisum/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT * FROM surat_visum WHERE id = ?';
+  suratDb.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    if (result.length > 0) {
+      res.json(result[0]);
+    } else {
+      res.status(404).json({ success: false, message: 'Surat visum not found.' });
+    }
+  });
+});
+
+// PUT route to update a surat visum by ID
+app.put('/historysuratvisum/:id', (req, res) => {
+  const { id } = req.params;
+  const { jam, namaPelaksana, hari, tanggal } = req.body;
+
+  const query = 'UPDATE surat_visum SET jam = ?, nama_pelaksana = ?, hari = ?, tanggal = ? WHERE id = ?';
+  suratDb.query(query, [jam, namaPelaksana, hari, tanggal, id], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    if (result.affectedRows > 0) {
+      res.json({ success: true, message: 'Surat visum updated successfully.' });
+    } else {
+      res.status(404).json({ success: false, message: 'Surat visum not found.' });
+    }
+  });
+});
+
+// DELETE route to delete a surat visum by ID
+app.delete('/historysuratvisum/:id', (req, res) => {
+  const { id } = req.params;
+
+  const query = 'DELETE FROM surat_visum WHERE id = ?';
+  suratDb.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    if (result.affectedRows > 0) {
+      res.json({ success: true, message: 'Surat visum deleted successfully.' });
+    } else {
+      res.status(404).json({ success: false, message: 'Surat visum not found.' });
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

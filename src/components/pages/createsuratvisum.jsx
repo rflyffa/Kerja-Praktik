@@ -32,10 +32,10 @@ const Createsuratvisum = () => {
             return;
         }
 
-        axios.post('http://localhost:5000/createSuratPelaksana', formData)
+        axios.post('http://localhost:5000/createsuratvisum', formData)
             .then((response) => {
                 console.log(response.data);
-                navigate('/historysuratpelaksana');
+                navigate('/historysuratvisum');
             })
             .catch((error) => {
                 console.error('There was an error saving the data!', error);
@@ -43,7 +43,7 @@ const Createsuratvisum = () => {
     };
 
     const handleBackClick = () => {
-        navigate('/surat-pelaksana-options');
+        navigate('/dashboard');
     };
 
     return (
