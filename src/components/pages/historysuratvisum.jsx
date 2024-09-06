@@ -74,7 +74,7 @@ const HistorySuratVisum = ({ userRole }) => {
     const handlePrint = (surat) => {
         // Split the names and remove any extra spaces
         const names = surat.nama_pelaksana.split(',').map(name => name.trim());
-
+    
         // Create table rows for each name with appropriate numbering
         const rows = names.map((name, index) => `
             <tr>
@@ -89,7 +89,7 @@ const HistorySuratVisum = ({ userRole }) => {
                 <td></td>
             </tr>
         `).join('');
-
+    
         // HTML content for printing
         const printContent = `
             <!DOCTYPE html>
@@ -103,6 +103,7 @@ const HistorySuratVisum = ({ userRole }) => {
                         font-family: 'Bookman Old Style', serif; /* Use Bookman Old Style font */
                         margin: 0;
                         padding: 0;
+                        font-size: 12px; /* Adjusted font size */
                     }
                     .container {
                         width: 80%;
@@ -114,35 +115,45 @@ const HistorySuratVisum = ({ userRole }) => {
                     }
                     .header {
                         text-align: center;
-                        margin-bottom: 20px;
+                        margin-bottom: 10px; /* Adjusted spacing */
+                        font-size: 10px; /* Smaller header font */
                     }
                     .header p {
-                        margin: 5px 0;
+                        margin: 3px 0;
                     }
                     .center-text {
                         text-align: center;
-                        margin-bottom: 20px; /* Adjust spacing as needed */
-                        font-weight: bold; /* Optional: Makes the text bold */
+                        margin-bottom: 15px; /* Adjusted spacing */
+                        font-size: 11px; /* Smaller text */
+                        font-weight: bold;
                     }
                     .table-container {
                         width: 100%;
                         border-collapse: collapse;
                         border-spacing: 0;
-                        margin-bottom: 100px; /* Space for the signature */
+                        margin-bottom: 50px; /* Space for the signature */
+                        font-size: 10px; /* Smaller table font */
                     }
                     table, th, td {
                         border: 1px solid black;
                     }
                     th, td {
-                        padding: 8px;
+                        padding: 5px;
                         text-align: center;
+                    }
+                    .column-numbers td {
+                        width: 20px; /* Narrower column width for numbers */
+                        font-size: 8px; /* Smaller font size for column numbers */
+                        padding: 2px; /* Reduced padding */
+                        line-height: 1; /* Reduced line height */
                     }
                     .signature {
                         position: absolute;
                         bottom: -250px; /* Adjust distance from bottom */
                         right: -20px; /* Adjust distance from right */
                         text-align: center;
-                        width: 300px; /* Adjust width as needed */
+                        width: 250px; /* Adjusted width */
+                        font-size: 10px; /* Smaller signature text */
                     }
                     .signature p {
                         font-size: small;
@@ -152,7 +163,7 @@ const HistorySuratVisum = ({ userRole }) => {
                         font-weight: bold;
                     }
                     img.signature-img {
-                        width: 150px; /* Adjust size as needed */
+                        width: 120px; /* Adjusted size */
                         height: auto; /* Maintain aspect ratio */
                     }
                 </style>
@@ -167,7 +178,6 @@ const HistorySuratVisum = ({ userRole }) => {
                         <p>NEGERI BAGI PEJABAT NEGARA PEGAWAI NEGERI DAN PEGAWAI TIDAK TETAP</p>
                     </div>
                     
-                    <!-- New Section Above Table -->
                     <p class="center-text">Form Bukti Kehadiran Pelaksanaan Perjalanan Dinas Jabatan Dalam Kota sampai dengan 8 (delapan) jam</p>
     
                     <table class="table-container">
@@ -183,6 +193,15 @@ const HistorySuratVisum = ({ userRole }) => {
                             <th>Jabatan</th>
                             <th>Tanda Tangan</th>
                         </tr>
+                        <tr class="column-numbers">
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                        </tr>
                         ${rows}
                     </table>
     
@@ -197,21 +216,21 @@ const HistorySuratVisum = ({ userRole }) => {
             </body>
             </html>
         `;
-
+    
         const newWindow = window.open('', '_blank');
         newWindow.document.open();
         newWindow.document.write(printContent);
         newWindow.document.close();
-
+    
         newWindow.focus();
         newWindow.print();
-
+    
         // Optional: Close window after print
         newWindow.onafterprint = () => {
             newWindow.close();
         };
     };
-
+    
     const handleEdit = (surat) => {
         if (userRole === 'admin') {
             toast.error('Admin tidak diperbolehkan mengupdate surat.');
