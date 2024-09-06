@@ -11,7 +11,7 @@ const Historysuratketua = ({ userRole }) => {
     const [sortDirection, setSortDirection] = useState('desc');
     const [editingSurat, setEditingSurat] = useState(null);
     const [totalSurat, setTotalSurat] = useState(0);
-    const navigate = useNavigate(); // Tambahkan ini
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchSuratList();
@@ -385,19 +385,19 @@ const Historysuratketua = ({ userRole }) => {
                                 </div>
                                 <div className="p-4 flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800 flex flex-col space-y-2">
                                     <div className="flex items-center">
-                                        <FaUser className="text-indigo-600 mr-2 text-sm" />
+                                        <FaUser className="text-indigo-600 mr-2 text-sm flex-shrink-0 " />
                                         <p className="truncate text-sm"><span className="font-semibold">Kepada:</span> {surat.kepada}</p>
                                     </div>
                                     <div className="flex items-start">
-                                        <FaFileAlt className="text-indigo-600 mr-2 text-sm mt-1" />
+                                        <FaFileAlt className="text-indigo-600 mr-2 text-sm mt-1 flex-shrink-0" />
                                         <p className="line-clamp-2 text-sm"><span className="font-semibold">Untuk:</span> {surat.untuk}</p>
                                     </div>
                                     <div className="flex items-center">
-                                        <FaCalendar className="text-indigo-600 mr-2 text-sm" />
+                                        <FaCalendar className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
                                         <p className="text-sm"><span className="font-semibold">Tanggal:</span> {new Date(surat.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                                     </div>
                                     <div className="flex items-center">
-                                        <FaMapMarkerAlt className="text-indigo-600 mr-2 text-sm" />
+                                        <FaMapMarkerAlt className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
                                         <p className="truncate text-sm"><span className="font-semibold">Tempat:</span> {surat.tempat}</p>
                                     </div>
                                 </div>

@@ -7,7 +7,7 @@ const HistorySuratVisum = ({ userRole }) => {
     const [suratVisum, setSuratVisum] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentSurat, setCurrentSurat] = useState(null);
-    const [formData, setFormData] = useState({ 
+    const [formData, setFormData] = useState({
         jam: '',
         nama_pelaksana: '',
         hari: '',
@@ -74,7 +74,7 @@ const HistorySuratVisum = ({ userRole }) => {
     const handlePrint = (surat) => {
         // Split the names and remove any extra spaces
         const names = surat.nama_pelaksana.split(',').map(name => name.trim());
-    
+
         // Create table rows for each name with appropriate numbering
         const rows = names.map((name, index) => `
             <tr>
@@ -89,7 +89,7 @@ const HistorySuratVisum = ({ userRole }) => {
                 <td></td>
             </tr>
         `).join('');
-    
+
         // HTML content for printing
         const printContent = `
             <!DOCTYPE html>
@@ -197,21 +197,21 @@ const HistorySuratVisum = ({ userRole }) => {
             </body>
             </html>
         `;
-    
+
         const newWindow = window.open('', '_blank');
         newWindow.document.open();
         newWindow.document.write(printContent);
         newWindow.document.close();
-    
+
         newWindow.focus();
         newWindow.print();
-    
+
         // Optional: Close window after print
         newWindow.onafterprint = () => {
             newWindow.close();
         };
     };
-    
+
     const handleEdit = (surat) => {
         if (userRole === 'admin') {
             toast.error('Admin tidak diperbolehkan mengupdate surat.');
@@ -310,22 +310,23 @@ const HistorySuratVisum = ({ userRole }) => {
                                         <div className="flex space-x-4 mt-2">
                                             <button
                                                 onClick={() => handleEdit(surat)}
-                                                className="px-4 py-2 bg-yellow-500 text-white rounded-md"
+                                                className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
                                             >
-                                                <FaEdit className="inline-block mr-1" /> Edit
+                                                <FaEdit />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(surat.id)}
-                                                className="px-4 py-2 bg-red-600 text-white rounded-md"
+                                                className="text-red-500 hover:bg-red-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
                                             >
-                                                <FaTrash className="inline-block mr-1" /> Delete
+                                                <FaTrash />
                                             </button>
                                             <button
                                                 onClick={() => handlePrint(surat)}
-                                                className="px-4 py-2 bg-blue-600 text-white rounded-md"
+                                                className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
                                             >
-                                                <FaPrint className="inline-block mr-1" /> Print
+                                                <FaPrint />
                                             </button>
+
                                         </div>
                                     </li>
                                 ))
