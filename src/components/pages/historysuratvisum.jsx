@@ -30,9 +30,12 @@ const HistorySuratVisum = ({ userRole }) => {
 
     const handleDelete = (id) => {
         if (userRole === 'admin') {
-            toast.error('Admin tidak dapat menghapus surat.');
+            toast.error('Admin tidak dapat menghapus surat.', {
+                autoClose: 1000
+            });
             return;
         }
+
         const toastId = toast.info(
             <div className="flex flex-col items-center justify-center text-center">
                 <p className="text-lg font-medium text-gray-900">Are you sure you want to delete this letter?</p>
@@ -42,7 +45,9 @@ const HistorySuratVisum = ({ userRole }) => {
                             try {
                                 await axios.delete(`http://localhost:5000/historysuratvisum/${id}`);
                                 fetchSuratVisum();
-                                toast.success('Letter deleted successfully.');
+                                toast.success('Letter deleted successfully.', {
+                                    autoClose: 1000
+                                });
                                 toast.dismiss(toastId);
                             } catch (error) {
                                 console.error('There was an error deleting the surat!', error);
@@ -50,15 +55,15 @@ const HistorySuratVisum = ({ userRole }) => {
                                 toast.dismiss(toastId);
                             }
                         }}
-                        className="p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-300 focus:outline-none"
+                        className="px-4 py-2 mr-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-300 focus:outline-none"
                     >
-                        <FaTrash />
+                        Delete
                     </button>
                     <button
                         onClick={() => toast.dismiss(toastId)}
-                        className="p-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition duration-300 focus:outline-none"
+                        className="px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition duration-300 focus:outline-none"
                     >
-                        <FaTrash />
+                        Cancel
                     </button>
                 </div>
             </div>,

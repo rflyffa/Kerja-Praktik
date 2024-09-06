@@ -76,10 +76,10 @@ app.post('/login', (req, res) => {
 
 // POST route to save surat ketua data
 app.post('/createsuratketua', (req, res) => {
-  const { nomor, kepada, untuk, tanggal, tempat } = req.body;
+  const { pembuat, nomor, kepada, untuk, tanggal, jam, tempat } = req.body;
 
-  const query = 'INSERT INTO surat (nomor, kepada, untuk, tanggal, tempat) VALUES (?, ?, ?, ?, ?)';
-  suratDb.query(query, [nomor, kepada, untuk, tanggal, tempat], (err, result) => {
+  const query = 'INSERT INTO surat (pembuat, nomor, kepada, untuk, tanggal, jam, tempat) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  suratDb.query(query, [pembuat, nomor, kepada, untuk, tanggal, jam, tempat], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
@@ -90,10 +90,10 @@ app.post('/createsuratketua', (req, res) => {
 
 // POST route to save surat sekre data
 app.post('/createsuratsekre', (req, res) => {
-  const { nomor, kepada, untuk, tanggal, tempat } = req.body;
+  const { pembuat, nomor, kepada, untuk, tanggal, jam, tempat } = req.body;
 
-  const query = 'INSERT INTO surat_sekretaris (nomor, kepada, untuk, tanggal, tempat) VALUES (?, ?, ?, ?, ?)';
-  suratDb.query(query, [nomor, kepada, untuk, tanggal, tempat], (err, result) => {
+  const query = 'INSERT INTO surat_sekretaris (pembuat, nomor, kepada, untuk, tanggal, jam, tempat) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  suratDb.query(query, [pembuat, nomor, kepada, untuk, tanggal, jam, tempat], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
@@ -134,10 +134,10 @@ app.get('/historysuratketua/:id', (req, res) => {
 // PUT route to update a surat ketua by ID
 app.put('/historysuratketua/:id', (req, res) => {
   const { id } = req.params;
-  const { nomor, kepada, untuk, tanggal, tempat } = req.body;
-  const query = 'UPDATE surat SET nomor = ?, kepada = ?, untuk = ?, tanggal = ?, tempat = ? WHERE id = ?';
+  const { pembuat, nomor, kepada, untuk, tanggal, jam, tempat } = req.body;
+  const query = 'UPDATE surat SET pembuat = ?, nomor = ?, kepada = ?, untuk = ?, tanggal = ?, jam = ?, tempat = ? WHERE id = ?';
   
-  suratDb.query(query, [nomor, kepada, untuk, tanggal, tempat, id], (err, result) => {
+  suratDb.query(query, [pembuat, nomor, kepada, untuk, tanggal, jam, tempat, id], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
@@ -200,10 +200,10 @@ app.get('/historysuratsekre/:id', (req, res) => {
 // PUT route to update a surat ketua by ID
 app.put('/historysuratsekre/:id', (req, res) => {
   const { id } = req.params;
-  const { nomor, kepada, untuk, tanggal, tempat } = req.body;
-  const query = 'UPDATE surat_sekretaris SET nomor = ?, kepada = ?, untuk = ?, tanggal = ?, tempat = ? WHERE id = ?';
+  const { pembuat, nomor, kepada, untuk, jam, tanggal, tempat } = req.body;
+  const query = 'UPDATE surat_sekretaris SET pembuat = ?, nomor = ?, kepada = ?, untuk = ?, tanggal = ?, jam = ?, tempat = ? WHERE id = ?';
   
-  suratDb.query(query, [nomor, kepada, untuk, tanggal, tempat, id], (err, result) => {
+  suratDb.query(query, [pembuat, nomor, kepada, untuk, tanggal, jam, tempat, id], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });

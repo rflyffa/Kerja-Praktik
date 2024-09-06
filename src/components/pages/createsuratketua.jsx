@@ -4,11 +4,13 @@ import axios from 'axios';
 
 const Createsuratketua = () => {
     const [formData, setFormData] = useState({
+        pembuat: '',
         nomor: '',
         kepada: '',
         untuk: '',
         tanggal: '',
         tempat: '',
+        jam: '', // Added field for time
     });
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
@@ -23,16 +25,20 @@ const Createsuratketua = () => {
 
         // Validate form
         const newErrors = {};
+        if (!formData.pembuat) newErrors.pembuat = 'Pembuat Surat is required'; // Validation for pembuat
         if (!formData.nomor) newErrors.nomor = 'Nomor Surat is required';
         if (!formData.kepada) newErrors.kepada = 'Kepada is required';
         if (!formData.untuk) newErrors.untuk = 'Untuk is required';
         if (!formData.tanggal) newErrors.tanggal = 'Hari/Tanggal is required';
         if (!formData.tempat) newErrors.tempat = 'Tempat is required';
+        if (!formData.jam) newErrors.jam = 'Jam is required'; // Validation for jam
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
+
+        console.log('Submitting data:', formData); // Log data for debugging
 
         axios.post('http://localhost:5000/createsuratketua', formData)
             .then((response) => {
@@ -56,6 +62,19 @@ const Createsuratketua = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-2 gap-6">
                         <div>
+                            <label htmlFor="pembuat" className="block text-sm font-medium text-gray-700">Pembuat Surat</label>
+                            <input
+                                type="text"
+                                name="pembuat"
+                                id="pembuat"
+                                value={formData.pembuat}
+                                onChange={handleChange}
+                                className={`mt-1 block w-full border ${errors.pembuat ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                                placeholder="Nama Pembuat Surat"
+                            />
+                            {errors.pembuat && <p className="text-red-500 text-sm">{errors.pembuat}</p>}
+                        </div>
+                        <div>
                             <label htmlFor="nomor" className="block text-sm font-medium text-gray-700">Nomor Surat</label>
                             <input
                                 type="text"
@@ -68,19 +87,19 @@ const Createsuratketua = () => {
                             />
                             {errors.nomor && <p className="text-red-500 text-sm">{errors.nomor}</p>}
                         </div>
-                        <div>
-                            <label htmlFor="kepada" className="block text-sm font-medium text-gray-700">Kepada</label>
-                            <input
-                                type="text"
-                                name="kepada"
-                                id="kepada"
-                                value={formData.kepada}
-                                onChange={handleChange}
-                                className={`mt-1 block w-full border ${errors.kepada ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-                                placeholder="Daftar Terlampir"
-                            />
-                            {errors.kepada && <p className="text-red-500 text-sm">{errors.kepada}</p>}
-                        </div>
+                    </div>
+                    <div>
+                        <label htmlFor="kepada" className="block text-sm font-medium text-gray-700">Kepada</label>
+                        <input
+                            type="text"
+                            name="kepada"
+                            id="kepada"
+                            value={formData.kepada}
+                            onChange={handleChange}
+                            className={`mt-1 block w-full border ${errors.kepada ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                            placeholder="Daftar Terlampir"
+                        />
+                        {errors.kepada && <p className="text-red-500 text-sm">{errors.kepada}</p>}
                     </div>
                     <div>
                         <label htmlFor="untuk" className="block text-sm font-medium text-gray-700">Untuk</label>
@@ -117,9 +136,23 @@ const Createsuratketua = () => {
                                 value={formData.tempat}
                                 onChange={handleChange}
                                 className={`mt-1 block w-full border ${errors.tempat ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-                                placeholder="Wilayah Kelurahan se Kota Cimahi"
+                                placeholder="Wilayah/Tujuan"
                             />
                             {errors.tempat && <p className="text-red-500 text-sm">{errors.tempat}</p>}
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-6">
+                        <div>
+                            <label htmlFor="jam" className="block text-sm font-medium text-gray-700">Waktu Pembuatan Surat</label>
+                            <input
+                                type="time"
+                                name="jam"
+                                id="jam"
+                                value={formData.jam}
+                                onChange={handleChange}
+                                className={`mt-1 block w-full border ${errors.jam ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                            />
+                            {errors.jam && <p className="text-red-500 text-sm">{errors.jam}</p>}
                         </div>
                     </div>
                     <div className="flex justify-between items-center mt-6">

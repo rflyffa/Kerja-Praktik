@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaCalendar, FaUser, FaMapMarkerAlt, FaFileAlt, FaSearch, FaSort, FaTrash, FaEdit, FaTimes, FaPrint, FaComment } from 'react-icons/fa';
+import { FaCalendar, FaUser, FaMapMarkerAlt, FaSearch, FaSort, FaTrash, FaEdit, FaTimes, FaPrint, FaClock } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 const Historysuratsekre = ({ userRole }) => {
     const [suratList, setSuratList] = useState([]);
@@ -27,12 +27,6 @@ const Historysuratsekre = ({ userRole }) => {
             console.error('There was an error fetching the surat data!', error);
             setIsLoading(false);
         }
-    };
-
-    const handleComment = (surat) => {
-        // Logic to handle adding a comment to the surat
-        console.log(`Commenting on surat: ${surat.id}`);
-        // You can open a modal, navigate to another page, or display an input field for the comment
     };
     const handleDelete = (id) => {
         if (userRole === 'admin') {
@@ -294,8 +288,8 @@ const Historysuratsekre = ({ userRole }) => {
     const sortedAndFilteredSuratList = suratList
         .filter(surat =>
             surat.nomor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            surat.kepada.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            surat.untuk.toLowerCase().includes(searchTerm.toLowerCase())
+            surat.pembuat.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            surat.tempat.toLowerCase().includes(searchTerm.toLowerCase())
         )
         .sort((a, b) => {
             if (a[sortField] < b[sortField]) return sortDirection === 'asc' ? -1 : 1;
@@ -386,11 +380,11 @@ const Historysuratsekre = ({ userRole }) => {
                                 <div className="p-4 flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800 flex flex-col space-y-2">
                                     <div className="flex items-center">
                                         <FaUser className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
-                                        <p className="truncate text-sm"><span className="font-semibold">Kepada:</span> {surat.kepada}</p>
+                                        <p className="truncate text-sm"><span className="font-semibold">Pembuat:</span> {surat.pembuat}</p>
                                     </div>
-                                    <div className="flex items-start">
-                                        <FaFileAlt className="text-indigo-600 mr-2 text-sm mt-1 flex-shrink-0" />
-                                        <p className="line-clamp-2 text-sm"><span className="font-semibold">Untuk:</span> {surat.untuk}</p>
+                                    <div className="flex items-center">
+                                        <FaClock className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
+                                        <p className="text-sm"><span className="font-semibold">Waktu:</span> {surat.jam}</p>
                                     </div>
                                     <div className="flex items-center">
                                         <FaCalendar className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
@@ -402,12 +396,7 @@ const Historysuratsekre = ({ userRole }) => {
                                     </div>
                                 </div>
                                 <div className="flex-none px-4 py-2 bg-gray-100 flex justify-end items-center space-x-2">
-                                    <button
-                                        onClick={() => handleComment(surat)}
-                                        className="text-yellow-500 hover:bg-yellow-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                    >
-                                        <FaComment />
-                                    </button>
+                                    
                                     <button
                                         onClick={() => handleEdit(surat)}
                                         className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
