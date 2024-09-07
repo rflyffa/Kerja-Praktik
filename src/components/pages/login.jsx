@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/logo.png';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'; // Ikon yang tersedia
+import { EyeIcon, EyeSlashIcon, UserIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -35,59 +35,70 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg dark:bg-gray-800 mt-16">
-        <div className="flex justify-center">
+    <div className="mt-20 flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+        <div className="flex flex-col items-center space-y-2">
           <img className="w-40 h-auto" src={Logo} alt="Logo" />
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome</h1>
+          <h2 className="text-sm font-normal text-gray-500 dark:text-gray-400">
+            Sign in to your account
+          </h2>
         </div>
-        <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 dark:text-white">
-          Sign in to your account
-        </h2>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" value="true" />
           <div className="space-y-4">
             <div>
-              <label htmlFor="username" className="sr-only">
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Username
               </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 sm:text-sm"
-                placeholder="Username"
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <UserIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                </div>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 sm:text-sm"
+                  placeholder="Masukan Username"
+                />
+              </div>
             </div>
-            <div className="relative">
-              <label htmlFor="password" className="sr-only">
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Password
               </label>
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 sm:text-sm"
-                placeholder="Password"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 dark:text-gray-400"
-              >
-                {showPassword ? (
-                  <EyeSlashIcon className="w-5 h-5" aria-hidden="true" />
-                ) : (
-                  <EyeIcon className="w-5 h-5" aria-hidden="true" />
-                )}
-              </button>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <LockClosedIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                </div>
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 sm:text-sm"
+                  placeholder="Masukan Password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 dark:text-gray-400"
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="w-5 h-5" aria-hidden="true" />
+                  ) : (
+                    <EyeIcon className="w-5 h-5" aria-hidden="true" />
+                  )}
+                </button>
+              </div>
             </div>
           </div>
           {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}

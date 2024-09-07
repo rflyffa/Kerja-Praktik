@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '../assets/logo.png';
 import { HomeIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { toast } from 'react-toastify';  // Import toast from react-toastify
+import 'react-toastify/dist/ReactToastify.css';  // Import toastify CSS
 
 const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,7 +21,6 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
   const isHistory2Page = location.pathname === '/historysuratsekre';
   const isCreatesuratvisumPage = location.pathname === '/createsuratvisum';
   const isHistoryvisumPage = location.pathname === '/historysuratvisum';
-  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,11 +33,30 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    if (isProfileMenuOpen) setIsProfileMenuOpen(false);
+    if (isProfileMenuOpen) setIsProfileMenuOpen(false); // Close profile menu when toggling side menu
   };
 
   const toggleProfileMenu = () => {
     setIsProfileMenuOpen(!isProfileMenuOpen);
+  };
+
+  // Reset profile menu when authenticated state changes (e.g. login, logout)
+  useEffect(() => {
+    setIsProfileMenuOpen(false); // Close profile menu after login or logout
+  }, [isAuthenticated]);
+
+  const handleLogout = () => {
+    if (onLogout) {
+      onLogout();  // Execute the onLogout function
+      toast.success('Logout berhasil!', {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
   };
 
   const homeLink = (isFormPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage ||isCreateSura2tPage || isHistory2Page || isCreatesuratvisumPage|| isHistoryvisumPage)
@@ -72,12 +92,11 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
             </Link>
           )}
           {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage || isCreateSura2tPage || isHistory2Page || isCreatesuratvisumPage|| isHistoryvisumPage) && isAuthenticated && (
-            <div
-              className="relative"
-              onMouseEnter={() => setIsProfileMenuOpen(true)}
-              onMouseLeave={() => setIsProfileMenuOpen(false)}
-            >
-              <button className="relative group">
+            <div className="relative">
+              <button
+                onClick={toggleProfileMenu} // Open profile menu on click
+                className="relative group"
+              >
                 <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
                   <UserCircleIcon className="h-6 w-6 text-white" />
                 </div>
@@ -95,7 +114,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
                     </div>
                   </div>
                   <button
-                    onClick={onLogout}
+                    onClick={handleLogout}  // Call handleLogout function here
                     className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-b-lg transition duration-150 ease-in-out bg-white"
                   >
                     Logout
@@ -142,7 +161,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
           {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && (
             <div className="relative">
               <button
-                onClick={toggleProfileMenu}
+                onClick={toggleProfileMenu} // Open profile menu on click
                 className="relative group w-full"
               >
                 <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
@@ -162,7 +181,7 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
                     </div>
                   </div>
                   <button
-                    onClick={onLogout}
+                    onClick={handleLogout}  // Call handleLogout function here
                     className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-b-lg transition duration-150 ease-in-out bg-white"
                   >
                     Logout

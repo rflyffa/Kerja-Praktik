@@ -58,13 +58,14 @@ function App() {
   }, []);
   
   const handleSignIn = (role) => {
+    console.log('Sign in successful, role:', role); // Logging untuk debugging
     setIsAuthenticated(true);
     setUserRole(role);
-    localStorage.setItem("isAuthenticated", "true");
-    localStorage.setItem("userRole", role);
-
-    toast.success("Login berhasil!", {
-      position: "top-center",
+    localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('userRole', role);
+  
+    toast.success('Login berhasil!', {
+      position: 'top-center',
       autoClose: 1200,
       hideProgressBar: false,
       closeOnClick: true,
@@ -72,7 +73,7 @@ function App() {
       draggable: true,
     });
   };
-
+  
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUserRole("");
