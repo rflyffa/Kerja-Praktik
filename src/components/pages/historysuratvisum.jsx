@@ -10,9 +10,11 @@ const HistorySuratVisum = ({ userRole }) => {
     const [currentSurat, setCurrentSurat] = useState(null);
     const [formData, setFormData] = useState({
         jam: '',
-        nama_pelaksana: '',
+        nama:'', 
+        namaPelaksana: [''], 
         hari: '',
-        tanggal: ''
+        tanggal: '',
+        waktu: '', 
     });
 
     useEffect(() => {
@@ -284,7 +286,7 @@ const HistorySuratVisum = ({ userRole }) => {
                                 <input
                                     type="text"
                                     name="nama_pelaksana"
-                                    value={formData.nama_pelaksana}
+                                    value={formData.nama}
                                     onChange={handleFormChange}
                                     className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                                 />
@@ -330,8 +332,8 @@ const HistorySuratVisum = ({ userRole }) => {
                             {suratVisum.length > 0 ? (
                                 suratVisum.map((surat) => (
                                     <li key={surat.id} className="p-4 mb-2 bg-gray-100 rounded-md">
-                                        <p><strong>Nama Pelaksana:</strong> {surat.nama_pelaksana}</p>
-                                        <p className="text-sm"><span className="font-semibold">Waktu:</span> {surat.jam}</p>
+                                        <p><strong>Pembuat:</strong> {surat.nama}</p>
+                                        <p><strong>Waktu:</strong> {surat.jam}</p>
                                         <p><strong>Hari:</strong> {surat.hari}</p>
                                         <p><strong>Tanggal:</strong> {new Date(surat.tanggal).toLocaleDateString()}</p>
                                         <div className="flex space-x-4 mt-2">

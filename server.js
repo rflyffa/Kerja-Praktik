@@ -238,10 +238,10 @@ app.delete('/historysuratsekre/:id', (req, res) => {
 
 // POST route to save surat visum data
 app.post('/createsuratvisum', (req, res) => {
-  const { jam, namaPelaksana, hari, tanggal } = req.body;
+  const { jam, nama, namaPelaksana, hari, tanggal } = req.body;
 
-  const query = 'INSERT INTO surat_visum (jam, nama_pelaksana, hari, tanggal) VALUES (?, ?, ?, ?)';
-  suratDb.query(query, [jam, namaPelaksana, hari, tanggal], (err, result) => {
+  const query = 'INSERT INTO surat_visum (jam, nama, nama_pelaksana, hari, tanggal) VALUES (?, ?, ?, ?, ?)';
+  suratDb.query(query, [jam, nama, namaPelaksana, hari, tanggal], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });

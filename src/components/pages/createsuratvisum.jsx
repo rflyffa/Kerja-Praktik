@@ -5,7 +5,7 @@ import axios from 'axios';
 const Createsuratvisum = () => {
     const [formData, setFormData] = useState({
         jam: '',
-        nama: '',  // Added new field for "nama"
+        nama:'',
         namaPelaksana: [''],  // Array to store multiple names
         hari: '',
         tanggal: '',
