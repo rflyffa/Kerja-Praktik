@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -12,6 +12,22 @@ const Createsuratvisum = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
+    // Function to get current time in "HH:MM" format
+    const getCurrentTime = () => {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    };
+
+    // Set current time when component loads
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            jam: getCurrentTime(),
+        }));
+    }, []);
+
     const handleChange = (e, index) => {
         const { name, value } = e.target;
 
@@ -24,7 +40,6 @@ const Createsuratvisum = () => {
         }
         setErrors({ ...errors, [name]: '' });
     };
-
     const handleAddPelaksana = () => {
         setFormData({ ...formData, namaPelaksana: [...formData.namaPelaksana, ''] });
     };

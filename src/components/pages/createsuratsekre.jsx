@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,10 +10,27 @@ const Createsuratsekre = () => {
         untuk: '',
         tanggal: '',
         tempat: '',
-        jam: '', // Added field for time
+        jam: '', // Field for time
     });
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+
+    // Function to get current time in "HH:MM" format
+    const getCurrentTime = () => {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0'); // Add seconds
+        return `${hours}:${minutes}:${seconds}`;
+    };    
+
+    // Set current time when component loads
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            jam: getCurrentTime(),
+        }));
+    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,20 +42,20 @@ const Createsuratsekre = () => {
 
         // Validate form
         const newErrors = {};
-        if (!formData.pembuat) newErrors.pembuat = 'Pembuat Surat is required'; // Validation for pembuat
+        if (!formData.pembuat) newErrors.pembuat = 'Pembuat Surat is required';
         if (!formData.nomor) newErrors.nomor = 'Nomor Surat is required';
         if (!formData.kepada) newErrors.kepada = 'Kepada is required';
         if (!formData.untuk) newErrors.untuk = 'Untuk is required';
         if (!formData.tanggal) newErrors.tanggal = 'Hari/Tanggal is required';
         if (!formData.tempat) newErrors.tempat = 'Tempat is required';
-        if (!formData.jam) newErrors.jam = 'Jam is required'; // Validation for jam
+        if (!formData.jam) newErrors.jam = 'Jam is required';
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
 
-        console.log('Submitting data:', formData); // Log data for debugging
+        console.log('Submitting data:', formData);
 
         axios.post('http://localhost:5000/createsuratsekre', formData)
             .then((response) => {
