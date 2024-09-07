@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaEdit, FaTrash, FaPrint } from 'react-icons/fa';
+import { FaUser, FaCalendar, FaEdit, FaTrash, FaPrint, FaClock, } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import Logo from '../../assets/sekretaris.png';
 
@@ -10,11 +10,11 @@ const HistorySuratVisum = ({ userRole }) => {
     const [currentSurat, setCurrentSurat] = useState(null);
     const [formData, setFormData] = useState({
         jam: '',
-        nama:'', 
-        namaPelaksana: [''], 
+        nama: '',
+        namaPelaksana: [''],
         hari: '',
         tanggal: '',
-        waktu: '', 
+        waktu: '',
     });
 
     useEffect(() => {
@@ -29,6 +29,40 @@ const HistorySuratVisum = ({ userRole }) => {
             .catch((error) => {
                 console.error('There was an error fetching the surat visum data!', error);
             });
+    };
+
+    const handleEdit = (surat) => {
+        if (userRole === 'admin') {
+            toast.error('Admin tidak diperbolehkan mengupdate surat.');
+            return;
+        }
+        setIsEditing(true);
+        setCurrentSurat(surat);
+        setFormData({
+            nama_pelaksana: surat.nama_pelaksana,
+            hari: surat.hari,
+            tanggal: surat.tanggal
+        });
+    };
+
+    const handleFormChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.put(`http://localhost:5000/historysuratvisum/${currentSurat.id}`, formData);
+            toast.success('Surat updated successfully.');
+            fetchSuratVisum();
+            setIsEditing(false); // Exit edit mode
+        } catch (error) {
+            console.error('There was an error updating the surat!', error);
+            toast.error('Failed to update the surat.');
+        }
     };
 
     const handleDelete = (id) => {
@@ -82,7 +116,7 @@ const HistorySuratVisum = ({ userRole }) => {
     const handlePrint = (surat) => {
         // Split the names and remove any extra spaces
         const names = surat.nama_pelaksana.split(',').map(name => name.trim());
-    
+
         // Create table rows for each name with appropriate numbering
         const rows = names.map((name, index) => `
             <tr>
@@ -97,7 +131,7 @@ const HistorySuratVisum = ({ userRole }) => {
                 <td></td>
             </tr>
         `).join('');
-    
+
         // HTML content for printing
         const printContent = `
             <!DOCTYPE html>
@@ -224,60 +258,25 @@ const HistorySuratVisum = ({ userRole }) => {
             </body>
             </html>
         `;
-    
+
         const newWindow = window.open('', '_blank');
         newWindow.document.open();
         newWindow.document.write(printContent);
         newWindow.document.close();
-    
+
         newWindow.focus();
         newWindow.print();
-    
+
         // Optional: Close window after print
         newWindow.onafterprint = () => {
             newWindow.close();
         };
     };
-    
-
-    const handleEdit = (surat) => {
-        if (userRole === 'admin') {
-            toast.error('Admin tidak diperbolehkan mengupdate surat.');
-            return;
-        }
-        setIsEditing(true);
-        setCurrentSurat(surat);
-        setFormData({
-            nama_pelaksana: surat.nama_pelaksana,
-            hari: surat.hari,
-            tanggal: surat.tanggal
-        });
-    };
-
-    const handleFormChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.put(`http://localhost:5000/historysuratvisum/${currentSurat.id}`, formData);
-            toast.success('Surat updated successfully.');
-            fetchSuratVisum();
-            setIsEditing(false); // Exit edit mode
-        } catch (error) {
-            console.error('There was an error updating the surat!', error);
-            toast.error('Failed to update the surat.');
-        }
-    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="mt-20 max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-8">
-                <h2 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">History Surat Visum</h2>
+            <div className="">
+                <h2 className="text-3xl font-extrabold text-gray-900 mt-20 mb-6 text-center">History Surat Visum</h2>
                 <div className="space-y-6">
                     {isEditing ? (
                         <form onSubmit={handleFormSubmit} className="space-y-4">
@@ -328,41 +327,53 @@ const HistorySuratVisum = ({ userRole }) => {
                             </div>
                         </form>
                     ) : (
-                        <ul>
-                            {suratVisum.length > 0 ? (
-                                suratVisum.map((surat) => (
-                                    <li key={surat.id} className="p-4 mb-2 bg-gray-100 rounded-md">
-                                        <p><strong>Pembuat:</strong> {surat.nama}</p>
-                                        <p><strong>Waktu:</strong> {surat.jam}</p>
-                                        <p><strong>Hari:</strong> {surat.hari}</p>
-                                        <p><strong>Tanggal:</strong> {new Date(surat.tanggal).toLocaleDateString()}</p>
-                                        <div className="flex space-x-4 mt-2">
-                                            <button
-                                                onClick={() => handleEdit(surat)}
-                                                className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                            >
-                                                <FaEdit />
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(surat.id)}
-                                                className="text-red-500 hover:bg-red-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                            >
-                                                <FaTrash />
-                                            </button>
-                                            <button
-                                                onClick={() => handlePrint(surat)}
-                                                className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                            >
-                                                <FaPrint />
-                                            </button>
-
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                {suratVisum.length > 0 ? (
+                                    suratVisum.map((surat) => (
+                                        <div key={surat.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 flex flex-col">
+                                            <div className="bg-gradient-to-r from-indigo-600 to-blue-500 text-white px-4 py-2 flex-none">
+                                                <h3 className="text-lg font-semibold truncate">{surat.nomor}</h3>
+                                            </div>
+                                            <div className="p-4 flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800 flex flex-col space-y-2">
+                                                <div className="flex items-center">
+                                                    <FaUser className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
+                                                    <p className="truncate text-sm"><span className="font-semibold">Pembuat:</span> {surat.nama}</p>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <FaClock className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
+                                                    <p className="text-sm"><span className="font-semibold">Waktu:</span> {surat.jam}</p>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <FaCalendar className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
+                                                    <p className="text-sm"><span className="font-semibold">Tanggal:</span> {new Date(surat.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex-none px-4 py-2 bg-gray-100 flex justify-end items-center space-x-2">
+                                                <button
+                                                    onClick={() => handleEdit(surat)}
+                                                    className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                                >
+                                                    <FaEdit />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(surat.id)}
+                                                    className="text-red-500 hover:bg-red-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                                >
+                                                    <FaTrash />
+                                                </button>
+                                                <button
+                                                    onClick={() => handlePrint(surat)}
+                                                    className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                                >
+                                                    <FaPrint />
+                                                </button>
+                                            </div>
                                         </div>
-                                    </li>
-                                ))
-                            ) : (
-                                <p>No surat visum found.</p>
-                            )}
-                        </ul>
+                                    ))
+                                ) : (
+                                    <p className="text-gray-500">No surat visum found.</p>
+                                )}
+                            </div>
                     )}
                 </div>
             </div>
