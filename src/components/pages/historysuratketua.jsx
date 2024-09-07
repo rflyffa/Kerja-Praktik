@@ -403,6 +403,9 @@ const Historysuratketua = ({ userRole }) => {
                         {/* Total Surat Button */}
                     </div>
                 </div>
+                <p className="text-gray-600 mt-5 mb-5 text-sm italic">
+                    Catatan: Pencarian dan sortir dapat membantu Anda mengelola dokumen dengan lebih efisien. Jika Anda perlu membuat surat baru, klik tombol "Buat Surat" di atas.
+                </p>
                 {sortedAndFilteredSuratList.length === 0 ? (
                     <div className="bg-white rounded-lg shadow-xl p-8 text-center">
                         <p className="text-xl text-gray-600">No results found.</p>

@@ -1,4 +1,6 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable eol-last */
+/* eslint-disable linebreak-style */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable linebreak-style */
 /* eslint-disable object-curly-newline */
@@ -280,10 +282,10 @@ app.get('/historysuratvisum/:id', (req, res) => {
 // PUT route to update a surat visum by ID
 app.put('/historysuratvisum/:id', (req, res) => {
   const { id } = req.params;
-  const { jam, namaPelaksana, hari, tanggal } = req.body;
+  const { jam, namaPelaksana, hari, tanggal, nama, waktu } = req.body;
 
-  const query = 'UPDATE surat_visum SET jam = ?, nama_pelaksana = ?, hari = ?, tanggal = ? WHERE id = ?';
-  suratDb.query(query, [jam, namaPelaksana, hari, tanggal, id], (err, result) => {
+  const query = 'UPDATE surat_visum SET jam = ?, nama_pelaksana = ?, hari = ?, tanggal = ?, nama = ?, waktu = ? WHERE id = ?';
+  suratDb.query(query, [jam, namaPelaksana, hari, tanggal, nama, waktu, id], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
