@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaEdit, FaTrash, FaPrint } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import Logo from '../../assets/sekretaris.png';
 
 const HistorySuratVisum = ({ userRole }) => {
     const [suratVisum, setSuratVisum] = useState([]);
@@ -105,39 +106,39 @@ const HistorySuratVisum = ({ userRole }) => {
                 <title>Print Surat Visum</title>
                 <style>
                     body {
-                        font-family: 'Bookman Old Style', serif; /* Use Bookman Old Style font */
+                        font-family: 'Bookman Old Style', serif;
                         margin: 0;
                         padding: 0;
-                        font-size: 12px; /* Adjusted font size */
+                        font-size: 12px;
                     }
                     .container {
                         width: 80%;
                         margin: 0 auto;
                         padding-top: 20px;
                         position: relative;
-                        min-height: 700px; /* Adjust as needed to ensure enough space */
+                        min-height: 700px;
                         box-sizing: border-box;
                     }
                     .header {
                         text-align: center;
-                        margin-bottom: 10px; /* Adjusted spacing */
-                        font-size: 10px; /* Smaller header font */
+                        margin-bottom: 10px;
+                        font-size: 10px;
                     }
                     .header p {
                         margin: 3px 0;
                     }
                     .center-text {
                         text-align: center;
-                        margin-bottom: 15px; /* Adjusted spacing */
-                        font-size: 11px; /* Smaller text */
+                        margin-bottom: 15px;
+                        font-size: 11px;
                         font-weight: bold;
                     }
                     .table-container {
                         width: 100%;
                         border-collapse: collapse;
                         border-spacing: 0;
-                        margin-bottom: 50px; /* Space for the signature */
-                        font-size: 10px; /* Smaller table font */
+                        margin-bottom: 50px;
+                        font-size: 10px;
                     }
                     table, th, td {
                         border: 1px solid black;
@@ -147,18 +148,18 @@ const HistorySuratVisum = ({ userRole }) => {
                         text-align: center;
                     }
                     .column-numbers td {
-                        width: 20px; /* Narrower column width for numbers */
-                        font-size: 8px; /* Smaller font size for column numbers */
-                        padding: 2px; /* Reduced padding */
-                        line-height: 1; /* Reduced line height */
+                        width: 20px;
+                        font-size: 8px;
+                        padding: 2px;
+                        line-height: 1;
                     }
                     .signature {
                         position: absolute;
-                        bottom: -250px; /* Adjust distance from bottom */
-                        right: -20px; /* Adjust distance from right */
+                        bottom: -250px;
+                        right: -20px;
                         text-align: center;
-                        width: 250px; /* Adjusted width */
-                        font-size: 10px; /* Smaller signature text */
+                        width: 250px;
+                        font-size: 10px;
                     }
                     .signature p {
                         font-size: small;
@@ -167,9 +168,9 @@ const HistorySuratVisum = ({ userRole }) => {
                     .signature strong {
                         font-weight: bold;
                     }
-                    img.signature-img {
-                        width: 120px; /* Adjusted size */
-                        height: auto; /* Maintain aspect ratio */
+                    .signature-img {
+                        width: 100px;
+                        height: auto;
                     }
                 </style>
             </head>
@@ -211,10 +212,10 @@ const HistorySuratVisum = ({ userRole }) => {
                     </table>
     
                     <div class="signature">
-                        <img src="/assets/ketua.png" alt="Ketua Komisi Pemilihan Umum" class="signature-img" />
                         <p>KETUA KOMISI PEMILIHAN UMUM</p>
                         <p>KOTA CIMAHI</p>
                         <br /><br /><br />
+                        <img src="${Logo}" alt="Ketua Komisi Pemilihan Umum" class="signature-img" />
                         <p><strong>Anzhar Ishal Afryand</strong></p>
                     </div>
                 </div>
@@ -236,6 +237,7 @@ const HistorySuratVisum = ({ userRole }) => {
         };
     };
     
+
     const handleEdit = (surat) => {
         if (userRole === 'admin') {
             toast.error('Admin tidak diperbolehkan mengupdate surat.');
@@ -329,6 +331,7 @@ const HistorySuratVisum = ({ userRole }) => {
                                 suratVisum.map((surat) => (
                                     <li key={surat.id} className="p-4 mb-2 bg-gray-100 rounded-md">
                                         <p><strong>Nama Pelaksana:</strong> {surat.nama_pelaksana}</p>
+                                        <p className="text-sm"><span className="font-semibold">Waktu:</span> {surat.jam}</p>
                                         <p><strong>Hari:</strong> {surat.hari}</p>
                                         <p><strong>Tanggal:</strong> {new Date(surat.tanggal).toLocaleDateString()}</p>
                                         <div className="flex space-x-4 mt-2">

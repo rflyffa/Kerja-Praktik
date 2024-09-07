@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaSort, FaCalendar, FaMapMarkerAlt, FaEdit, FaTrash, FaPrint, FaClock, FaTimes, FaSearch } from 'react-icons/fa';
-
+import Logo from '../../assets/ketua.png';
 import { toast } from 'react-toastify';
 const Historysuratketua = ({ userRole }) => {
     const [suratList, setSuratList] = useState([]);
@@ -117,6 +117,11 @@ const Historysuratketua = ({ userRole }) => {
                 <head>
                     <title>Print Surat</title>
                     <style>
+                        @page {
+                            size: A4; /* Mengatur ukuran kertas menjadi A4 */
+                            margin: 20mm; /* Mengatur margin sesuai kebutuhan */
+                        }
+    
                         @font-face {
                             font-family: 'Bookman Old Style';
                             src: local('Bookman Old Style'), local('Bookman');
@@ -127,6 +132,7 @@ const Historysuratketua = ({ userRole }) => {
                             padding: 40px; 
                             font-size: 14px; /* Ukuran font default yang lebih kecil */
                         }
+    
                         .header { text-align: center; margin-bottom: 40px; }
                         .header h2 { 
                             font-size: 20px; /* Ukuran font judul yang lebih kecil */
@@ -134,42 +140,52 @@ const Historysuratketua = ({ userRole }) => {
                             position: relative;
                             display: inline-block; 
                         }
+    
                         .underline-container {
                             display: flex;
                             justify-content: center;
                             margin-top: 10px; /* Add space between title and underline */
                         }
+    
                         .underline {
                             width: 600px; /* Adjust the width of the underline */
                             border-bottom: 2px solid black; /* Line color and thickness */
                         }
+    
                         .header h3 { 
                             font-size: 16px; /* Ukuran font nomor yang lebih kecil */
                             margin: 5px 0; 
                         }
+    
                         .content { margin-top: 20px; }
+    
                         .content p { 
                             margin: 10px 0; 
                             font-size: 14px; /* Ukuran font isi konten yang lebih kecil */
                         }
+    
                         .content .field { 
                             margin-bottom: 20px; 
                             display: flex; /* Align children horizontally */
                             align-items: flex-start; /* Align items to the top */
                         }
+    
                         .content .field span { 
                             width: 150px; 
                             white-space: nowrap; /* Prevent label from wrapping */
                         }
+    
                         .content .field ol { 
                             margin: 0;
                             padding: 0; 
                             list-style-type: lower-alpha; 
                             margin-left: 10px; /* Adjust left margin to align with text */
                         }
+    
                         .content .field ol li {  
                             margin-bottom: 10px; 
                         }
+    
                         .content .field .text { 
                             flex: 1; /* Take up the remaining space */
                             margin-left: 10px; /* Add space between label and content */
@@ -177,27 +193,45 @@ const Historysuratketua = ({ userRole }) => {
                             max-width: calc(100% - 160px); /* Limit width based on label width */
                             overflow-wrap: break-word; /* Ensure long text wraps within the container */
                         }
+    
                         .footer { 
                             margin-top: 50px; 
                             text-align: center; 
                             font-size: 12px; /* Ukuran font footer yang lebih kecil */
                         }
+    
                         .footer p { 
                             margin: 5px 0; 
                         }
-                        .signature { 
-                            margin-top: 60px; 
-                            text-align: right; 
-                            font-size: 14px; /* Ukuran font untuk tanda tangan */
+    
+                        .signature {
+                            position: absolute; /* Mengatur posisi elemen menjadi absolut */
+                            bottom: 0; /* Menempatkan elemen di bagian paling bawah halaman */
+                            right: 0; /* Mengatur jarak dari sisi kanan */
+                            text-align: right;
+                            margin-right: 40px; /* Jarak dari sisi kanan halaman */
                         }
+    
                         .signature p { 
-                            margin: 5px 0; 
+                            margin: 5px 0;
+                            text-align: center;
                         }
+    
+                        .signature-img {
+                            display: block; /* Membuat gambar menjadi elemen blok */
+                            margin: 0 auto; /* Memusatkan gambar secara horizontal */
+                            margin-left: 100px;
+                            width: 80px;
+                            height: auto;
+                        }
+
+    
                         .title { 
                             text-align: center; 
                             font-weight: bold; 
                             margin-top: 30px; 
                         }
+    
                         .additional-info { 
                             margin-top: 20px; 
                             font-size: 12px; /* Ukuran font untuk informasi tambahan yang lebih kecil */
@@ -219,7 +253,7 @@ const Historysuratketua = ({ userRole }) => {
                             <div class="text">
                                 <ol>
                                     <li>Undang - Undang Nomor 7 Tahun 2017 tentang Pemilihan Umum (lembaran Negara Republik Indonesia Tahun 2017 Nomor 182, Tambahan Lembaran Negara Republik Indonesia Nomor 6109);</li>
-                                    <li>Peraturan Komisi Pemilihan Umum Nomor 3 Tahun 2023 tentang Tugas, fungsi, Susunan Organisasi, dan Tata Kerja Sekretariat Jenderal Komisi Pemilihan Umum, Sekretariat Komisi Pemilihan Umum Provinsi, dan Sekretariat Komisi Pemilihan Umum Kabupaten/Kota;</li>
+                                    <li>Peraturan Komisi Pemilihan Umum Nomor 3 Tahun 2023 tentang Tugas, fungsi, Susunan Organisasi, dan Tata Kerja Sekretariat Jenderal Komisi Pemilihan Umum, Sekretariat Komisi Pemilihan Umum Provinsi, dan Sekretariat Komisi Pemilihan Umum Kabupaten/Kota</li>
                                     <li>Biaya Perjalanan Dinas ditanggung oleh APBN.</li>
                                 </ol>
                             </div>
@@ -264,9 +298,9 @@ const Historysuratketua = ({ userRole }) => {
                     </div>
                     <div class="signature">
                         <p>Cimahi, ${new Date(surat.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                        <p>KETUA KOMISI PEMILIHAN UMUM</p>
-                        <p>KOTA CIMAHI</p>
-                        <br /><br /><br />
+                        <p><strong>KETUA KOMISI PEMILIHAN UMUM</strong></p>
+                        <p><strong>KOTA CIMAHI</strong></p>
+                        <img src="${Logo}" alt="Ketua Komisi Pemilihan Umum" class="signature-img" />
                         <p><strong>Anzhar Ishal Afryand</strong></p>
                     </div>
                     <div class="footer">
@@ -276,19 +310,20 @@ const Historysuratketua = ({ userRole }) => {
             </html>
         `;
 
-        const newWindow = window.open('', '_blank', 'width=800,height=600');
+        const newWindow = window.open('', '_blank');
+        newWindow.document.open();
+        newWindow.document.write(printContent);
+        newWindow.document.close();
 
-        if (newWindow) {
-            newWindow.document.open();
-            newWindow.document.write(printContent);
-            newWindow.document.close();
-            newWindow.focus();
-            newWindow.print();
+        newWindow.focus();
+        newWindow.print();
+
+        // Optional: Close window after print
+        newWindow.onafterprint = () => {
             newWindow.close();
-        } else {
-            console.error('Failed to open new window for printing.');
-        }
+        };
     };
+
 
     const sortedAndFilteredSuratList = suratList
         .filter(surat =>
