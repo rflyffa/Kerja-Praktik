@@ -6,9 +6,14 @@ const Dashboard = ({ userRole }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-16 px-4 sm:px-6 lg:px-8">
       <div className="mt-20 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-12 animate-fade-in">
-          Selamat Datang di Dashboard
-        </h2>
+        <div className="text-center mb-12">
+          <h2 className="text-5xl font-extrabold text-gray-900 mb-4 animate-fade-in">
+            Selamat Datang di Dashboard
+          </h2>
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+            Akses dan kelola semua dokumen serta fitur penting dari sini. Pilih dari opsi di bawah untuk memulai.
+          </p>
+        </div>
         <div className="flex justify-center">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2">
             <DashboardCard

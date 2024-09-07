@@ -17,8 +17,10 @@ const Createsuratvisum = () => {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
         const minutes = now.getMinutes().toString().padStart(2, '0');
-        return `${hours}:${minutes}`;
+        const seconds = now.getSeconds().toString().padStart(2, '0'); // Add seconds
+        return `${hours}:${minutes}:${seconds}`;
     };
+    
 
     // Set current time when component loads
     useEffect(() => {
