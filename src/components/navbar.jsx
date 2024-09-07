@@ -48,9 +48,9 @@ const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) 
   const handleLogout = () => {
     if (onLogout) {
       onLogout();  // Execute the onLogout function
-      toast.success('Logout berhasil!', {
+      toast.error('Logout berhasil!', {
         position: 'top-center',
-        autoClose: 2000,
+        autoClose: 1700,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
