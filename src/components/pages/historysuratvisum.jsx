@@ -1,67 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaUser, FaCalendar, FaEdit, FaTrash, FaPrint, FaClock, } from 'react-icons/fa';
-import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { FaUser, FaSort, FaCalendar, FaEdit, FaTrash, FaPrint, FaClock, FaTimes, FaSearch, FaCalendarDay } from 'react-icons/fa';
 import Logo from '../../assets/sekretaris.png';
-
-const HistorySuratVisum = ({ userRole }) => {
-    const [suratVisum, setSuratVisum] = useState([]);
-    const [isEditing, setIsEditing] = useState(false);
-    const [currentSurat, setCurrentSurat] = useState(null);
-    const [formData, setFormData] = useState({
-        jam: '',
-        nama: '',
-        namaPelaksana: [''],
-        hari: '',
-        tanggal: '',
-        waktu: '',
-    });
+import { toast } from 'react-toastify';
+const Historysuratvisum = ({ userRole }) => {
+    const [suratList, setSuratList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [sortField, setSortField] = useState('tanggal');
+    const [sortDirection, setSortDirection] = useState('desc');
+    const [editingSurat, setEditingSurat] = useState(null);
+    const [totalSurat, setTotalSurat] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetchSuratVisum();
+        fetchSuratList();
     }, []);
 
-    const fetchSuratVisum = () => {
-        axios.get('http://localhost:5000/historysuratvisum')
-            .then((response) => {
-                setSuratVisum(response.data);
-            })
-            .catch((error) => {
-                console.error('There was an error fetching the surat visum data!', error);
-            });
-    };
-
-    const handleEdit = (surat) => {
-        if (userRole === 'admin') {
-            toast.error('Admin tidak diperbolehkan mengupdate surat.');
-            return;
-        }
-        setIsEditing(true);
-        setCurrentSurat(surat);
-        setFormData({
-            nama_pelaksana: surat.nama_pelaksana,
-            hari: surat.hari,
-            tanggal: surat.tanggal
-        });
-    };
-
-    const handleFormChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
+    const fetchSuratList = async () => {
         try {
-            await axios.put(`http://localhost:5000/historysuratvisum/${currentSurat.id}`, formData);
-            toast.success('Surat updated successfully.');
-            fetchSuratVisum();
-            setIsEditing(false); // Exit edit mode
+            const response = await axios.get('http://localhost:5000/historysuratvisum');
+            setSuratList(response.data);
+            setTotalSurat(response.data.length);  // Update totalSurat with the length of the data
+            setIsLoading(false);
         } catch (error) {
-            console.error('There was an error updating the surat!', error);
-            toast.error('Failed to update the surat.');
+            console.error('There was an error fetching the surat data!', error);
+            setIsLoading(false);
         }
     };
 
@@ -81,7 +46,7 @@ const HistorySuratVisum = ({ userRole }) => {
                         onClick={async () => {
                             try {
                                 await axios.delete(`http://localhost:5000/historysuratvisum/${id}`);
-                                fetchSuratVisum();
+                                fetchSuratList();
                                 toast.success('Letter deleted successfully.', {
                                     autoClose: 1000
                                 });
@@ -113,6 +78,43 @@ const HistorySuratVisum = ({ userRole }) => {
         );
     };
 
+    const handleEdit = (surat) => {
+        if (userRole === 'admin') {
+            toast.error('Admin tidak diperbolehkan mengedit surat.', {
+                autoClose: 1000
+            });
+            return;
+        }
+        setEditingSurat(surat);
+    };
+
+    const handleUpdate = async () => {
+        if (userRole === 'admin') {
+            toast.error('Admin tidak diperbolehkan mengupdate surat.');
+            return;
+        }
+    
+        try {
+            console.log('Mengirim request PUT ke server dengan data:', editingSurat);
+            const response = await axios.put(`http://localhost:5000/historysuratvisum/${editingSurat.id}`, editingSurat);
+            console.log('Response dari server:', response);  // Debugging response
+            setEditingSurat(null);
+            fetchSuratList();
+            toast.success('Surat berhasil diupdate.');
+        } catch (error) {
+            console.error('Gagal mengupdate surat:', error.response ? error.response.data : error);
+            toast.error('Gagal mengupdate surat.');
+        }
+    };
+    
+    
+
+    const handleSort = (field) => {
+        const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
+        setSortField(field);
+        setSortDirection(direction);
+    };
+
     const handlePrint = (surat) => {
         // Split the names and remove any extra spaces
         const names = surat.nama_pelaksana.split(',').map(name => name.trim());
@@ -141,6 +143,10 @@ const HistorySuratVisum = ({ userRole }) => {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Print Surat Visum</title>
                 <style>
+                    @page {
+                            size: A4; /* Mengatur ukuran kertas menjadi A4 */
+                            margin: 20mm; /* Mengatur margin sesuai kebutuhan */
+                         }
                     body {
                         font-family: 'Bookman Old Style', serif;
                         margin: 0;
@@ -220,7 +226,7 @@ const HistorySuratVisum = ({ userRole }) => {
                         <p>NEGERI BAGI PEJABAT NEGARA PEGAWAI NEGERI DAN PEGAWAI TIDAK TETAP</p>
                     </div>
                     
-                    <p class="center-text">Form Bukti Kehadiran Pelaksanaan Perjalanan Dinas Jabatan Dalam Kota sampai dengan 8 (delapan) jam</p>
+                    <p class="center-text">Form Bukti Kehadiran Pelaksanaan Perjalanan Dinas Jabatan Dalam Kota sampai dengan ${surat.waktu} jam</p>
     
                     <table class="table-container">
                         <tr>
@@ -273,112 +279,210 @@ const HistorySuratVisum = ({ userRole }) => {
         };
     };
 
+
+    const sortedAndFilteredSuratList = suratList
+        .filter(surat =>
+            surat.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            surat.jam.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            surat.waktu.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .sort((a, b) => {
+            if (a[sortField] < b[sortField]) return sortDirection === 'asc' ? -1 : 1;
+            if (a[sortField] > b[sortField]) return sortDirection === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-indigo-400">
+                <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-indigo-600"></div>
+            </div>
+        );
+    }
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="">
-                <h2 className="text-3xl font-extrabold text-gray-900 mt-20 mb-6 text-center">History Surat Visum</h2>
-                <div className="space-y-6">
-                    {isEditing ? (
-                        <form onSubmit={handleFormSubmit} className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Nama Pelaksana</label>
-                                <input
-                                    type="text"
-                                    name="nama_pelaksana"
-                                    value={formData.nama}
-                                    onChange={handleFormChange}
-                                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+        <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-400 py-8 px-4 sm:px-6 lg:px-8">
+            <div className="mt-20 max-w-7xl mx-auto">
+                <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
+                    History Surat Visum
+                </h2>
+                <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <div className="relative flex items-center w-full sm:w-auto">
+                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            className="pl-10 pr-4 py-2 w-full sm:w-64 rounded-full border-2 border-gray-300 bg-white text-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    <div className="flex space-x-2">
+                        <button
+                            onClick={() => handleSort('tanggal')}
+                            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                        >
+                            Date <FaSort className="ml-1" />
+                        </button>
+                        <button
+                            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                        >
+                            Total Surat: {totalSurat}
+                        </button>
+                        <button
+                            onClick={() => navigate('/createsuratvisum')}
+                            className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="2"
+                                stroke="currentColor"
+                                className="w-4 h-4 mr-2"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M12 4.5v15m7.5-7.5h-15"
                                 />
+                            </svg>
+                            Buat Surat
+                        </button>
+                        {/* Total Surat Button */}
+                    </div>
+                </div>
+                <p className="text-gray-600 mt-5 mb-5 text-sm italic">
+                    Catatan: Pencarian dan sortir dapat membantu Anda mengelola dokumen dengan lebih efisien. Jika Anda perlu membuat surat baru, klik tombol "Buat Surat" di atas.
+                </p>
+                {sortedAndFilteredSuratList.length === 0 ? (
+                    <div className="bg-white rounded-lg shadow-xl p-8 text-center">
+                        <p className="text-xl text-gray-600">No results found.</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        {sortedAndFilteredSuratList.map((surat) => (
+                            <div key={surat.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 flex flex-col">
+                                <div className="bg-gradient-to-r from-indigo-600 to-blue-500 text-white px-4 py-2 flex-none">
+                                    <h3 className="text-lg font-semibold truncate">{surat.nomor}</h3>
+                                </div>
+                                <div className="p-4 flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800 flex flex-col space-y-2">
+                                    <div className="flex items-center">
+                                        <FaUser className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
+                                        <p className="truncate text-sm"><span className="font-semibold">Pembuat:</span> {surat.nama}</p>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <FaClock className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
+                                        <p className="text-sm"><span className="font-semibold">Waktu:</span> {surat.jam}</p>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <FaCalendar className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
+                                        <p className="text-sm"><span className="font-semibold">Tanggal:</span> {new Date(surat.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <FaCalendarDay className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
+                                        <p className="truncate text-sm"><span className="font-semibold">Hari:</span> {surat.hari}</p>
+                                    </div>
+                                </div>
+                                <div className="flex-none px-4 py-2 bg-gray-100 flex justify-end items-center space-x-2">
+                                    <button
+                                        onClick={() => handleEdit(surat)}
+                                        className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                    >
+                                        <FaEdit />
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(surat.id)}
+                                        className="text-red-500 hover:bg-red-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                    >
+                                        <FaTrash />
+                                    </button>
+                                    <button
+                                        onClick={() => handlePrint(surat)}
+                                        className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                    >
+                                        <FaPrint />
+                                    </button>
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Hari</label>
-                                <input
-                                    type="text"
-                                    name="hari"
-                                    value={formData.hari}
-                                    onChange={handleFormChange}
-                                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Tanggal</label>
-                                <input
-                                    type="date"
-                                    name="tanggal"
-                                    value={formData.tanggal}
-                                    onChange={handleFormChange}
-                                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-                                />
-                            </div>
-                            <div className="flex space-x-4">
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-green-600 text-white rounded-md"
-                                >
-                                    Save
+                        ))}
+
+                    </div>
+                )}
+
+                {editingSurat && (
+                    <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+                        <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-xl font-bold text-gray-800">Edit Surat</h3>
+                                <button onClick={() => setEditingSurat(null)} className="text-gray-500 hover:text-gray-700">
+                                    <FaTimes className="text-xl" />
                                 </button>
+                            </div>
+                            <form className="space-y-4">
+                                <div>
+                                    <label htmlFor="nama" className="block text-sm font-medium text-gray-700 mb-1">Nama Pelaksana:</label>
+                                    <input
+                                        type="text"
+                                        id="nama"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                        value={editingSurat.nama}
+                                        onChange={(e) => setEditingSurat({ ...editingSurat, nama: e.target.value })}
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="hari" className="block text-sm font-medium text-gray-700 mb-1">Hari:</label>
+                                    <input
+                                        type="text"
+                                        id="hari"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                        value={editingSurat.hari}
+                                        onChange={(e) => setEditingSurat({ ...editingSurat, hari: e.target.value })}
+                                    />
+                                </div>
+                                <div className="flex space-x-4">
+                                    <div className="flex-1">
+                                        <label htmlFor="tanggal" className="block text-sm font-medium text-gray-700 mb-1">Tanggal:</label>
+                                        <input
+                                            type="date"
+                                            id="tanggal"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                            value={editingSurat.tanggal}
+                                            onChange={(e) => setEditingSurat({ ...editingSurat, tanggal: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label htmlFor="Waktu" className="block text-sm font-medium text-gray-700 mb-1">Waktu:</label>
+                                        <input
+                                            type="text"
+                                            id="waktu"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                            value={editingSurat.waktu}
+                                            onChange={(e) => setEditingSurat({ ...editingSurat, waktu: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+                            </form>
+                            <div className="flex justify-end mt-6 space-x-3">
                                 <button
-                                    type="button"
-                                    onClick={() => setIsEditing(false)}
-                                    className="px-4 py-2 bg-gray-600 text-white rounded-md"
+                                    onClick={() => setEditingSurat(null)}
+                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-300 text-sm"
                                 >
                                     Cancel
                                 </button>
+                                <button
+                                    onClick={handleUpdate}
+                                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300 text-sm"
+                                >
+                                    Save Changes
+                                </button>
                             </div>
-                        </form>
-                    ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                                {suratVisum.length > 0 ? (
-                                    suratVisum.map((surat) => (
-                                        <div key={surat.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1 flex flex-col">
-                                            <div className="bg-gradient-to-r from-indigo-600 to-blue-500 text-white px-4 py-2 flex-none">
-                                                <h3 className="text-lg font-semibold truncate">{surat.nomor}</h3>
-                                            </div>
-                                            <div className="p-4 flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 text-gray-800 flex flex-col space-y-2">
-                                                <div className="flex items-center">
-                                                    <FaUser className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
-                                                    <p className="truncate text-sm"><span className="font-semibold">Pembuat:</span> {surat.nama}</p>
-                                                </div>
-                                                <div className="flex items-center">
-                                                    <FaClock className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
-                                                    <p className="text-sm"><span className="font-semibold">Waktu:</span> {surat.jam}</p>
-                                                </div>
-                                                <div className="flex items-center">
-                                                    <FaCalendar className="text-indigo-600 mr-2 text-sm flex-shrink-0" />
-                                                    <p className="text-sm"><span className="font-semibold">Tanggal:</span> {new Date(surat.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
-                                                </div>
-                                            </div>
-                                            <div className="flex-none px-4 py-2 bg-gray-100 flex justify-end items-center space-x-2">
-                                                <button
-                                                    onClick={() => handleEdit(surat)}
-                                                    className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                                >
-                                                    <FaEdit />
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDelete(surat.id)}
-                                                    className="text-red-500 hover:bg-red-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                                >
-                                                    <FaTrash />
-                                                </button>
-                                                <button
-                                                    onClick={() => handlePrint(surat)}
-                                                    className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                                >
-                                                    <FaPrint />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p className="text-gray-500">No surat visum found.</p>
-                                )}
-                            </div>
-                    )}
-                </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
 };
 
-export default HistorySuratVisum;
+export default Historysuratvisum;

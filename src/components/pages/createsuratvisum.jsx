@@ -55,6 +55,8 @@ const Createsuratvisum = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        console.log('Form Data:', formData);
 
         // Validate form
         const newErrors = {};
