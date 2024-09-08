@@ -5,7 +5,8 @@ import { FaUser, FaSort, FaCalendar, FaEdit, FaTrash, FaPrint, FaClock, FaTimes,
 import Logo from '../../assets/sekretaris.png';
 import { toast } from 'react-toastify';
 const Historysuratvisum = ({ userRole }) => {
-    const [suratList, setSuratList] = useState([]);
+    const [suratList, setSuratList] = useState([]); // For displaying filtered or sorted data
+    const [originalSuratList, setOriginalSuratList] = useState([]); // For storing the unfiltered data
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortField, setSortField] = useState('tanggal');
@@ -22,6 +23,7 @@ const Historysuratvisum = ({ userRole }) => {
         try {
             const response = await axios.get('http://localhost:5000/historysuratvisum');
             setSuratList(response.data);
+            setOriginalSuratList(response.data);  // Store the full list as the original
             setTotalSurat(response.data.length);  // Update totalSurat with the length of the data
             setIsLoading(false);
         } catch (error) {
@@ -29,6 +31,7 @@ const Historysuratvisum = ({ userRole }) => {
             setIsLoading(false);
         }
     };
+
 
     const handleDelete = (id) => {
         if (userRole === 'admin') {
@@ -93,7 +96,7 @@ const Historysuratvisum = ({ userRole }) => {
             toast.error('Admin tidak diperbolehkan mengupdate surat.');
             return;
         }
-    
+
         try {
             console.log('Mengirim request PUT ke server dengan data:', editingSurat);
             const response = await axios.put(`http://localhost:5000/historysuratvisum/${editingSurat.id}`, editingSurat);
@@ -106,8 +109,8 @@ const Historysuratvisum = ({ userRole }) => {
             toast.error('Gagal mengupdate surat.');
         }
     };
-    
-    
+
+
 
     const handleSort = (field) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
@@ -279,12 +282,26 @@ const Historysuratvisum = ({ userRole }) => {
         };
     };
 
+    const handleSortByMonth = (month) => {
+        if (month === "") {
+            // Reset to original list if no month is selected
+            setSuratList(originalSuratList);
+        } else {
+            const sortedByMonth = originalSuratList.filter(surat => {
+                const suratMonth = new Date(surat.tanggal).getMonth() + 1; // Get month from 'tanggal' (0-based)
+                return suratMonth.toString().padStart(2, '0') === month;
+            });
+
+            setSuratList(sortedByMonth);  // Update displayed suratList with filtered data
+        }
+    };
+
 
     const sortedAndFilteredSuratList = suratList
         .filter(surat =>
             surat.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
             surat.jam.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            surat.estimasi.toLowerCase().includes(searchTerm.toLowerCase())
+            surat.tanggal.toLowerCase().includes(searchTerm.toLowerCase())
         )
         .sort((a, b) => {
             if (a[sortField] < b[sortField]) return sortDirection === 'asc' ? -1 : 1;
@@ -318,6 +335,28 @@ const Historysuratvisum = ({ userRole }) => {
                         />
                     </div>
                     <div className="flex space-x-2">
+                        <div className="relative flex items-center">
+                            <FaCalendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+                            <select
+                                className="pl-10 pr-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 text-sm appearance-none cursor-pointer"
+                                onChange={(e) => handleSortByMonth(e.target.value)}
+                            >
+                                <option value=""> Month</option>
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                            <FaSort className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white" />
+                        </div>
                         <button
                             onClick={() => handleSort('tanggal')}
                             className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
@@ -410,110 +449,110 @@ const Historysuratvisum = ({ userRole }) => {
                     </div>
                 )}
 
-{editingSurat && (
-                <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold text-gray-800">Edit Surat Visum</h3>
-                            <button onClick={() => setEditingSurat(null)} className="text-gray-500 hover:text-gray-700">
-                                <FaTimes className="text-xl" />
-                            </button>
-                        </div>
-                        <form className="space-y-4">
-                            <div>
-                                <label htmlFor="nama" className="block text-sm font-medium text-gray-700 mb-1">Nama Pembuat:</label>
-                                <input
-                                    type="text"
-                                    id="nama"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                    value={editingSurat.nama}
-                                    onChange={(e) => setEditingSurat({ ...editingSurat, nama: e.target.value })}
-                                />
+                {editingSurat && (
+                    <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+                        <div className="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-xl font-bold text-gray-800">Edit Surat Visum</h3>
+                                <button onClick={() => setEditingSurat(null)} className="text-gray-500 hover:text-gray-700">
+                                    <FaTimes className="text-xl" />
+                                </button>
                             </div>
-                            <div>
-                                <label htmlFor="namaPelaksana" className="block text-sm font-medium text-gray-700 mb-1">Nama Pelaksana:</label>
-                                <input
-                                    type="text"
-                                    id="namaPelaksana"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                    value={editingSurat.namaPelaksana}
-                                    onChange={(e) => setEditingSurat({ ...editingSurat, namaPelaksana: e.target.value })}
-                                />
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <form className="space-y-4">
                                 <div>
-                                    <label htmlFor="jam" className="block text-sm font-medium text-gray-700 mb-1">Jam:</label>
+                                    <label htmlFor="nama" className="block text-sm font-medium text-gray-700 mb-1">Nama Pembuat:</label>
                                     <input
-                                        type="time"
-                                        id="jam"
+                                        type="text"
+                                        id="nama"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                        value={editingSurat.jam}
-                                        onChange={(e) => setEditingSurat({ ...editingSurat, jam: e.target.value })}
+                                        value={editingSurat.nama}
+                                        onChange={(e) => setEditingSurat({ ...editingSurat, nama: e.target.value })}
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="estimasi" className="block text-sm font-medium text-gray-700 mb-1">Waktu:</label>
-                                    <select
-                                        id="estimasi"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                        value={editingSurat.estimasi}
-                                        onChange={(e) => setEditingSurat({ ...editingSurat, estimasi: e.target.value })}
-                                    >
-                                        <option value="">Estimasi</option>
-                                        {[...Array(24).keys()].map(i => (
-                                            <option key={i + 1} value={i + 1}>{i + 1}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label htmlFor="hari" className="block text-sm font-medium text-gray-700 mb-1">Hari:</label>
-                                    <select
-                                        id="hari"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                        value={editingSurat.hari}
-                                        onChange={(e) => setEditingSurat({ ...editingSurat, hari: e.target.value })}
-                                    >
-                                        <option value="">Pilih Hari</option>
-                                        <option value="Senin">Senin</option>
-                                        <option value="Selasa">Selasa</option>
-                                        <option value="Rabu">Rabu</option>
-                                        <option value="Kamis">Kamis</option>
-                                        <option value="Jumat">Jumat</option>
-                                        <option value="Sabtu">Sabtu</option>
-                                        <option value="Minggu">Minggu</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label htmlFor="tanggal" className="block text-sm font-medium text-gray-700 mb-1">Tanggal:</label>
+                                    <label htmlFor="namaPelaksana" className="block text-sm font-medium text-gray-700 mb-1">Nama Pelaksana:</label>
                                     <input
-                                        type="date"
-                                        id="tanggal"
+                                        type="text"
+                                        id="namaPelaksana"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                        value={editingSurat.tanggal}
-                                        onChange={(e) => setEditingSurat({ ...editingSurat, tanggal: e.target.value })}
+                                        value={editingSurat.namaPelaksana}
+                                        onChange={(e) => setEditingSurat({ ...editingSurat, namaPelaksana: e.target.value })}
                                     />
                                 </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label htmlFor="jam" className="block text-sm font-medium text-gray-700 mb-1">Jam:</label>
+                                        <input
+                                            type="time"
+                                            id="jam"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                            value={editingSurat.jam}
+                                            onChange={(e) => setEditingSurat({ ...editingSurat, jam: e.target.value })}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="estimasi" className="block text-sm font-medium text-gray-700 mb-1">Waktu:</label>
+                                        <select
+                                            id="estimasi"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                            value={editingSurat.estimasi}
+                                            onChange={(e) => setEditingSurat({ ...editingSurat, estimasi: e.target.value })}
+                                        >
+                                            <option value="">Estimasi</option>
+                                            {[...Array(24).keys()].map(i => (
+                                                <option key={i + 1} value={i + 1}>{i + 1}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label htmlFor="hari" className="block text-sm font-medium text-gray-700 mb-1">Hari:</label>
+                                        <select
+                                            id="hari"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                            value={editingSurat.hari}
+                                            onChange={(e) => setEditingSurat({ ...editingSurat, hari: e.target.value })}
+                                        >
+                                            <option value="">Pilih Hari</option>
+                                            <option value="Senin">Senin</option>
+                                            <option value="Selasa">Selasa</option>
+                                            <option value="Rabu">Rabu</option>
+                                            <option value="Kamis">Kamis</option>
+                                            <option value="Jumat">Jumat</option>
+                                            <option value="Sabtu">Sabtu</option>
+                                            <option value="Minggu">Minggu</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="tanggal" className="block text-sm font-medium text-gray-700 mb-1">Tanggal:</label>
+                                        <input
+                                            type="date"
+                                            id="tanggal"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                            value={editingSurat.tanggal}
+                                            onChange={(e) => setEditingSurat({ ...editingSurat, tanggal: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+                            </form>
+                            <div className="flex justify-end mt-6 space-x-3">
+                                <button
+                                    onClick={() => setEditingSurat(null)}
+                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-300 text-sm"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleUpdate}
+                                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300 text-sm"
+                                >
+                                    Save Changes
+                                </button>
                             </div>
-                        </form>
-                        <div className="flex justify-end mt-6 space-x-3">
-                            <button
-                                onClick={() => setEditingSurat(null)}
-                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-300 text-sm"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleUpdate}
-                                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300 text-sm"
-                            >
-                                Save Changes
-                            </button>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
             </div>
         </div>
     );

@@ -5,7 +5,8 @@ import { FaUser, FaSort, FaCalendar, FaMapMarkerAlt, FaEdit, FaTrash, FaPrint, F
 import Logo from '../../assets/sekretaris.png';
 import { toast } from 'react-toastify';
 const Historysuratsekre = ({ userRole }) => {
-    const [suratList, setSuratList] = useState([]);
+    const [suratList, setSuratList] = useState([]); // For displaying filtered or sorted data
+    const [originalSuratList, setOriginalSuratList] = useState([]); // For storing the unfiltered data
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortField, setSortField] = useState('tanggal');
@@ -22,6 +23,7 @@ const Historysuratsekre = ({ userRole }) => {
         try {
             const response = await axios.get('http://localhost:5000/historysuratsekre');
             setSuratList(response.data);
+            setOriginalSuratList(response.data);  // Store the full list as the original
             setTotalSurat(response.data.length);  // Update totalSurat with the length of the data
             setIsLoading(false);
         } catch (error) {
@@ -324,6 +326,19 @@ const Historysuratsekre = ({ userRole }) => {
         };
     };
 
+    const handleSortByMonth = (month) => {
+        if (month === "") {
+            // Reset to original list if no month is selected
+            setSuratList(originalSuratList);
+        } else {
+            const sortedByMonth = originalSuratList.filter(surat => {
+                const suratMonth = new Date(surat.tanggal).getMonth() + 1; // Get month from 'tanggal' (0-based)
+                return suratMonth.toString().padStart(2, '0') === month;
+            });
+
+            setSuratList(sortedByMonth);  // Update displayed suratList with filtered data
+        }
+    };
 
     const sortedAndFilteredSuratList = suratList
         .filter(surat =>
@@ -349,7 +364,7 @@ const Historysuratsekre = ({ userRole }) => {
         <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-400 py-8 px-4 sm:px-6 lg:px-8">
             <div className="mt-20 max-w-7xl mx-auto">
                 <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
-                    History Surat Tugas Sekretaris
+                    History Surat Sekretaris
                 </h2>
                 <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <div className="relative flex items-center w-full sm:w-auto">
@@ -363,6 +378,28 @@ const Historysuratsekre = ({ userRole }) => {
                         />
                     </div>
                     <div className="flex space-x-2">
+                        <div className="relative flex items-center">
+                            <FaCalendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+                            <select
+                                className="pl-10 pr-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 text-sm appearance-none cursor-pointer"
+                                onChange={(e) => handleSortByMonth(e.target.value)}
+                            >
+                                <option value=""> Month</option>
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                            <FaSort className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white" />
+                        </div>
                         <button
                             onClick={() => handleSort('tanggal')}
                             className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
