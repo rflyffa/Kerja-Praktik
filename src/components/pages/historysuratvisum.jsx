@@ -410,76 +410,110 @@ const Historysuratvisum = ({ userRole }) => {
                     </div>
                 )}
 
-                {editingSurat && (
-                    <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
-                        <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-                            <div className="flex justify-between items-center mb-4">
-                                <h3 className="text-xl font-bold text-gray-800">Edit Surat</h3>
-                                <button onClick={() => setEditingSurat(null)} className="text-gray-500 hover:text-gray-700">
-                                    <FaTimes className="text-xl" />
-                                </button>
+{editingSurat && (
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-xl font-bold text-gray-800">Edit Surat Visum</h3>
+                            <button onClick={() => setEditingSurat(null)} className="text-gray-500 hover:text-gray-700">
+                                <FaTimes className="text-xl" />
+                            </button>
+                        </div>
+                        <form className="space-y-4">
+                            <div>
+                                <label htmlFor="nama" className="block text-sm font-medium text-gray-700 mb-1">Nama Pembuat:</label>
+                                <input
+                                    type="text"
+                                    id="nama"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                    value={editingSurat.nama}
+                                    onChange={(e) => setEditingSurat({ ...editingSurat, nama: e.target.value })}
+                                />
                             </div>
-                            <form className="space-y-4">
+                            <div>
+                                <label htmlFor="namaPelaksana" className="block text-sm font-medium text-gray-700 mb-1">Nama Pelaksana:</label>
+                                <input
+                                    type="text"
+                                    id="namaPelaksana"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                    value={editingSurat.namaPelaksana}
+                                    onChange={(e) => setEditingSurat({ ...editingSurat, namaPelaksana: e.target.value })}
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label htmlFor="nama" className="block text-sm font-medium text-gray-700 mb-1">Nama Pelaksana:</label>
+                                    <label htmlFor="jam" className="block text-sm font-medium text-gray-700 mb-1">Jam:</label>
                                     <input
-                                        type="text"
-                                        id="nama"
+                                        type="time"
+                                        id="jam"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                        value={editingSurat.nama}
-                                        onChange={(e) => setEditingSurat({ ...editingSurat, nama: e.target.value })}
+                                        value={editingSurat.jam}
+                                        onChange={(e) => setEditingSurat({ ...editingSurat, jam: e.target.value })}
                                     />
                                 </div>
                                 <div>
+                                    <label htmlFor="waktu" className="block text-sm font-medium text-gray-700 mb-1">Waktu:</label>
+                                    <select
+                                        id="waktu"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                        value={editingSurat.waktu}
+                                        onChange={(e) => setEditingSurat({ ...editingSurat, waktu: e.target.value })}
+                                    >
+                                        <option value="">Estimasi</option>
+                                        {[...Array(24).keys()].map(i => (
+                                            <option key={i + 1} value={i + 1}>{i + 1}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
                                     <label htmlFor="hari" className="block text-sm font-medium text-gray-700 mb-1">Hari:</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         id="hari"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
                                         value={editingSurat.hari}
                                         onChange={(e) => setEditingSurat({ ...editingSurat, hari: e.target.value })}
+                                    >
+                                        <option value="">Pilih Hari</option>
+                                        <option value="Senin">Senin</option>
+                                        <option value="Selasa">Selasa</option>
+                                        <option value="Rabu">Rabu</option>
+                                        <option value="Kamis">Kamis</option>
+                                        <option value="Jumat">Jumat</option>
+                                        <option value="Sabtu">Sabtu</option>
+                                        <option value="Minggu">Minggu</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label htmlFor="tanggal" className="block text-sm font-medium text-gray-700 mb-1">Tanggal:</label>
+                                    <input
+                                        type="date"
+                                        id="tanggal"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                        value={editingSurat.tanggal}
+                                        onChange={(e) => setEditingSurat({ ...editingSurat, tanggal: e.target.value })}
                                     />
                                 </div>
-                                <div className="flex space-x-4">
-                                    <div className="flex-1">
-                                        <label htmlFor="tanggal" className="block text-sm font-medium text-gray-700 mb-1">Tanggal:</label>
-                                        <input
-                                            type="date"
-                                            id="tanggal"
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                            value={editingSurat.tanggal}
-                                            onChange={(e) => setEditingSurat({ ...editingSurat, tanggal: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="flex-1">
-                                        <label htmlFor="Waktu" className="block text-sm font-medium text-gray-700 mb-1">Waktu:</label>
-                                        <input
-                                            type="text"
-                                            id="waktu"
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                            value={editingSurat.waktu}
-                                            onChange={(e) => setEditingSurat({ ...editingSurat, waktu: e.target.value })}
-                                        />
-                                    </div>
-                                </div>
-                            </form>
-                            <div className="flex justify-end mt-6 space-x-3">
-                                <button
-                                    onClick={() => setEditingSurat(null)}
-                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-300 text-sm"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={handleUpdate}
-                                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300 text-sm"
-                                >
-                                    Save Changes
-                                </button>
                             </div>
+                        </form>
+                        <div className="flex justify-end mt-6 space-x-3">
+                            <button
+                                onClick={() => setEditingSurat(null)}
+                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-300 text-sm"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleUpdate}
+                                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300 text-sm"
+                            >
+                                Save Changes
+                            </button>
                         </div>
                     </div>
-                )}
+                </div>
+            )}
             </div>
         </div>
     );
