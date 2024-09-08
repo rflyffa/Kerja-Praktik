@@ -238,10 +238,10 @@ app.delete('/historysuratsekre/:id', (req, res) => {
 
 // POST route to save surat visum data
 app.post('/createsuratvisum', (req, res) => {
-  const { jam, nama, namaPelaksana, hari, waktu, tanggal } = req.body;
+  const { jam, nama, namaPelaksana, hari, tanggal, estimasi } = req.body;
 
-  const query = 'INSERT INTO surat_visum (jam, nama, nama_pelaksana, hari, waktu, tanggal) VALUES (?, ?, ?, ?, ?, ?)';
-  suratDb.query(query, [jam, nama, namaPelaksana, hari, waktu, tanggal], (err, result) => {
+  const query = 'INSERT INTO surat_visum (jam, nama, nama_pelaksana, hari, tanggal, estimasi) VALUES (?, ?, ?, ?, ?, ?)';
+  suratDb.query(query, [jam, nama, namaPelaksana, hari, tanggal, estimasi], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
@@ -282,10 +282,10 @@ app.get('/historysuratvisum/:id', (req, res) => {
 // PUT route to update a surat visum by ID
 app.put('/historysuratvisum/:id', (req, res) => {
   const { id } = req.params;
-  const { jam, nama, namaPelaksana, hari, waktu, tanggal } = req.body;
+  const { jam, nama, namaPelaksana, hari, tanggal, estimasi } = req.body;
 
-  const query = 'UPDATE surat_visum SET jam = ?, nama = ?, nama_pelaksana = ?, hari = ?, tanggal = ?, waktu = ? WHERE id = ?';
-  suratDb.query(query, [jam, nama, namaPelaksana, hari, waktu, tanggal, id], (err, result) => {
+  const query = 'UPDATE surat_visum SET jam = ?, nama = ?, nama_pelaksana = ?, hari = ?, tanggal = ?, estimasi = ? WHERE id = ?';
+  suratDb.query(query, [jam, nama, namaPelaksana, hari, tanggal, estimasi, id], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });

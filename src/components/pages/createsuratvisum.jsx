@@ -9,7 +9,7 @@ const Createsuratvisum = () => {
         namaPelaksana: [''],  // Array to store multiple names
         hari: '',
         tanggal: '',
-        waktu: '',  // Default value for waktu
+        estimasi: '',  // Default value for estimasi
     });
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
@@ -65,7 +65,7 @@ const Createsuratvisum = () => {
         if (formData.namaPelaksana.some((name) => !name)) newErrors.namaPelaksana = 'All Pelaksana names are required';
         if (!formData.hari) newErrors.hari = 'Hari is required';
         if (!formData.tanggal) newErrors.tanggal = 'Tanggal is required';
-        if (!formData.waktu) newErrors.waktu = 'Waktu is required';
+        if (!formData.estimasi) newErrors.estimasi = 'Waktu is required';
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
@@ -80,7 +80,7 @@ const Createsuratvisum = () => {
                 namaPelaksana: formData.namaPelaksana.join(', '), // Join array of names into a single string
                 hari: formData.hari,
                 tanggal: formData.tanggal,
-                waktu: formData.waktu,
+                estimasi: formData.estimasi,
             };
 
             await axios.post('http://localhost:5000/createsuratvisum', payload);
@@ -161,13 +161,13 @@ const Createsuratvisum = () => {
                             {errors.jam && <p className="text-red-500 text-sm">{errors.jam}</p>}
                         </div>
                         <div>
-    <label htmlFor="waktu" className="block text-sm font-medium text-gray-700">Waktu</label>
+    <label htmlFor="estimasi" className="block text-sm font-medium text-gray-700">Estimasi</label>
     <select
-        name="waktu"
-        id="waktu"
-        value={formData.waktu}
+        name="estimasi"
+        id="estimasi"
+        value={formData.estimasi}
         onChange={handleChange}
-        className={`mt-1 block w-full border ${errors.waktu ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+        className={`mt-1 block w-full border ${errors.estimasi ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
     >
         {/* Add "Estimasi" as default option */}
         <option value="">Estimasi</option>
@@ -175,7 +175,7 @@ const Createsuratvisum = () => {
             <option key={i + 1} value={i + 1}>{i + 1}</option>
         ))}
     </select>
-    {errors.waktu && <p className="text-red-500 text-sm">{errors.waktu}</p>}
+    {errors.estimasi && <p className="text-red-500 text-sm">{errors.estimasi}</p>}
 </div>
 
                     </div>

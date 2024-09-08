@@ -226,7 +226,7 @@ const Historysuratvisum = ({ userRole }) => {
                         <p>NEGERI BAGI PEJABAT NEGARA PEGAWAI NEGERI DAN PEGAWAI TIDAK TETAP</p>
                     </div>
                     
-                    <p class="center-text">Form Bukti Kehadiran Pelaksanaan Perjalanan Dinas Jabatan Dalam Kota sampai dengan ${surat.waktu} jam</p>
+                    <p class="center-text">Form Bukti Kehadiran Pelaksanaan Perjalanan Dinas Jabatan Dalam Kota sampai dengan ${surat.estimasi} jam</p>
     
                     <table class="table-container">
                         <tr>
@@ -284,7 +284,7 @@ const Historysuratvisum = ({ userRole }) => {
         .filter(surat =>
             surat.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
             surat.jam.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            surat.waktu.toLowerCase().includes(searchTerm.toLowerCase())
+            surat.estimasi.toLowerCase().includes(searchTerm.toLowerCase())
         )
         .sort((a, b) => {
             if (a[sortField] < b[sortField]) return sortDirection === 'asc' ? -1 : 1;
@@ -452,12 +452,12 @@ const Historysuratvisum = ({ userRole }) => {
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="waktu" className="block text-sm font-medium text-gray-700 mb-1">Waktu:</label>
+                                    <label htmlFor="estimasi" className="block text-sm font-medium text-gray-700 mb-1">Waktu:</label>
                                     <select
-                                        id="waktu"
+                                        id="estimasi"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                        value={editingSurat.waktu}
-                                        onChange={(e) => setEditingSurat({ ...editingSurat, waktu: e.target.value })}
+                                        value={editingSurat.estimasi}
+                                        onChange={(e) => setEditingSurat({ ...editingSurat, estimasi: e.target.value })}
                                     >
                                         <option value="">Estimasi</option>
                                         {[...Array(24).keys()].map(i => (
