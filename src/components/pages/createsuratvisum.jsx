@@ -5,7 +5,7 @@ import axios from 'axios';
 const Createsuratvisum = () => {
     const [formData, setFormData] = useState({
         jam: '',
-        nama:'',
+        nama: '',
         namaPelaksana: [''],  // Array to store multiple names
         hari: '',
         tanggal: '',
@@ -55,7 +55,7 @@ const Createsuratvisum = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         console.log('Form Data:', formData);
 
         // Validate form
@@ -146,7 +146,7 @@ const Createsuratvisum = () => {
                             + Tambah Pelaksana
                         </button>
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label htmlFor="jam" className="block text-sm font-medium text-gray-700">Jam</label>
@@ -161,22 +161,22 @@ const Createsuratvisum = () => {
                             {errors.jam && <p className="text-red-500 text-sm">{errors.jam}</p>}
                         </div>
                         <div>
-    <label htmlFor="estimasi" className="block text-sm font-medium text-gray-700">Estimasi</label>
-    <select
-        name="estimasi"
-        id="estimasi"
-        value={formData.estimasi}
-        onChange={handleChange}
-        className={`mt-1 block w-full border ${errors.estimasi ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-    >
-        {/* Add "Estimasi" as default option */}
-        <option value="">Estimasi</option>
-        {[...Array(24).keys()].map(i => (
-            <option key={i + 1} value={i + 1}>{i + 1}</option>
-        ))}
-    </select>
-    {errors.estimasi && <p className="text-red-500 text-sm">{errors.estimasi}</p>}
-</div>
+                            <label htmlFor="estimasi" className="block text-sm font-medium text-gray-700">Estimasi</label>
+                            <select
+                                name="estimasi"
+                                id="estimasi"
+                                value={formData.estimasi}
+                                onChange={handleChange}
+                                className={`mt-1 block w-full border ${errors.estimasi ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                            >
+                                {/* Add "Estimasi" as default option */}
+                                <option value="">Estimasi</option>
+                                {[...Array(24).keys()].map(i => (
+                                    <option key={i + 1} value={i + 1}>{i + 1}</option>
+                                ))}
+                            </select>
+                            {errors.estimasi && <p className="text-red-500 text-sm">{errors.estimasi}</p>}
+                        </div>
 
                     </div>
                     <div className="grid grid-cols-2 gap-6">
