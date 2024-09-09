@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaFileAlt, FaEye } from 'react-icons/fa';
+import { toast } from 'react-toastify'; // Import toast for alerts
 
 const Dashboard = ({ userRole }) => {
   return (
@@ -31,6 +32,7 @@ const Dashboard = ({ userRole }) => {
               description="Proses surat visum dengan cepat dan efisien"
               userRole={userRole}
               hideViewHistory={false} // Show view history link for "Surat Visum"
+              restrictedForAdmin={true} // Restrict access for admin
             />
           </div>
         </div>
@@ -39,11 +41,22 @@ const Dashboard = ({ userRole }) => {
   );
 };
 
-const DashboardCard = ({ to, icon, title, description, userRole, hideViewHistory }) => {
+const DashboardCard = ({ to, icon, title, description, userRole, hideViewHistory, restrictedForAdmin }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(to);
+    if (restrictedForAdmin && userRole === 'admin') {
+      toast.info('Hanya bisa diakses oleh operator.', {
+        position: 'top-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } else {
+      navigate(to);
+    }
   };
 
   return (
@@ -56,7 +69,7 @@ const DashboardCard = ({ to, icon, title, description, userRole, hideViewHistory
         <p className="text-gray-600 text-center text-base">{description}</p>
       </div>
       <div className="px-6 py-4 bg-gray-50 text-center">
-        <button 
+        <button
           onClick={handleClick}
           className="w-full text-white py-2 px-4 rounded-lg mb-3 transition duration-300 text-base font-semibold bg-gradient-to-r from-black via-gray-800 to-black hover:from-gray-800 hover:via-black hover:to-gray-800"
         >

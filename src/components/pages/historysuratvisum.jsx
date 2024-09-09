@@ -32,6 +32,20 @@ const Historysuratvisum = ({ userRole }) => {
         }
     };
 
+    const handleCreateSuratClick = () => {
+        if (userRole === 'admin') {
+          toast.info('Hanya bisa diakses oleh operator.', {
+            position: 'top-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        } else {
+          navigate('/createsuratvisum');
+        }
+      };
 
     const handleDelete = (id) => {
         if (userRole === 'admin') {
@@ -319,75 +333,75 @@ const Historysuratvisum = ({ userRole }) => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-400 py-8 px-4 sm:px-6 lg:px-8">
-            <div className="mt-20 max-w-7xl mx-auto">
-                <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
-                    History Surat Visum
-                </h2>
-                <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <div className="relative flex items-center w-full sm:w-auto">
-                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                        <input
-                            type="text"
-                            placeholder="Search..."
-                            className="pl-10 pr-4 py-2 w-full sm:w-64 rounded-full border-2 border-gray-300 bg-white text-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex space-x-2">
-                        <div className="relative flex items-center">
-                            <FaCalendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
-                            <select
-                                className="pl-10 pr-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 text-sm appearance-none cursor-pointer"
-                                onChange={(e) => handleSortByMonth(e.target.value)}
-                            >
-                                <option value=""> Month</option>
-                                <option value="01">January</option>
-                                <option value="02">February</option>
-                                <option value="03">March</option>
-                                <option value="04">April</option>
-                                <option value="05">May</option>
-                                <option value="06">June</option>
-                                <option value="07">July</option>
-                                <option value="08">August</option>
-                                <option value="09">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
-                            </select>
-                            <FaSort className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white" />
-                        </div>
-                        <button
-                            onClick={() => handleSort('tanggal')}
-                            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-                        >
-                            Date <FaSort className="ml-1" />
-                        </button>
-                        <button
-                            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-                        >
-                            Total Surat: {totalSurat}
-                        </button>
-                        <button
-                            onClick={() => navigate('/createsuratvisum')}
-                            className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="2"
-                                stroke="currentColor"
-                                className="w-4 h-4 mr-2"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M12 4.5v15m7.5-7.5h-15"
-                                />
-                            </svg>
-                            Buat Surat
-                        </button>
+          <div className="mt-20 max-w-7xl mx-auto">
+            <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
+              History Surat Visum
+            </h2>
+            <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
+              <div className="relative flex items-center w-full sm:w-auto">
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="pl-10 pr-4 py-2 w-full sm:w-64 rounded-full border-2 border-gray-300 bg-white text-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-300"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="flex space-x-2">
+                <div className="relative flex items-center">
+                  <FaCalendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
+                  <select
+                    className="pl-10 pr-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 text-sm appearance-none cursor-pointer"
+                    onChange={(e) => handleSortByMonth(e.target.value)}
+                  >
+                    <option value=""> Month</option>
+                    <option value="01">January</option>
+                    <option value="02">February</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                  </select>
+                  <FaSort className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white" />
+                </div>
+                <button
+                  onClick={() => handleSort('tanggal')}
+                  className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                >
+                  Date <FaSort className="ml-1" />
+                </button>
+                <button
+                  className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                >
+                  Total Surat: {totalSurat}
+                </button>
+                <button
+                  onClick={handleCreateSuratClick} // Button restricted by userRole
+                  className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    className="w-4 h-4 mr-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                  Buat Surat
+                </button>
                         {/* Total Surat Button */}
                     </div>
                 </div>
