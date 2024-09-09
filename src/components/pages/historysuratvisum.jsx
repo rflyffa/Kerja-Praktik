@@ -121,7 +121,7 @@ const Historysuratvisum = ({ userRole }) => {
             // Format the data to match the expected structure
             const payload = {
                 nama: editingSurat.nama,
-                nama_pelaksana: editingSurat.namaPelaksana.filter(name => name.trim() !== '').join(', '),
+                namaPelaksana: editingSurat.namaPelaksana.filter(name => name.trim() !== '').join(', '),
                 jam: editingSurat.jam,
                 hari: editingSurat.hari,
                 tanggal: editingSurat.tanggal,
