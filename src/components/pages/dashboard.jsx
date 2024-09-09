@@ -8,7 +8,7 @@ const Dashboard = ({ userRole }) => {
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-16 px-4 sm:px-6 lg:px-8">
       <div className="mt-20 max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-5xl font-extrabold text-gray-900 mb-4 animate-fade-in">
+          <h2 className="text-5xl font-helvetica-extrabold text-gray-900 mb-4 animate-fade-in">
             Selamat Datang di Dashboard
           </h2>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
