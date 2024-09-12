@@ -407,7 +407,7 @@ const Historysuratvisum = ({ userRole }) => {
                         </div>
                         <button
                             onClick={() => handleSort('tanggal')}
-                            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                            className="px-4 py-2 bg-gradient-to-r from-green-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
                         >
                             Date <FaSort className="ml-1" />
                         </button>
