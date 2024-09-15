@@ -386,7 +386,7 @@ const Historysuratvisum = ({ userRole }) => {
                         <div className="relative flex items-center">
                             <FaCalendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
                             <select
-                                className="pl-10 pr-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 text-sm appearance-none cursor-pointer"
+                                className="pl-10 pr-8 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full hover:shadow-lg transition duration-300 text-sm appearance-none cursor-pointer"
                                 onChange={(e) => handleSortByMonth(e.target.value)}
                             >
                                 <option value=""> Month</option>
@@ -407,7 +407,7 @@ const Historysuratvisum = ({ userRole }) => {
                         </div>
                         <button
                             onClick={() => handleSort('tanggal')}
-                            className="px-4 py-2 bg-gradient-to-r from-green-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
                         >
                             Date <FaSort className="ml-1" />
                         </button>
