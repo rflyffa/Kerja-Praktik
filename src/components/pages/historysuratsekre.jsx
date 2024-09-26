@@ -301,7 +301,7 @@ const Historysuratsekre = ({ userRole }) => {
                     </div>
                     <div class="signature">
                         <p>Cimahi, ${new Date(surat.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
-                        <p><strong>KETUA KOMISI PEMILIHAN UMUM</strong></p>
+                        <p><strong>SEKRETARIS KOMISI PEMILIHAN UMUM</strong></p>
                         <p><strong>KOTA CIMAHI</strong></p>
                         <img src="${Logo}" alt="Ketua Komisi Pemilihan Umum" class="signature-img" />
                         <p><strong>CHARLYASI M. SIADARI</strong></p>
