@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { FaUser, FaSort, FaCalendar, FaMapMarkerAlt, FaEdit, FaTrash, FaPrint, FaClock, FaTimes, FaSearch } from 'react-icons/fa';
 import Logo from '../../assets/ketua.png';
 import { toast } from 'react-toastify';
+
 const Historysuratketua = ({ userRole }) => {
-    const [suratList, setSuratList] = useState([]); // For displaying filtered or sorted data
-    const [originalSuratList, setOriginalSuratList] = useState([]); // For storing the unfiltered data
+    const [suratList, setSuratList] = useState([]);
+    const [originalSuratList, setOriginalSuratList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortField, setSortField] = useState('tanggal');
@@ -381,10 +382,10 @@ const Historysuratketua = ({ userRole }) => {
                         <div className="relative flex items-center">
                             <FaCalendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white" />
                             <select
-                                className="pl-10 pr-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 text-sm appearance-none cursor-pointer"
+                                className="pl-10 pr-8 py-2 bg-gradient-to-r from-indigo-600 to-blue-500 text-white rounded-full hover:shadow-lg transition duration-300 text-sm appearance-none cursor-pointer"
                                 onChange={(e) => handleSortByMonth(e.target.value)}
                             >
-                                <option value=""> Month</option>
+                                <option value="">Month</option>
                                 <option value="01">January</option>
                                 <option value="02">February</option>
                                 <option value="03">March</option>

@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*  CSS custom */
+select {
+    background: linear-gradient(to right, #3B82F6, #6366F1); /* Gradasi dari biru ke indigo */
+    color: white; /* Warna teks putih */
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    appearance: none; /* Hilangkan panah dropdown default */
+  }
+  
+  option {
+    background-color: white; /* Tetap pada elemen <option> */
+    color: black; /* Warna teks hitam untuk kontras */
+  }
+  
+  option:hover {
+    background-color: #3B82F6; /* Warna latar belakang saat hover */
+  }
+  
