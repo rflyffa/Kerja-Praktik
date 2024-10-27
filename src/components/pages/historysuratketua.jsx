@@ -44,7 +44,7 @@ const Historysuratketua = ({ userRole }) => {
             });
             return;
         }
-        
+
 
         const toastId = toast.info(
             <div className="flex flex-col items-center justify-center text-center">
@@ -120,32 +120,45 @@ const Historysuratketua = ({ userRole }) => {
     };
 
     const handleComment = (suratId) => {
+        if (userRole !== 'admin') {
+            toast.error('Hanya admin yang dapat menambahkan komentar');
+            return;
+        }
         setSelectedSuratId(suratId);
         setShowCommentModal(true);
     };
-
+    
     const handleSubmitComment = async () => {
+        // Validasi input komentar
         if (!currentComment.trim()) {
-            toast.error('Please enter a comment');
+            toast.error('Silakan masukkan komentar');
             return;
         }
-
+    
+        // Logging untuk memastikan nilai dari userRole dan selectedSuratId
+        console.log('Current user role:', userRole);
+        console.log('Selected Surat ID:', selectedSuratId);
+        
         try {
-            await axios.post('http://localhost:5000/comments', {
-                suratId: selectedSuratId,
-                comment: currentComment,
-                timestamp: new Date().toISOString()
-            });
-
-            toast.success('Comment added successfully');
-            setCurrentComment('');
-            setShowCommentModal(false);
-            fetchSuratList(); // Refresh the list if you're displaying comments
+            if (userRole === 'admin') {
+                // Pastikan selectedSuratId dan currentComment ada nilainya sebelum mengirim permintaan ke backend
+                await axios.post('http://localhost:5000/komentar_admin', {
+                    komentar: currentComment,
+                    surat_id: selectedSuratId
+                });
+    
+                toast.success('Komentar berhasil ditambahkan');
+                setCurrentComment('');          // Mengosongkan kolom komentar setelah tersimpan
+                setShowCommentModal(false);      // Menutup modal
+            } else {
+                toast.error('Hanya admin yang dapat menambahkan komentar');
+            }
         } catch (error) {
-            console.error('Error adding comment:', error);
-            toast.error('Failed to add comment');
+            console.error('Error menambahkan komentar:', error.response?.data || error.message);
+            toast.error('Gagal menambahkan komentar');
         }
     };
+    
 
     const handlePrint = (surat) => {
         const printContent = `
@@ -519,72 +532,72 @@ const Historysuratketua = ({ userRole }) => {
                                     >
                                         <FaTrash />
 
-                                    </button>                                    
+                                    </button>
                                     <button
                                         onClick={() => handlePrint(surat)}
                                         className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
 
                                     >
-                                         <FaPrint />
-                                    
+                                        <FaPrint />
+
                                     </button>
-                                    
-                                        <button
-                                        onClick={() =>handleComment (surat.id)}
+
+                                    <button
+                                        onClick={() => handleComment(surat.id)}
                                         className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                                        >
-                                                <FaComment />
-                                            </button>
+                                    >
+                                        <FaComment />
+                                    </button>
                                 </div>
-                            </div>  
+                            </div>
                         ))}
 
                     </div>
                 )}
                 {showCommentModal && (
-                <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold text-gray-800">Add Comment</h3>
-                            <button 
-                                onClick={() => {
-                                    setShowCommentModal(false);
-                                    setCurrentComment('');
-                                }} 
-                                className="text-gray-500 hover:text-gray-700"
-                            >
-                                <FaTimes className="text-xl" />
-                            </button>
-                        </div>
-                        <div className="mb-4">
-                            <textarea
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                rows="4"
-                                placeholder="Enter your comment here..."
-                                value={currentComment}
-                                onChange={(e) => setCurrentComment(e.target.value)}
-                            />
-                        </div>
-                        <div className="flex justify-end space-x-3">
-                            <button
-                                onClick={() => {
-                                    setShowCommentModal(false);
-                                    setCurrentComment('');
-                                }}
-                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-300 text-sm"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleSubmitComment}
-                                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300 text-sm"
-                            >
-                                Submit Comment
-                            </button>
+                    <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+                        <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-xl font-bold text-gray-800">Add Comment</h3>
+                                <button
+                                    onClick={() => {
+                                        setShowCommentModal(false);
+                                        setCurrentComment('');
+                                    }}
+                                    className="text-gray-500 hover:text-gray-700"
+                                >
+                                    <FaTimes className="text-xl" />
+                                </button>
+                            </div>
+                            <div className="mb-4">
+                                <textarea
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                    rows="4"
+                                    placeholder="Enter your comment here..."
+                                    value={currentComment}
+                                    onChange={(e) => setCurrentComment(e.target.value)}
+                                />
+                            </div>
+                            <div className="flex justify-end space-x-3">
+                                <button
+                                    onClick={() => {
+                                        setShowCommentModal(false);
+                                        setCurrentComment('');
+                                    }}
+                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-300 text-sm"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleSubmitComment}
+                                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300 text-sm"
+                                >
+                                    Submit Comment
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
 
                 {editingSurat && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">

@@ -21,6 +21,39 @@ const PORT = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+// komentar database connection
+const komentarDb = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'komentar' // nama database adalah 'komentar'
+});
+
+komentarDb.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the komentar database:', err);
+    return;
+  }
+  console.log('Connected to the komentar database.');
+});
+
+app.post('/komentar_admin', (req, res) => {
+  const { komentar, surat_id } = req.body;
+
+  // Query untuk menambahkan komentar ke tabel komentar_admin
+  komentarDb.query(
+    'INSERT INTO komentar_admin (komentar, surat_id) VALUES (?, ?)',
+    [komentar, surat_id],
+    (error, results) => {
+      if (error) {
+        console.error('Error menambahkan komentar:', error);
+        res.status(500).json({ error: 'Gagal menambahkan komentar' });
+        return;
+      }
+      res.json({ id: results.insertId, komentar, surat_id });
+    }
+  );
+});
 // Existing login database connection
 const loginDb = mysql.createConnection({
   host: 'localhost',
@@ -28,6 +61,8 @@ const loginDb = mysql.createConnection({
   password: '',
   database: 'login'
 });
+
+
 
 loginDb.connect((err) => {
   if (err) {
@@ -315,6 +350,8 @@ app.delete('/historysuratvisum/:id', (req, res) => {
     }
   });
 });
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
