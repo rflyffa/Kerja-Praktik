@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaSort, FaCalendar, FaMapMarkerAlt, FaEdit, FaTrash, FaPrint, FaClock, FaTimes, FaSearch } from 'react-icons/fa';
+import { FaUser, FaSort, FaCalendar, FaMapMarkerAlt, FaEdit, FaTrash, FaPrint, FaClock, FaTimes, FaSearch, FaComment } from 'react-icons/fa';
 import Logo from '../../assets/ketua.png';
 import { toast } from 'react-toastify';
+
 
 const Historysuratketua = ({ userRole }) => {
     const [suratList, setSuratList] = useState([]);
@@ -40,6 +41,7 @@ const Historysuratketua = ({ userRole }) => {
             });
             return;
         }
+        
 
         const toastId = toast.info(
             <div className="flex flex-col items-center justify-center text-center">
@@ -485,15 +487,25 @@ const Historysuratketua = ({ userRole }) => {
                                         className="text-red-500 hover:bg-red-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
                                     >
                                         <FaTrash />
-                                    </button>
+
+                                    </button>                                    
                                     <button
                                         onClick={() => handlePrint(surat)}
                                         className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+
                                     >
-                                        <FaPrint />
+                                         <FaPrint />
+                                    
                                     </button>
+                                    
+                                        <button
+                                        onClick={() => (surat.id)}
+                                        className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                                        >
+                                                <FaComment />
+                                            </button>
                                 </div>
-                            </div>
+                            </div>  
                         ))}
 
                     </div>

@@ -8,10 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-<<<<<<< HEAD
-=======
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
->>>>>>> af5c6aa0331fc99b13f43aacde14f90fd648fa6b
   const [scrolling, setScrolling] = useState(false);
 
   const location = useLocation();
