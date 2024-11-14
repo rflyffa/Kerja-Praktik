@@ -1,4 +1,6 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable spaced-comment */
+/* eslint-disable linebreak-style */
 /* eslint-disable camelcase */
 /* eslint-disable linebreak-style */
 /* eslint-disable eol-last */
@@ -12,18 +14,26 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable comma-dangle */
 /* eslint-disable linebreak-style */
-const express = require('express');
-const bodyParser = require('body-parser');
-const mysql = require('mysql');
-const cors = require('cors');
 
+const express = require('express'); // Framework Express
+const bodyParser = require('body-parser'); // Middleware untuk parsing body request
+const mysql = require('mysql'); // Library MySQL
+const cors = require('cors'); // Middleware untuk mengaktifkan CORS
+
+// Konfigurasi aplikasi
 const app = express();
 const PORT = 5000;
 
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// Existing login database connection
+/********************************************************************
+ *                                                                  *
+ *         // Existing login database connection                    *
+ *                                                                  *
+ ********************************************************************/
+
 const loginDb = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -37,22 +47,6 @@ loginDb.connect((err) => {
     return;
   }
   console.log('Connected to the login database.');
-});
-
-// New surat_tugas database connection
-const suratDb = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'surat_tugas'
-});
-
-suratDb.connect((err) => {
-  if (err) {
-    console.error('Error connecting to the surat_tugas database:', err);
-    return;
-  }
-  console.log('Connected to the surat_tugas database.');
 });
 
 // POST route to handle login
@@ -78,11 +72,35 @@ app.post('/login', (req, res) => {
   });
 });
 
-// komentar database connection
+/********************************************************************
+ *                                                                  *
+ *            // Database connection for surat                      *
+ *                                                                  *
+ ********************************************************************/
+const suratDb = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'surat'
+});
+
+suratDb.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the surat database:', err);
+    return;
+  }
+  console.log('Connected to the surat database.');
+});
+
+/*******************************************************
+ *                                                     *
+ *               DATABASE CONNECTION                   *
+ *                                                     *
+ *******************************************************/
+
 app.post('/komentar_admin', (req, res) => {
   const { komentar, surat_id } = req.body;
 
-  // Query untuk menambahkan komentar ke tabel komentar_admin
   suratDb.query(
     'INSERT INTO komentar_admin (komentar, surat_id) VALUES (?, ?)',
     [komentar, surat_id],
@@ -97,11 +115,16 @@ app.post('/komentar_admin', (req, res) => {
   );
 });
 
-// POST route to save surat ketua data
+/*******************************************************
+ *                                                     *
+ *         CURD route to surat ketua data         *
+ *                                                     *
+ *******************************************************/
+
 app.post('/createsuratketua', (req, res) => {
   const { pembuat, nomor, kepada, untuk, tanggal, jam, tempat } = req.body;
 
-  const query = 'INSERT INTO surat (pembuat, nomor, kepada, untuk, tanggal, jam, tempat) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO surat_tugas (pembuat, nomor, kepada, untuk, tanggal, jam, tempat) VALUES (?, ?, ?, ?, ?, ?, ?)';
   suratDb.query(query, [pembuat, nomor, kepada, untuk, tanggal, jam, tempat], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
@@ -111,23 +134,9 @@ app.post('/createsuratketua', (req, res) => {
   });
 });
 
-// POST route to save surat sekre data
-app.post('/createsuratsekre', (req, res) => {
-  const { pembuat, nomor, kepada, untuk, tanggal, jam, tempat } = req.body;
-
-  const query = 'INSERT INTO surat_sekretaris (pembuat, nomor, kepada, untuk, tanggal, jam, tempat) VALUES (?, ?, ?, ?, ?, ?, ?)';
-  suratDb.query(query, [pembuat, nomor, kepada, untuk, tanggal, jam, tempat], (err, result) => {
-    if (err) {
-      console.error('Error during query execution:', err);
-      return res.status(500).json({ success: false, message: 'Internal server error.' });
-    }
-    res.json({ success: true, message: 'Surat sekre created successfully.' });
-  });
-});
-
 // GET route to fetch all surat ketua data
 app.get('/historysuratketua', (req, res) => {
-  const query = 'SELECT * FROM surat ORDER BY id DESC';
+  const query = 'SELECT * FROM surat_tugas ORDER BY id DESC';
   suratDb.query(query, (err, results) => {
     if (err) {
       console.error('Error during query execution:', err);
@@ -154,19 +163,18 @@ app.get('/historysuratketua/:id', (req, res) => {
   });
 });
 
-// PUT route to update a surat ketua by ID
 app.put('/historysuratketua/:id', (req, res) => {
   const { id } = req.params;
   const { pembuat, nomor, kepada, untuk, tanggal, jam, tempat } = req.body;
-  const query = 'UPDATE surat SET pembuat = ?, nomor = ?, kepada = ?, untuk = ?, tanggal = ?, jam = ?, tempat = ? WHERE id = ?';
-  
+  const query = 'UPDATE surat_tugas SET pembuat = ?, nomor = ?, kepada = ?, untuk = ?, tanggal = ?, jam = ?, tempat = ? WHERE id = ?';
+
   suratDb.query(query, [pembuat, nomor, kepada, untuk, tanggal, jam, tempat, id], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
     }
     if (result.affectedRows > 0) {
-      res.json({ success: true, message: 'Surat updated successfully.' });
+      res.json({ success: true, message: 'Surat ketua updated successfully.' });
     } else {
       res.status(404).json({ success: false, message: 'Surat not found.' });
     }
@@ -176,7 +184,7 @@ app.put('/historysuratketua/:id', (req, res) => {
 // DELETE route to delete a surat ketua by ID
 app.delete('/historysuratketua/:id', (req, res) => {
   const { id } = req.params;
-  const query = 'DELETE FROM surat WHERE id = ?';
+  const query = 'DELETE FROM surat_tugas WHERE id = ?';
   
   suratDb.query(query, [id], (err, result) => {
     if (err) {
@@ -188,6 +196,25 @@ app.delete('/historysuratketua/:id', (req, res) => {
     } else {
       res.status(404).json({ success: false, message: 'Surat not found.' });
     }
+  });
+});
+
+/*******************************************************
+ *                                                     *
+ *         CRUD route to surat sekre data              *
+ *                                                     *
+ *******************************************************/
+
+app.post('/createsuratsekre', (req, res) => {
+  const { pembuat, nomor, kepada, untuk, tanggal, jam, tempat } = req.body;
+
+  const query = 'INSERT INTO surat_sekretaris (pembuat, nomor, kepada, untuk, tanggal, jam, tempat) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  suratDb.query(query, [pembuat, nomor, kepada, untuk, tanggal, jam, tempat], (err, result) => {
+    if (err) {
+      console.error('Error during query execution:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+    res.json({ success: true, message: 'Surat sekre created successfully.' });
   });
 });
 
@@ -257,7 +284,12 @@ app.delete('/historysuratsekre/:id', (req, res) => {
   });
 });
 
-// POST route to save surat visum data
+/*******************************************************
+ *                                                     *
+ *         POST route to surat visum data              *
+ *                                                     *
+ *******************************************************/
+
 app.post('/createsuratvisum', (req, res) => {
   const { jam, nama, namaPelaksana, hari, tanggal, estimasi } = req.body;
 
