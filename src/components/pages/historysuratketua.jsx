@@ -544,7 +544,7 @@ const Historysuratketua = ({ userRole }) => {
 
                                     <button
                                         onClick={() => handleComment(surat.id)}
-                                        className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                        className="text-yellow-500 hover:bg-yellow-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
                                     >
                                         <FaComment />
                                     </button>
