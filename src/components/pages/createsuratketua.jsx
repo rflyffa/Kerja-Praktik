@@ -6,7 +6,7 @@ const Createsuratketua = () => {
     const [formData, setFormData] = useState({
         pembuat: '',
         nomor: '',
-        kepada: '',
+        kepada: '', // Default value for dropdown
         untuk: '',
         tanggal: '',
         tempat: '',
@@ -15,15 +15,44 @@ const Createsuratketua = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
+    // Predefined list of "Kepada" options
+    const kepadaOptions = [
+        "Yosi Sundansyah, S.T., S.Pd.i",
+        "Djayadi Rachmat",
+        "Emsidelva Okasti, S.ST.",
+        "Charlyasi M. Siadari, S.Pd, M.Si",
+        "Wina Winiarti, SH",
+        "Vivid Firmawan, SH",
+        "Yusti Rahayu, SH",
+        "Sri Rahayu Sundayani, S.Sos",
+        "Devi Yuni Astuti, S.IP",
+        "Devina Napitupulu",
+        "Iyus Rusyana",
+        "Taufik Mulyana",
+        "Risad Bachtiar, A.Md",
+        "Aulia Rahman",
+        "Rian Gustian",
+        "Ani Suhaeni, S.Sos",
+        "Winda Winiarni, SH",
+        "Dhea Sulasti Putri",
+        "Fidalina, SE",
+        "Nurul Eka Suka, SE",
+        "Indrayana, A.Md",
+        "Gita Sonia, Amd.Kom",
+        "Tria Kahaerunisa",
+        "Rukimini",
+        "Yayan Taryana",
+        "Ahmad Sumadi",
+        "Ahmad Solihin"
+    ];
+
     // Function to get current time in "HH:MM" format
     const getCurrentTime = () => {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
         const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0'); // Add seconds
-        return `${hours}:${minutes}:${seconds}`;
+        return `${hours}:${minutes}`;
     };
-    
 
     // Set current time when component loads
     useEffect(() => {
@@ -108,15 +137,20 @@ const Createsuratketua = () => {
                     </div>
                     <div>
                         <label htmlFor="kepada" className="block text-sm font-medium text-gray-700">Kepada</label>
-                        <input
-                            type="text"
+                        <select
                             name="kepada"
                             id="kepada"
                             value={formData.kepada}
                             onChange={handleChange}
                             className={`mt-1 block w-full border ${errors.kepada ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-                            placeholder="Daftar Terlampir"
-                        />
+                        >
+                            <option value="">Pilih Nama</option>
+                            {kepadaOptions.map((option, index) => (
+                                <option key={index} value={option}>
+                                    {option}
+                                </option>
+                            ))}
+                        </select>
                         {errors.kepada && <p className="text-red-500 text-sm">{errors.kepada}</p>}
                     </div>
                     <div>
@@ -173,17 +207,17 @@ const Createsuratketua = () => {
                             {errors.jam && <p className="text-red-500 text-sm">{errors.jam}</p>}
                         </div>
                     </div>
-                    <div className="flex justify-between items-center mt-6">
+                    <div className="flex justify-between">
                         <button
                             type="button"
                             onClick={handleBackClick}
-                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                            className="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            Back
+                            Kembali
                         </button>
                         <button
                             type="submit"
-                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="py-2 px-4 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Simpan
                         </button>
