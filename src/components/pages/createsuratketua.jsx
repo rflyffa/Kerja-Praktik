@@ -6,16 +6,16 @@ const Createsuratketua = () => {
     const [formData, setFormData] = useState({
         pembuat: '',
         nomor: '',
-        kepada: '', // Default value for dropdown
+        kepada: '',
         untuk: '',
         tanggal: '',
         tempat: '',
-        jam: '', // Field for time
+        jam: '',
     });
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
-    // Predefined list of "Kepada" options
+
     const kepadaOptions = [
         "Yosi Sundansyah, S.T., S.Pd.i",
         "Djayadi Rachmat",
@@ -46,7 +46,6 @@ const Createsuratketua = () => {
         "Ahmad Solihin"
     ];
 
-    // Function to get current time in "HH:MM" format
     const getCurrentTime = () => {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
@@ -54,7 +53,6 @@ const Createsuratketua = () => {
         return `${hours}:${minutes}`;
     };
 
-    // Set current time when component loads
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
@@ -64,13 +62,11 @@ const Createsuratketua = () => {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-        setErrors({ ...errors, [e.target.name]: '' }); // Clear error when user starts typing
+        setErrors({ ...errors, [e.target.name]: '' });
     };
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Validate form
         const newErrors = {};
         if (!formData.pembuat) newErrors.pembuat = 'Pembuat Surat is required';
         if (!formData.nomor) newErrors.nomor = 'Nomor Surat is required';
@@ -90,7 +86,6 @@ const Createsuratketua = () => {
         axios.post('http://localhost:5000/createsuratketua', formData)
             .then((response) => {
                 console.log(response.data);
-                // Redirect to the history page
                 navigate('/historysuratketua');
             })
             .catch((error) => {
@@ -142,7 +137,8 @@ const Createsuratketua = () => {
                             id="kepada"
                             value={formData.kepada}
                             onChange={handleChange}
-                            className={`mt-1 block w-full border ${errors.kepada ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                            className={`mt-1 block w-full border ${errors.kepada ? 'border-red-500' : 'border-gray-300'
+                                } rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 max-h-64 overflow-y-auto`}
                         >
                             <option value="">Pilih Nama</option>
                             {kepadaOptions.map((option, index) => (
@@ -211,15 +207,15 @@ const Createsuratketua = () => {
                         <button
                             type="button"
                             onClick={handleBackClick}
-                            className="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="py-2 px-4 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md"
                         >
                             Kembali
                         </button>
                         <button
                             type="submit"
-                            className="py-2 px-4 bg-indigo-600 text-white font-medium rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md"
                         >
-                            Simpan
+                            Simpan Surat
                         </button>
                     </div>
                 </form>

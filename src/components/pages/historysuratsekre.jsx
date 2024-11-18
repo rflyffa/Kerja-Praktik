@@ -499,7 +499,7 @@ const Historysuratsekre = ({ userRole }) => {
                     </div>
                 )}
 
-                {editingSurat && (
+{editingSurat && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
                         <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
                             <div className="flex justify-between items-center mb-4">
@@ -521,13 +521,37 @@ const Historysuratsekre = ({ userRole }) => {
                                 </div>
                                 <div>
                                     <label htmlFor="kepada" className="block text-sm font-medium text-gray-700 mb-1">Kepada:</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         id="kepada"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
                                         value={editingSurat.kepada}
                                         onChange={(e) => setEditingSurat({ ...editingSurat, kepada: e.target.value })}
-                                    />
+                                    >
+                                        <option value="" disabled>Pilih nama</option>
+                                        {[
+                                            "Devi Yuni Astuti, S.IP",
+                                            "Devina Napitupulu",
+                                            "Iyus Rusyana",
+                                            "Taufik Mulyana",
+                                            "Risad Bachtiar, A.Md",
+                                            "Aulia Rahman",
+                                            "Rian Gustian",
+                                            "Ani Suhaeni, S.Sos",
+                                            "Winda Winiarni, SH",
+                                            "Dhea Sulasti Putri",
+                                            "Fidalina, SE",
+                                            "Nurul Eka Suka, SE",
+                                            "Indrayana, A.Md",
+                                            "Gita Sonia, Amd.Kom",
+                                            "Tria Kahaerunisa",
+                                            "Rukimini",
+                                            "Yayan Taryana",
+                                            "Ahmad Sumadi",
+                                            "Ahmad Solihin"
+                                        ].map((name) => (
+                                            <option key={name} value={name}>{name}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div>
                                     <label htmlFor="untuk" className="block text-sm font-medium text-gray-700 mb-1">Untuk:</label>

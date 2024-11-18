@@ -127,18 +127,18 @@ const Historysuratketua = ({ userRole }) => {
         setSelectedSuratId(suratId);
         setShowCommentModal(true);
     };
-    
+
     const handleSubmitComment = async () => {
         // Validasi input komentar
         if (!currentComment.trim()) {
             toast.error('Silakan masukkan komentar');
             return;
         }
-    
+
         // Logging untuk memastikan nilai dari userRole dan selectedSuratId
         console.log('Current user role:', userRole);
         console.log('Selected Surat ID:', selectedSuratId);
-        
+
         try {
             if (userRole === 'admin') {
                 // Pastikan selectedSuratId dan currentComment ada nilainya sebelum mengirim permintaan ke backend
@@ -146,7 +146,7 @@ const Historysuratketua = ({ userRole }) => {
                     komentar: currentComment,
                     surat_id: selectedSuratId
                 });
-    
+
                 toast.success('Komentar berhasil ditambahkan');
                 setCurrentComment('');          // Mengosongkan kolom komentar setelah tersimpan
                 setShowCommentModal(false);      // Menutup modal
@@ -158,7 +158,7 @@ const Historysuratketua = ({ userRole }) => {
             toast.error('Gagal menambahkan komentar');
         }
     };
-    
+
 
     const handlePrint = (surat) => {
         const printContent = `
@@ -621,13 +621,37 @@ const Historysuratketua = ({ userRole }) => {
                                 </div>
                                 <div>
                                     <label htmlFor="kepada" className="block text-sm font-medium text-gray-700 mb-1">Kepada:</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         id="kepada"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
                                         value={editingSurat.kepada}
                                         onChange={(e) => setEditingSurat({ ...editingSurat, kepada: e.target.value })}
-                                    />
+                                    >
+                                        <option value="" disabled>Pilih nama</option>
+                                        {[
+                                            "Devi Yuni Astuti, S.IP",
+                                            "Devina Napitupulu",
+                                            "Iyus Rusyana",
+                                            "Taufik Mulyana",
+                                            "Risad Bachtiar, A.Md",
+                                            "Aulia Rahman",
+                                            "Rian Gustian",
+                                            "Ani Suhaeni, S.Sos",
+                                            "Winda Winiarni, SH",
+                                            "Dhea Sulasti Putri",
+                                            "Fidalina, SE",
+                                            "Nurul Eka Suka, SE",
+                                            "Indrayana, A.Md",
+                                            "Gita Sonia, Amd.Kom",
+                                            "Tria Kahaerunisa",
+                                            "Rukimini",
+                                            "Yayan Taryana",
+                                            "Ahmad Sumadi",
+                                            "Ahmad Solihin"
+                                        ].map((name) => (
+                                            <option key={name} value={name}>{name}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div>
                                     <label htmlFor="untuk" className="block text-sm font-medium text-gray-700 mb-1">Untuk:</label>
