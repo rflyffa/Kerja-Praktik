@@ -629,6 +629,14 @@ const Historysuratketua = ({ userRole }) => {
                                     >
                                         <option value="" disabled>Pilih nama</option>
                                         {[
+                                            "Yosi Sundansyah, S.T., S.Pd.i",
+                                            "Djayadi Rachmat",
+                                            "Emsidelva Okasti, S.ST.",
+                                            "Charlyasi M. Siadari, S.Pd, M.Si",
+                                            "Wina Winiarti, SH",
+                                            "Vivid Firmawan, SH",
+                                            "Yusti Rahayu, SH",
+                                            "Sri Rahayu Sundayani, S.Sos",
                                             "Devi Yuni Astuti, S.IP",
                                             "Devina Napitupulu",
                                             "Iyus Rusyana",

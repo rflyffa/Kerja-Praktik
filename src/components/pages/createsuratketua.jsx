@@ -15,7 +15,6 @@ const Createsuratketua = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
-
     const kepadaOptions = [
         "Yosi Sundansyah, S.T., S.Pd.i",
         "Djayadi Rachmat",
