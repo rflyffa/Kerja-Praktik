@@ -13,7 +13,7 @@ const Main = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50"></div>
       <div className="relative px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
         <h1 className="mt-20 text-3xl font-bold tracking-tight leading-none text-white md:text-4xl lg:text-5xl animate-slide-down">
-          SELAMAT DATANG DI SISTEM PEMBUATAN SURAT TUGAS DINAS KOTA CIMAHI
+          SELAMAT DATANG DI APLIKASI PEMBUATAN SURAT TUGAS DINAS DAN SURAT VISUM KOMISI PEMILIHAN UMUM KOTA CIMAHI
         </h1>
         <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48 animate-slide-up">
           Jl.Pesantren-TTUC NO. 108, KOTA CIMAHI
