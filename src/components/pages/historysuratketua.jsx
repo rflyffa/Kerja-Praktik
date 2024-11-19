@@ -411,7 +411,7 @@ const Historysuratketua = ({ userRole }) => {
         <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-400 py-8 px-4 sm:px-6 lg:px-8">
             <div className="mt-20 max-w-7xl mx-auto">
                 <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
-                    History Surat Ketua
+                    History Surat Tugas Dinas Ketua
                 </h2>
                 <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <div className="relative flex items-center w-full sm:w-auto">
@@ -627,7 +627,7 @@ const Historysuratketua = ({ userRole }) => {
                                         value={editingSurat.kepada}
                                         onChange={(e) => setEditingSurat({ ...editingSurat, kepada: e.target.value })}
                                     >
-                                        <option value="" disabled>Pilih nama</option>
+                                        <option value="" disabled>Pilih Nama Pelaksana</option>
                                         {[
                                             "Yosi Sundansyah, S.T., S.Pd.i",
                                             "Djayadi Rachmat",

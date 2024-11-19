@@ -8,7 +8,7 @@ const Suratoptions = ({ userRole }) => {
         <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-16 px-4 sm:px-6 lg:px-8">
             <div className="mt-20 mb-10 max-w-4xl mx-auto">
                 <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-8">
-                    Pilihan Surat Tugas
+                    Pilihan Surat Tugas Dinas
                 </h2>
                 <p className="text-xl text-center text-gray-700 mb-12">
                     Silakan pilih jenis surat tugas yang ingin Anda buat
@@ -18,7 +18,7 @@ const Suratoptions = ({ userRole }) => {
                         to="/createsuratketua"
                         icon={<FaUserTie className="w-16 h-16 text-indigo-600" />}
                         title="Surat Tugas Ketua KPU"
-                        description="Buat surat tugas resmi untuk Ketua KPU dengan template yang telah disediakan."
+                        description="Buat surat tugas resmi yang di tanda tangani oleh Ketua KPU dengan template yang telah disediakan."
                         historyLink="/historysuratketua" // Update link
                         userRole={userRole} // Pass userRole here
                     />
@@ -26,7 +26,7 @@ const Suratoptions = ({ userRole }) => {
                         to="/createsuratsekre"
                         icon={<FaFileSignature className="w-16 h-16 text-green-600" />}
                         title="Surat Tugas Sekretaris"
-                        description="Generasi surat tugas untuk Sekretaris dengan cepat dan mudah menggunakan form yang tersedia."
+                        description="Buat surat tugas yang di tanda tangani oleh Sekretaris dengan cepat dan mudah menggunakan form yang tersedia."
                         historyLink="/historysuratsekre" // Update link
                         userRole={userRole} // Pass userRole here
                     />
