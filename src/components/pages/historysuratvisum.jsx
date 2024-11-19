@@ -103,13 +103,16 @@ const Historysuratvisum = ({ userRole }) => {
             });
             return;
         }
-        // Convert the comma-separated string back to an array
+
         const namaPelaksanaArray = surat.nama_pelaksana.split(',').map(name => name.trim());
+
         setEditingSurat({
             ...surat,
-            namaPelaksana: namaPelaksanaArray
+            namaPelaksana: namaPelaksanaArray,
+            tanggal: surat.tanggal // Gunakan langsung tanpa konversi
         });
     };
+
 
     const handleUpdate = async () => {
         if (userRole === 'admin') {
@@ -131,7 +134,7 @@ const Historysuratvisum = ({ userRole }) => {
             console.log('Mengirim request PUT ke server dengan data:', payload);
             const response = await axios.put(`http://localhost:5000/historysuratvisum/${editingSurat.id}`, payload);
             console.log('Response dari server:', response);
-            
+
             if (response.status === 200) {
                 setEditingSurat(null);
                 await fetchSuratList(); // Refresh the list after successful update
@@ -324,7 +327,7 @@ const Historysuratvisum = ({ userRole }) => {
         newWindow.focus();
         newWindow.print();
 
-        // Optional: Close window after print
+
         newWindow.onafterprint = () => {
             newWindow.close();
         };
@@ -332,15 +335,15 @@ const Historysuratvisum = ({ userRole }) => {
 
     const handleSortByMonth = (month) => {
         if (month === "") {
-            // Reset to original list if no month is selected
+
             setSuratList(originalSuratList);
         } else {
             const sortedByMonth = originalSuratList.filter(surat => {
-                const suratMonth = new Date(surat.tanggal).getMonth() + 1; // Get month from 'tanggal' (0-based)
+                const suratMonth = new Date(surat.tanggal).getMonth() + 1;
                 return suratMonth.toString().padStart(2, '0') === month;
             });
 
-            setSuratList(sortedByMonth);  // Update displayed suratList with filtered data
+            setSuratList(sortedByMonth);
         }
     };
 
@@ -417,7 +420,7 @@ const Historysuratvisum = ({ userRole }) => {
                             Total Surat: {totalSurat}
                         </button>
                         <button
-                            onClick={handleCreateSuratClick} // Button restricted by userRole
+                            onClick={handleCreateSuratClick}
                             className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
                         >
                             <svg
@@ -522,8 +525,7 @@ const Historysuratvisum = ({ userRole }) => {
                                     {editingSurat.namaPelaksana.map((pelaksana, index) => (
                                         <div key={index} className="flex items-center mt-2">
                                             <span className="mr-2">{index + 1}.</span>
-                                            <input
-                                                type="text"
+                                            <select
                                                 value={pelaksana}
                                                 onChange={(e) => {
                                                     const newNamaPelaksana = [...editingSurat.namaPelaksana];
@@ -531,8 +533,44 @@ const Historysuratvisum = ({ userRole }) => {
                                                     setEditingSurat({ ...editingSurat, namaPelaksana: newNamaPelaksana });
                                                 }}
                                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                                placeholder="Masukkan Nama Pelaksana"
-                                            />
+                                            >
+                                                {/* Opsi default untuk menampilkan nama yang tidak ada di daftar */}
+                                                <option value={pelaksana} hidden>{pelaksana}</option>
+                                                <option value="">Pilih Nama Pelaksana</option>
+                                                {[
+                                                    "Yosi Sundansyah S.T. S.Pd.i",
+                                                    "Djayadi Rachmat",
+                                                    "Emsidelva Okasti S.ST.",
+                                                    "Charlyasi M. Siadari S.Pd M.Si",
+                                                    "Wina Winiarti SH",
+                                                    "Vivid Firmawan SH",
+                                                    "Yusti Rahayu SH",
+                                                    "Sri Rahayu Sundayani S.Sos",
+                                                    "Devi Yuni Astuti S.IP",
+                                                    "Devina Napitupulu",
+                                                    "Iyus Rusyana",
+                                                    "Taufik Mulyana",
+                                                    "Risad Bachtiar A.Md",
+                                                    "Aulia Rahman",
+                                                    "Rian Gustian",
+                                                    "Ani Suhaeni S.Sos",
+                                                    "Winda Winiarni SH",
+                                                    "Dhea Sulasti Putri",
+                                                    "Fidalina SE",
+                                                    "Nurul Eka Suka SE",
+                                                    "Indrayana A.Md",
+                                                    "Gita Sonia Amd.Kom",
+                                                    "Tria Kahaerunisa",
+                                                    "Rukimini",
+                                                    "Yayan Taryana",
+                                                    "Ahmad Sumadi",
+                                                    "Ahmad Solihin",
+                                                ].map((option, i) => (
+                                                    <option key={i} value={option}>
+                                                        {option}
+                                                    </option>
+                                                ))}
+                                            </select>
                                             {editingSurat.namaPelaksana.length > 1 && (
                                                 <button
                                                     type="button"
@@ -603,10 +641,11 @@ const Historysuratvisum = ({ userRole }) => {
                                             type="date"
                                             id="tanggal"
                                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                            value={editingSurat.tanggal}
+                                            value={editingSurat.tanggal || ''} // Pastikan ada default nilai kosong jika undefined
                                             onChange={(e) => setEditingSurat({ ...editingSurat, tanggal: e.target.value })}
                                         />
                                     </div>
+
                                 </div>
                             </form>
                             <div className="flex justify-end mt-6 space-x-3">

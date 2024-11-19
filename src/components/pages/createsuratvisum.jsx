@@ -14,6 +14,36 @@ const Createsuratvisum = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
+    const namaPelaksanaOptions = [
+        "Yosi Sundansyah S.T. S.Pd.i",
+        "Djayadi Rachmat",
+        "Emsidelva Okasti S.ST.",
+        "Charlyasi M. Siadari S.Pd M.Si",
+        "Wina Winiarti SH",
+        "Vivid Firmawan SH",
+        "Yusti Rahayu SH",
+        "Sri Rahayu Sundayani S.Sos",
+        "Devi Yuni Astuti S.IP",
+        "Devina Napitupulu",
+        "Iyus Rusyana",
+        "Taufik Mulyana",
+        "Risad Bachtiar A.Md",
+        "Aulia Rahman",
+        "Rian Gustian",
+        "Ani Suhaeni S.Sos",
+        "Winda Winiarni SH",
+        "Dhea Sulasti Putri",
+        "Fidalina SE",
+        "Nurul Eka Suka SE",
+        "Indrayana A.Md",
+        "Gita Sonia Amd.Kom",
+        "Tria Kahaerunisa",
+        "Rukimini",
+        "Yayan Taryana",
+        "Ahmad Sumadi",
+        "Ahmad Solihin",
+    ];
+
     // Function to get current time in "HH:MM" format
     const getCurrentTime = () => {
         const now = new Date();
@@ -97,7 +127,7 @@ const Createsuratvisum = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-300 py-12 px-4 sm:px-6 lg:px-8">
             <div className="mt-20 max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-8">
-                <h2 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">Buat Surat Visum</h2>
+                <h2 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">Formulir Pembuatan Surat Visum</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Nama and Nama Pelaksana moved to the top */}
                     <div>
@@ -118,14 +148,19 @@ const Createsuratvisum = () => {
                         {formData.namaPelaksana.map((pelaksana, index) => (
                             <div key={index} className="flex items-center mt-2">
                                 <span className="mr-2">{index + 1}.</span>
-                                <input
-                                    type="text"
+                                <select
                                     name="namaPelaksana"
                                     value={pelaksana}
                                     onChange={(e) => handleChange(e, index)}
                                     className={`block w-full border ${errors.namaPelaksana ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-                                    placeholder="Masukkan Nama Pelaksana"
-                                />
+                                >
+                                    <option value="">Pilih Nama Pelaksana</option>
+                                    {namaPelaksanaOptions.map((option, i) => (
+                                        <option key={i} value={option}>
+                                            {option}
+                                        </option>
+                                    ))}
+                                </select>
                                 {formData.namaPelaksana.length > 1 && (
                                     <button
                                         type="button"
@@ -146,7 +181,6 @@ const Createsuratvisum = () => {
                             + Tambah Pelaksana
                         </button>
                     </div>
-
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label htmlFor="jam" className="block text-sm font-medium text-gray-700">Jam</label>
@@ -177,7 +211,6 @@ const Createsuratvisum = () => {
                             </select>
                             {errors.estimasi && <p className="text-red-500 text-sm">{errors.estimasi}</p>}
                         </div>
-
                     </div>
                     <div className="grid grid-cols-2 gap-6">
                         <div>
