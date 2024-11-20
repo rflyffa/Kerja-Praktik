@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaSort, FaCalendar, FaMapMarkerAlt, FaEdit, FaTrash, FaPrint, FaClock, FaTimes, FaSearch, FaComment } from 'react-icons/fa';
+import { FaUser, FaSort, FaCalendar, FaMapMarkerAlt, FaEdit, FaTrash, FaPrint, FaClock, FaTimes, FaSearch, } from 'react-icons/fa';
 import Logo from '../../assets/ketua.png';
 import { toast } from 'react-toastify';
 
@@ -15,9 +15,6 @@ const Historysuratketua = ({ userRole }) => {
     const [sortDirection, setSortDirection] = useState('desc');
     const [editingSurat, setEditingSurat] = useState(null);
     const [totalSurat, setTotalSurat] = useState(0);
-    const [showCommentModal, setShowCommentModal] = useState(false);
-    const [currentComment, setCurrentComment] = useState('');
-    const [selectedSuratId, setSelectedSuratId] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -45,17 +42,16 @@ const Historysuratketua = ({ userRole }) => {
             return;
         }
 
-
         const toastId = toast.info(
             <div className="flex flex-col items-center justify-center text-center">
-                <p className="text-lg font-medium text-gray-900">Are you sure you want to delete this letter?</p>
+                <p className="text-lg font-medium text-gray-900">Apakah Anda yakin ingin menghapus surat ini?</p>
                 <div className="flex justify-center mt-3">
                     <button
                         onClick={async () => {
                             try {
                                 await axios.delete(`http://localhost:5000/historysuratketua/${id}`);
                                 fetchSuratList();
-                                toast.success('Letter deleted successfully.', {
+                                toast.success('Surat berhasil dihapus', {
                                     autoClose: 1000
                                 });
                                 toast.dismiss(toastId);
@@ -67,13 +63,13 @@ const Historysuratketua = ({ userRole }) => {
                         }}
                         className="px-4 py-2 mr-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-300 focus:outline-none"
                     >
-                        Delete
+                        Hapus
                     </button>
                     <button
                         onClick={() => toast.dismiss(toastId)}
                         className="px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition duration-300 focus:outline-none"
                     >
-                        Cancel
+                        Batal
                     </button>
                 </div>
             </div>,
@@ -119,48 +115,11 @@ const Historysuratketua = ({ userRole }) => {
         setSortDirection(direction);
     };
 
-    const handleComment = (suratId) => {
+    const handlePrint = (surat, userRole) => {
         if (userRole !== 'admin') {
-            toast.error('Hanya admin yang dapat menambahkan komentar');
+            toast.error('Operator tidak memiliki izin untuk mencetak surat.');
             return;
         }
-        setSelectedSuratId(suratId);
-        setShowCommentModal(true);
-    };
-
-    const handleSubmitComment = async () => {
-        // Validasi input komentar
-        if (!currentComment.trim()) {
-            toast.error('Silakan masukkan komentar');
-            return;
-        }
-
-        // Logging untuk memastikan nilai dari userRole dan selectedSuratId
-        console.log('Current user role:', userRole);
-        console.log('Selected Surat ID:', selectedSuratId);
-
-        try {
-            if (userRole === 'admin') {
-                // Pastikan selectedSuratId dan currentComment ada nilainya sebelum mengirim permintaan ke backend
-                await axios.post('http://localhost:5000/komentar_admin', {
-                    komentar: currentComment,
-                    surat_id: selectedSuratId
-                });
-
-                toast.success('Komentar berhasil ditambahkan');
-                setCurrentComment('');          // Mengosongkan kolom komentar setelah tersimpan
-                setShowCommentModal(false);      // Menutup modal
-            } else {
-                toast.error('Hanya admin yang dapat menambahkan komentar');
-            }
-        } catch (error) {
-            console.error('Error menambahkan komentar:', error.response?.data || error.message);
-            toast.error('Gagal menambahkan komentar');
-        }
-    };
-
-
-    const handlePrint = (surat) => {
         const printContent = `
             <html>
                 <head>
@@ -375,15 +334,15 @@ const Historysuratketua = ({ userRole }) => {
 
     const handleSortByMonth = (month) => {
         if (month === "") {
-            // Reset to original list if no month is selected
+
             setSuratList(originalSuratList);
         } else {
             const sortedByMonth = originalSuratList.filter(surat => {
-                const suratMonth = new Date(surat.tanggal).getMonth() + 1; // Get month from 'tanggal' (0-based)
+                const suratMonth = new Date(surat.tanggal).getMonth() + 1;
                 return suratMonth.toString().padStart(2, '0') === month;
             });
 
-            setSuratList(sortedByMonth);  // Update displayed suratList with filtered data
+            setSuratList(sortedByMonth);
         }
     };
 
@@ -534,69 +493,15 @@ const Historysuratketua = ({ userRole }) => {
 
                                     </button>
                                     <button
-                                        onClick={() => handlePrint(surat)}
+                                        onClick={() => handlePrint(surat, userRole)}
                                         className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-
                                     >
                                         <FaPrint />
-
-                                    </button>
-
-                                    <button
-                                        onClick={() => handleComment(surat.id)}
-                                        className="text-yellow-500 hover:bg-yellow-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                    >
-                                        <FaComment />
                                     </button>
                                 </div>
                             </div>
                         ))}
 
-                    </div>
-                )}
-                
-                {showCommentModal && (
-                    <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
-                        <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-                            <div className="flex justify-between items-center mb-4">
-                                <h3 className="text-xl font-bold text-gray-800">Add Comment</h3>
-                                <button
-                                    onClick={() => {
-                                        setShowCommentModal(false);
-                                        setCurrentComment('');
-                                    }}
-                                    className="text-gray-500 hover:text-gray-700"
-                                >
-                                    <FaTimes className="text-xl" />
-                                </button>
-                            </div>
-                            <div className="mb-4">
-                                <textarea
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                    rows="4"
-                                    placeholder="Enter your comment here..."
-                                    value={currentComment}
-                                    onChange={(e) => setCurrentComment(e.target.value)}
-                                />
-                            </div>
-                            <div className="flex justify-end space-x-3">
-                                <button
-                                    onClick={() => {
-                                        setShowCommentModal(false);
-                                        setCurrentComment('');
-                                    }}
-                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-300 text-sm"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={handleSubmitComment}
-                                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300 text-sm"
-                                >
-                                    Submit Comment
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 )}
 

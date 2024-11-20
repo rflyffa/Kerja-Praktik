@@ -5,10 +5,9 @@ import { HomeIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { toast } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
 
-const Navbar = ({ onSignIn, onHomeClick, onLogout, isAuthenticated, userRole }) => {
+const Navbar = ({ onHomeClick, onLogout, isAuthenticated, userRole }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [scrolling, setScrolling] = useState(false);
 
   const location = useLocation();

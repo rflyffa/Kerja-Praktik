@@ -15,16 +15,14 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable linebreak-style */
 
-const express = require('express'); // Framework Express
-const bodyParser = require('body-parser'); // Middleware untuk parsing body request
-const mysql = require('mysql'); // Library MySQL
-const cors = require('cors'); // Middleware untuk mengaktifkan CORS
+const express = require('express');
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
+const cors = require('cors');
 
-// Konfigurasi aplikasi
 const app = express();
 const PORT = 5000;
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -94,30 +92,7 @@ suratDb.connect((err) => {
 
 /*******************************************************
  *                                                     *
- *               DATABASE CONNECTION                   *
- *                                                     *
- *******************************************************/
-
-app.post('/komentar_admin', (req, res) => {
-  const { komentar, surat_id } = req.body;
-
-  suratDb.query(
-    'INSERT INTO komentar_admin (komentar, surat_id) VALUES (?, ?)',
-    [komentar, surat_id],
-    (error, results) => {
-      if (error) {
-        console.error('Error menambahkan komentar:', error);
-        res.status(500).json({ error: 'Gagal menambahkan komentar' });
-        return;
-      }
-      res.json({ id: results.insertId, komentar, surat_id });
-    }
-  );
-});
-
-/*******************************************************
- *                                                     *
- *         CURD route to surat ketua data         *
+ *         CURD route to surat ketua data              *
  *                                                     *
  *******************************************************/
 
@@ -134,7 +109,6 @@ app.post('/createsuratketua', (req, res) => {
   });
 });
 
-// GET route to fetch all surat ketua data
 app.get('/historysuratketua', (req, res) => {
   const query = 'SELECT * FROM surat_tugas ORDER BY id DESC';
   suratDb.query(query, (err, results) => {
@@ -146,7 +120,6 @@ app.get('/historysuratketua', (req, res) => {
   });
 });
 
-// GET route to fetch a specific surat ketua by ID
 app.get('/historysuratketua/:id', (req, res) => {
   const { id } = req.params;
   const query = 'SELECT * FROM surat WHERE id = ?';
@@ -181,7 +154,6 @@ app.put('/historysuratketua/:id', (req, res) => {
   });
 });
 
-// DELETE route to delete a surat ketua by ID
 app.delete('/historysuratketua/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM surat_tugas WHERE id = ?';
@@ -218,7 +190,6 @@ app.post('/createsuratsekre', (req, res) => {
   });
 });
 
-// GET route to fetch all surat ketua data
 app.get('/historysuratsekre', (req, res) => {
   const query = 'SELECT * FROM surat_sekretaris ORDER BY id DESC';
   suratDb.query(query, (err, results) => {
@@ -230,7 +201,6 @@ app.get('/historysuratsekre', (req, res) => {
   });
 });
 
-// GET route to fetch a specific surat ketua by ID
 app.get('/historysuratsekre/:id', (req, res) => {
   const { id } = req.params;
   const query = 'SELECT * FROM surat_sekretaris WHERE id = ?';
@@ -247,7 +217,6 @@ app.get('/historysuratsekre/:id', (req, res) => {
   });
 });
 
-// PUT route to update a surat ketua by ID
 app.put('/historysuratsekre/:id', (req, res) => {
   const { id } = req.params;
   const { pembuat, nomor, kepada, untuk, jam, tanggal, tempat } = req.body;
@@ -266,7 +235,6 @@ app.put('/historysuratsekre/:id', (req, res) => {
   });
 });
 
-// DELETE route to delete a surat ketua by ID
 app.delete('/historysuratsekre/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM surat_sekretaris WHERE id = ?';
@@ -303,7 +271,6 @@ app.post('/createsuratvisum', (req, res) => {
   });
 });
 
-// GET route to fetch all surat visum data
 app.get('/historysuratvisum', (req, res) => {
   const query = 'SELECT * FROM surat_visum ORDER BY id DESC';
   suratDb.query(query, (err, results) => {
@@ -315,7 +282,6 @@ app.get('/historysuratvisum', (req, res) => {
   });
 });
 
-// GET route to fetch a specific surat visum by ID
 app.get('/historysuratvisum/:id', (req, res) => {
   const { id } = req.params;
   const query = 'SELECT * FROM surat_visum WHERE id = ?';
@@ -332,7 +298,6 @@ app.get('/historysuratvisum/:id', (req, res) => {
   });
 });
 
-// PUT route to update a surat visum by ID
 app.put('/historysuratvisum/:id', (req, res) => {
   const { id } = req.params;
   const { jam, nama, namaPelaksana, hari, tanggal, estimasi } = req.body;
@@ -351,7 +316,6 @@ app.put('/historysuratvisum/:id', (req, res) => {
   });
 });
 
-// DELETE route to delete a surat visum by ID
 app.delete('/historysuratvisum/:id', (req, res) => {
   const { id } = req.params;
 

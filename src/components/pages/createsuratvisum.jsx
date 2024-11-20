@@ -6,10 +6,10 @@ const Createsuratvisum = () => {
     const [formData, setFormData] = useState({
         jam: '',
         nama: '',
-        namaPelaksana: [''],  // Array to store multiple names
+        namaPelaksana: [''],
         hari: '',
         tanggal: '',
-        estimasi: '',  // Default value for estimasi
+        estimasi: '',
     });
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
@@ -51,16 +51,14 @@ const Createsuratvisum = () => {
         "Ahmad Solihin",
     ];
 
-    // Function to get current time in "HH:MM" format
     const getCurrentTime = () => {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
         const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0'); // Add seconds
+        const seconds = now.getSeconds().toString().padStart(2, '0');
         return `${hours}:${minutes}:${seconds}`;
     };
 
-    // Set current time when component loads
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
@@ -95,10 +93,9 @@ const Createsuratvisum = () => {
 
         console.log('Form Data:', formData);
 
-        // Validate form
         const newErrors = {};
         if (!formData.jam) newErrors.jam = 'Jam is required';
-        if (!formData.nama) newErrors.nama = 'Nama is required';  // Added validation for "nama"
+        if (!formData.nama) newErrors.nama = 'Nama is required';
         if (formData.namaPelaksana.some((name) => !name)) newErrors.namaPelaksana = 'All Pelaksana names are required';
         if (!formData.hari) newErrors.hari = 'Hari is required';
         if (!formData.tanggal) newErrors.tanggal = 'Tanggal is required';
@@ -110,11 +107,10 @@ const Createsuratvisum = () => {
         }
 
         try {
-            // Prepare data to send
             const payload = {
                 jam: formData.jam,
-                nama: formData.nama,  // Include "nama" in payload
-                namaPelaksana: formData.namaPelaksana.join(', '), // Join array of names into a single string
+                nama: formData.nama,
+                namaPelaksana: formData.namaPelaksana.join(', '),
                 hari: formData.hari,
                 tanggal: formData.tanggal,
                 estimasi: formData.estimasi,
@@ -138,7 +134,7 @@ const Createsuratvisum = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Nama and Nama Pelaksana moved to the top */}
                     <div>
-                        <label htmlFor="nama" className="block text-sm font-medium text-gray-700">Nama Pembuat</label>
+                        <label htmlFor="nama" className="block text-sm font-medium text-gray-700">Nama Pembuat Surat</label>
                         <select
                             name="nama"
                             id="nama"
@@ -192,8 +188,48 @@ const Createsuratvisum = () => {
                         </button>
                     </div>
                     <div className="grid grid-cols-2 gap-6">
+                        <div className="grid grid-cols-2 gap-6">
+                            <div>
+                                <label htmlFor="hari" className="block text-sm font-medium text-gray-700">Hari</label>
+                                <select
+                                    name="hari"
+                                    id="hari"
+                                    value={formData.hari}
+                                    onChange={handleChange}
+                                    className={`mt-1 block w-full border ${errors.hari ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                                >
+                                    <option value="">Pilih Hari</option>
+                                    <option value="Senin">Senin</option>
+                                    <option value="Selasa">Selasa</option>
+                                    <option value="Rabu">Rabu</option>
+                                    <option value="Kamis">Kamis</option>
+                                    <option value="Jumat">Jumat</option>
+                                    <option value="Sabtu">Sabtu</option>
+                                    <option value="Minggu">Minggu</option>
+                                </select>
+                                {errors.hari && <p className="text-red-500 text-sm">{errors.hari}</p>}
+                            </div>
+                            <div>
+                                <label htmlFor="estimasi" className="block text-sm font-medium text-gray-700">Estimasi</label>
+                                <select
+                                    name="estimasi"
+                                    id="estimasi"
+                                    value={formData.estimasi}
+                                    onChange={handleChange}
+                                    className={`mt-1 block w-full border ${errors.estimasi ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                                >
+                                    {/* Add "Estimasi" as default option */}
+                                    <option value="">Estimasi</option>
+                                    {[...Array(24).keys()].map(i => (
+                                        <option key={i + 1} value={i + 1}>{i + 1}</option>
+                                    ))}
+                                </select>
+                                {errors.estimasi && <p className="text-red-500 text-sm">{errors.estimasi}</p>}
+                            </div>
+                        </div>
+
                         <div>
-                            <label htmlFor="jam" className="block text-sm font-medium text-gray-700">Jam</label>
+                            <label htmlFor="jam" className="block text-sm font-medium text-gray-700">Pukul Pembuatan Surat</label>
                             <input
                                 type="time"
                                 name="jam"
@@ -203,45 +239,6 @@ const Createsuratvisum = () => {
                                 className={`mt-1 block w-full border ${errors.jam ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
                             />
                             {errors.jam && <p className="text-red-500 text-sm">{errors.jam}</p>}
-                        </div>
-                        <div>
-                            <label htmlFor="estimasi" className="block text-sm font-medium text-gray-700">Estimasi</label>
-                            <select
-                                name="estimasi"
-                                id="estimasi"
-                                value={formData.estimasi}
-                                onChange={handleChange}
-                                className={`mt-1 block w-full border ${errors.estimasi ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-                            >
-                                {/* Add "Estimasi" as default option */}
-                                <option value="">Estimasi</option>
-                                {[...Array(24).keys()].map(i => (
-                                    <option key={i + 1} value={i + 1}>{i + 1}</option>
-                                ))}
-                            </select>
-                            {errors.estimasi && <p className="text-red-500 text-sm">{errors.estimasi}</p>}
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-6">
-                        <div>
-                            <label htmlFor="hari" className="block text-sm font-medium text-gray-700">Hari</label>
-                            <select
-                                name="hari"
-                                id="hari"
-                                value={formData.hari}
-                                onChange={handleChange}
-                                className={`mt-1 block w-full border ${errors.hari ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-                            >
-                                <option value="">Pilih Hari</option>
-                                <option value="Senin">Senin</option>
-                                <option value="Selasa">Selasa</option>
-                                <option value="Rabu">Rabu</option>
-                                <option value="Kamis">Kamis</option>
-                                <option value="Jumat">Jumat</option>
-                                <option value="Sabtu">Sabtu</option>
-                                <option value="Minggu">Minggu</option>
-                            </select>
-                            {errors.hari && <p className="text-red-500 text-sm">{errors.hari}</p>}
                         </div>
                         <div>
                             <label htmlFor="tanggal" className="block text-sm font-medium text-gray-700">Tanggal</label>

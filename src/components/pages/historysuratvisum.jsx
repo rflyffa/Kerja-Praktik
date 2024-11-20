@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaSort, FaCalendar, FaEdit, FaTrash, FaPrint, FaClock, FaTimes, FaSearch, FaCalendarDay, FaComment } from 'react-icons/fa';
+import { FaUser, FaSort, FaCalendar, FaEdit, FaTrash, FaPrint, FaClock, FaTimes, FaSearch, FaCalendarDay, } from 'react-icons/fa';
 import Logo from '../../assets/sekretaris.png';
 import { toast } from 'react-toastify';
 
 const Historysuratvisum = ({ userRole }) => {
-    const [suratList, setSuratList] = useState([]); // For displaying filtered or sorted data
-    const [originalSuratList, setOriginalSuratList] = useState([]); // For storing the unfiltered data
+    const [suratList, setSuratList] = useState([]);
+    const [originalSuratList, setOriginalSuratList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortField, setSortField] = useState('tanggal');
@@ -24,8 +24,8 @@ const Historysuratvisum = ({ userRole }) => {
         try {
             const response = await axios.get('http://localhost:5000/historysuratvisum');
             setSuratList(response.data);
-            setOriginalSuratList(response.data);  // Store the full list as the original
-            setTotalSurat(response.data.length);  // Update totalSurat with the length of the data
+            setOriginalSuratList(response.data);
+            setTotalSurat(response.data.length);
             setIsLoading(false);
         } catch (error) {
             console.error('There was an error fetching the surat data!', error);
@@ -58,14 +58,14 @@ const Historysuratvisum = ({ userRole }) => {
 
         const toastId = toast.info(
             <div className="flex flex-col items-center justify-center text-center">
-                <p className="text-lg font-medium text-gray-900">Are you sure you want to delete this letter?</p>
+                <p className="text-lg font-medium text-gray-900">Apakah Anda yakin ingin menghapus surat ini?</p>
                 <div className="flex justify-center mt-3">
                     <button
                         onClick={async () => {
                             try {
                                 await axios.delete(`http://localhost:5000/historysuratvisum/${id}`);
                                 fetchSuratList();
-                                toast.success('Letter deleted successfully.', {
+                                toast.success('Surat berhasil dihapus.', {
                                     autoClose: 1000
                                 });
                                 toast.dismiss(toastId);
@@ -77,13 +77,13 @@ const Historysuratvisum = ({ userRole }) => {
                         }}
                         className="px-4 py-2 mr-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-300 focus:outline-none"
                     >
-                        Delete
+                        Hapus
                     </button>
                     <button
                         onClick={() => toast.dismiss(toastId)}
                         className="px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition duration-300 focus:outline-none"
                     >
-                        Cancel
+                        Batal
                     </button>
                 </div>
             </div>,
@@ -109,7 +109,7 @@ const Historysuratvisum = ({ userRole }) => {
         setEditingSurat({
             ...surat,
             namaPelaksana: namaPelaksanaArray,
-            tanggal: surat.tanggal // Gunakan langsung tanpa konversi
+            tanggal: surat.tanggal
         });
     };
 
@@ -121,7 +121,6 @@ const Historysuratvisum = ({ userRole }) => {
         }
 
         try {
-            // Format the data to match the expected structure
             const payload = {
                 nama: editingSurat.nama,
                 namaPelaksana: editingSurat.namaPelaksana.filter(name => name.trim() !== '').join(', '),
@@ -137,7 +136,7 @@ const Historysuratvisum = ({ userRole }) => {
 
             if (response.status === 200) {
                 setEditingSurat(null);
-                await fetchSuratList(); // Refresh the list after successful update
+                await fetchSuratList();
                 toast.success('Surat berhasil diupdate.');
             } else {
                 throw new Error('Server responded with non-200 status');
@@ -169,11 +168,13 @@ const Historysuratvisum = ({ userRole }) => {
         setSortDirection(direction);
     };
 
-    const handlePrint = (surat) => {
-        // Split the names and remove any extra spaces
+    const handlePrint = (surat, userRole) => {
+        if (userRole !== 'admin') {
+            toast.error('Operator tidak memiliki izin untuk mencetak surat.');
+            return;
+        }
         const names = surat.nama_pelaksana.split(',').map(name => name.trim());
 
-        // Create table rows for each name with appropriate numbering
         const rows = names.map((name, index) => `
             <tr>
                 <td>${index + 1}</td>
@@ -188,7 +189,7 @@ const Historysuratvisum = ({ userRole }) => {
             </tr>
         `).join('');
 
-        // HTML content for printing
+        // HTML content
         const printContent = `
             <!DOCTYPE html>
             <html lang="en">
@@ -488,7 +489,7 @@ const Historysuratvisum = ({ userRole }) => {
                                         <FaTrash />
                                     </button>
                                     <button
-                                        onClick={() => handlePrint(surat)}
+                                        onClick={() => handlePrint(surat, userRole)}
                                         className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
                                     >
                                         <FaPrint />
@@ -604,15 +605,24 @@ const Historysuratvisum = ({ userRole }) => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label htmlFor="jam" className="block text-sm font-medium text-gray-700 mb-1">Jam:</label>
-                                        <input
-                                            type="time"
-                                            id="jam"
+                                        <label htmlFor="hari" className="block text-sm font-medium text-gray-700 mb-1">Hari:</label>
+                                        <select
+                                            id="hari"
                                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                            value={editingSurat.jam}
-                                            onChange={(e) => setEditingSurat({ ...editingSurat, jam: e.target.value })}
-                                        />
+                                            value={editingSurat.hari}
+                                            onChange={(e) => setEditingSurat({ ...editingSurat, hari: e.target.value })}
+                                        >
+                                            <option value="">Pilih Hari</option>
+                                            <option value="Senin">Senin</option>
+                                            <option value="Selasa">Selasa</option>
+                                            <option value="Rabu">Rabu</option>
+                                            <option value="Kamis">Kamis</option>
+                                            <option value="Jumat">Jumat</option>
+                                            <option value="Sabtu">Sabtu</option>
+                                            <option value="Minggu">Minggu</option>
+                                        </select>
                                     </div>
+
                                     <div>
                                         <label htmlFor="estimasi" className="block text-sm font-medium text-gray-700 mb-1">Waktu:</label>
                                         <select
@@ -630,22 +640,14 @@ const Historysuratvisum = ({ userRole }) => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label htmlFor="hari" className="block text-sm font-medium text-gray-700 mb-1">Hari:</label>
-                                        <select
-                                            id="hari"
+                                        <label htmlFor="jam" className="block text-sm font-medium text-gray-700 mb-1">Jam:</label>
+                                        <input
+                                            type="time"
+                                            id="jam"
                                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                            value={editingSurat.hari}
-                                            onChange={(e) => setEditingSurat({ ...editingSurat, hari: e.target.value })}
-                                        >
-                                            <option value="">Pilih Hari</option>
-                                            <option value="Senin">Senin</option>
-                                            <option value="Selasa">Selasa</option>
-                                            <option value="Rabu">Rabu</option>
-                                            <option value="Kamis">Kamis</option>
-                                            <option value="Jumat">Jumat</option>
-                                            <option value="Sabtu">Sabtu</option>
-                                            <option value="Minggu">Minggu</option>
-                                        </select>
+                                            value={editingSurat.jam}
+                                            onChange={(e) => setEditingSurat({ ...editingSurat, jam: e.target.value })}
+                                        />
                                     </div>
                                     <div>
                                         <label htmlFor="tanggal" className="block text-sm font-medium text-gray-700 mb-1">Tanggal:</label>

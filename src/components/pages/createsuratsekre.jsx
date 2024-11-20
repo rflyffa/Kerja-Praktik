@@ -109,7 +109,7 @@ const Createsuratsekre = ({ userRole }) => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-2 gap-6">
                         <div>
-                            <label htmlFor="pembuat" className="block text-sm font-medium text-gray-700">Pembuat Surat</label>
+                            <label htmlFor="pembuat" className="block text-sm font-medium text-gray-700">Nama Pembuat Surat</label>
                             {userRole === 'operator' ? (
                                 <select
                                     name="pembuat"
@@ -171,7 +171,7 @@ const Createsuratsekre = ({ userRole }) => {
                         {errors.kepada && <p className="text-red-500 text-sm">{errors.kepada}</p>}
                     </div>
                     <div>
-                        <label htmlFor="untuk" className="block text-sm font-medium text-gray-700">Untuk</label>
+                        <label htmlFor="untuk" className="block text-sm font-medium text-gray-700">Tujuan Surat</label>
                         <textarea
                             name="untuk"
                             id="untuk"
@@ -179,13 +179,13 @@ const Createsuratsekre = ({ userRole }) => {
                             value={formData.untuk}
                             onChange={handleChange}
                             className={`mt-1 block w-full border ${errors.untuk ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-                            placeholder="Masukkan tujuan surat"
+                            placeholder="Masukkan Tujuan Surat"
                         ></textarea>
                         {errors.untuk && <p className="text-red-500 text-sm">{errors.untuk}</p>}
                     </div>
                     <div className="grid grid-cols-2 gap-6">
                         <div>
-                            <label htmlFor="tanggal" className="block text-sm font-medium text-gray-700">Hari/Tanggal</label>
+                            <label htmlFor="tanggal" className="block text-sm font-medium text-gray-700">Hari/Tanggal Pelaksanaan</label>
                             <input
                                 type="date"
                                 name="tanggal"
@@ -211,7 +211,7 @@ const Createsuratsekre = ({ userRole }) => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="jam" className="block text-sm font-medium text-gray-700">Jam</label>
+                        <label htmlFor="jam" className="block text-sm font-medium text-gray-700">Pukul Pembuatan Surat</label>
                         <input
                             type="time"
                             name="jam"

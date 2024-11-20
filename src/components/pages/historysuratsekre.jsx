@@ -43,14 +43,14 @@ const Historysuratsekre = ({ userRole }) => {
 
         const toastId = toast.info(
             <div className="flex flex-col items-center justify-center text-center">
-                <p className="text-lg font-medium text-gray-900">Are you sure you want to delete this letter?</p>
+                <p className="text-lg font-medium text-gray-900">Apakah Anda yakin ingin menghapus surat ini?</p>
                 <div className="flex justify-center mt-3">
                     <button
                         onClick={async () => {
                             try {
                                 await axios.delete(`http://localhost:5000/historysuratsekre/${id}`);
                                 fetchSuratList();
-                                toast.success('Letter deleted successfully.', {
+                                toast.success('Surat berhasil dihapus.', {
                                     autoClose: 1000
                                 });
                                 toast.dismiss(toastId);
@@ -62,13 +62,13 @@ const Historysuratsekre = ({ userRole }) => {
                         }}
                         className="px-4 py-2 mr-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition duration-300 focus:outline-none"
                     >
-                        Delete
+                        Hapus
                     </button>
                     <button
                         onClick={() => toast.dismiss(toastId)}
                         className="px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition duration-300 focus:outline-none"
                     >
-                        Cancel
+                        Batal
                     </button>
                 </div>
             </div>,
@@ -114,7 +114,11 @@ const Historysuratsekre = ({ userRole }) => {
         setSortDirection(direction);
     };
 
-    const handlePrint = (surat) => {
+    const handlePrint = (surat, userRole) => {
+        if (userRole !== 'admin') {
+            toast.error('Operator tidak memiliki izin untuk mencetak surat.');
+            return;
+        }
         const printContent = `
             <html>
                 <head>
@@ -365,7 +369,7 @@ const Historysuratsekre = ({ userRole }) => {
         <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-400 py-8 px-4 sm:px-6 lg:px-8">
             <div className="mt-20 max-w-7xl mx-auto">
                 <h2 className="text-4xl font-extrabold text-gray-900 mb-8 text-center tracking-tight">
-                History Surat Tugas Dinas Sekretaris
+                    History Surat Tugas Dinas Sekretaris
                 </h2>
                 <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <div className="relative flex items-center w-full sm:w-auto">
@@ -487,7 +491,7 @@ const Historysuratsekre = ({ userRole }) => {
                                         <FaTrash />
                                     </button>
                                     <button
-                                        onClick={() => handlePrint(surat)}
+                                        onClick={() => handlePrint(surat, userRole)}
                                         className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
                                     >
                                         <FaPrint />
@@ -499,7 +503,7 @@ const Historysuratsekre = ({ userRole }) => {
                     </div>
                 )}
 
-{editingSurat && (
+                {editingSurat && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
                         <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
                             <div className="flex justify-between items-center mb-4">
