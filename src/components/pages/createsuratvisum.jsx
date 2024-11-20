@@ -14,6 +14,13 @@ const Createsuratvisum = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
+    const pembuatOptions = [
+        "Fidanila SE",
+        "Nurul Eka Sukma SE",
+        "Indrayana A.Md",
+        "Gita Sonia Amd.Kom",
+    ];
+
     const namaPelaksanaOptions = [
         "Yosi Sundansyah S.T. S.Pd.i",
         "Djayadi Rachmat",
@@ -132,15 +139,18 @@ const Createsuratvisum = () => {
                     {/* Nama and Nama Pelaksana moved to the top */}
                     <div>
                         <label htmlFor="nama" className="block text-sm font-medium text-gray-700">Nama Pembuat</label>
-                        <input
-                            type="text"
+                        <select
                             name="nama"
                             id="nama"
                             value={formData.nama}
                             onChange={handleChange}
                             className={`mt-1 block w-full border ${errors.nama ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
-                            placeholder="Masukkan Nama"
-                        />
+                        >
+                            <option value="">Pilih Nama Pembuat</option>
+                            {pembuatOptions.map((option, index) => (
+                                <option key={index} value={option}>{option}</option>
+                            ))}
+                        </select>
                         {errors.nama && <p className="text-red-500 text-sm">{errors.nama}</p>}
                     </div>
                     <div>

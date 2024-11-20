@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaSort, FaCalendar, FaEdit, FaTrash, FaPrint, FaClock, FaTimes, FaSearch, FaCalendarDay } from 'react-icons/fa';
+import { FaUser, FaSort, FaCalendar, FaEdit, FaTrash, FaPrint, FaClock, FaTimes, FaSearch, FaCalendarDay, FaComment } from 'react-icons/fa';
 import Logo from '../../assets/sekretaris.png';
 import { toast } from 'react-toastify';
 
@@ -512,14 +512,26 @@ const Historysuratvisum = ({ userRole }) => {
                             <form className="space-y-4">
                                 <div>
                                     <label htmlFor="nama" className="block text-sm font-medium text-gray-700 mb-1">Nama Pembuat:</label>
-                                    <input
-                                        type="text"
+                                    <select
                                         id="nama"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
                                         value={editingSurat.nama}
                                         onChange={(e) => setEditingSurat({ ...editingSurat, nama: e.target.value })}
-                                    />
+                                    >
+                                        <option value="" disabled>Pilih Nama Pembuat</option>
+                                        {[
+                                            "Fidanila SE",
+                                            "Nurul Eka Sukma SE",
+                                            "Indrayana A.Md",
+                                            "Gita Sonia Amd.Kom"
+                                        ].map((name, index) => (
+                                            <option key={index} value={name}>
+                                                {name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
+
                                 <div>
                                     <label htmlFor="namaPelaksana" className="block text-sm font-medium text-gray-700 mb-1">Nama Pelaksana:</label>
                                     {editingSurat.namaPelaksana.map((pelaksana, index) => (
