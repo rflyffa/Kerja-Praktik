@@ -554,6 +554,7 @@ const Historysuratketua = ({ userRole }) => {
 
                     </div>
                 )}
+                
                 {showCommentModal && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
                         <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
@@ -610,6 +611,36 @@ const Historysuratketua = ({ userRole }) => {
                             </div>
                             <form className="space-y-4">
                                 <div>
+                                    <label htmlFor="pembuat" className="block text-sm font-medium text-gray-700 mb-1">Pembuat Surat:</label>
+                                    {userRole === 'operator' ? (
+                                        <select
+                                            id="pembuat"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                            value={editingSurat.pembuat}
+                                            onChange={(e) => setEditingSurat({ ...editingSurat, pembuat: e.target.value })}
+                                        >
+                                            <option value="" disabled>Pilih Pembuat Surat</option>
+                                            {[
+                                                "Fidanila SE",
+                                                "Nurul Eka Sukma SE",
+                                                "Indrayana A.Md",
+                                                "Gita Sonia Amd.Kom"
+                                            ].map((name) => (
+                                                <option key={name} value={name}>{name}</option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type="text"
+                                            id="pembuat"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                                            value={editingSurat.pembuat}
+                                            onChange={(e) => setEditingSurat({ ...editingSurat, pembuat: e.target.value })}
+                                            placeholder="Nama Pembuat Surat"
+                                        />
+                                    )}
+                                </div>
+                                <div>
                                     <label htmlFor="nomor" className="block text-sm font-medium text-gray-700 mb-1">Nomor:</label>
                                     <input
                                         type="text"
@@ -647,10 +678,10 @@ const Historysuratketua = ({ userRole }) => {
                                             "Ani Suhaeni, S.Sos",
                                             "Winda Winiarni, SH",
                                             "Dhea Sulasti Putri",
-                                            "Fidalina, SE",
-                                            "Nurul Eka Suka, SE",
-                                            "Indrayana, A.Md",
-                                            "Gita Sonia, Amd.Kom",
+                                            "Fidanila SE",
+                                            "Nurul Eka Sukma SE",
+                                            "Indrayana A.Md",
+                                            "Gita Sonia Amd.Kom",
                                             "Tria Kahaerunisa",
                                             "Rukimini",
                                             "Yayan Taryana",
@@ -711,6 +742,7 @@ const Historysuratketua = ({ userRole }) => {
                         </div>
                     </div>
                 )}
+
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Createsuratsekre = () => {
+const Createsuratsekre = ({ userRole }) => {
     const [formData, setFormData] = useState({
         pembuat: '',
         nomor: '',
@@ -15,11 +15,19 @@ const Createsuratsekre = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
+    const pembuatOptions = [
+        "Fidanila SE",
+        "Nurul Eka Sukma SE",
+        "Indrayana A.Md",
+        "Gita Sonia Amd.Kom",
+    ];
+
     const kepadaOptions = [
-        "Anzhar Ishal Afryand, M.Pd",
+        "Anzhar Ishal Afryand M.Pd",
         "Yosi Sundansyah, S.T., S.Pd.i",
         "Djayadi Rachmat",
         "Emsidelva Okasti, S.ST.",
+        "Charlyasi M. Siadari, S.Pd, M.Si",
         "Wina Winiarti, SH",
         "Vivid Firmawan, SH",
         "Yusti Rahayu, SH",
@@ -34,18 +42,18 @@ const Createsuratsekre = () => {
         "Ani Suhaeni, S.Sos",
         "Winda Winiarni, SH",
         "Dhea Sulasti Putri",
-        "Fidalina, SE",
-        "Nurul Eka Suka, SE",
-        "Indrayana, A.Md",
-        "Gita Sonia, Amd.Kom",
+        "Fidanila SE",
+        "Nurul Eka Sukma SE",
+        "Indrayana A.Md",
+        "Gita Sonia Amd.Kom",
         "Tria Kahaerunisa",
         "Rukimini",
         "Yayan Taryana",
         "Ahmad Sumadi",
-        "Ahmad Solihin"
+        "Ahmad Solihin",
     ];
 
-    const getCurrentTime = () => {
+        const getCurrentTime = () => {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
         const minutes = now.getMinutes().toString().padStart(2, '0');
@@ -81,11 +89,8 @@ const Createsuratsekre = () => {
             return;
         }
 
-        console.log('Submitting data:', formData);
-
         axios.post('http://localhost:5000/createsuratsekre', formData)
-            .then((response) => {
-                console.log(response.data);
+            .then(() => {
                 navigate('/historysuratsekre');
             })
             .catch((error) => {
@@ -105,15 +110,32 @@ const Createsuratsekre = () => {
                     <div className="grid grid-cols-2 gap-6">
                         <div>
                             <label htmlFor="pembuat" className="block text-sm font-medium text-gray-700">Pembuat Surat</label>
-                            <input
-                                type="text"
-                                name="pembuat"
-                                id="pembuat"
-                                value={formData.pembuat}
-                                onChange={handleChange}
-                                className={`mt-1 block w-full border ${errors.pembuat ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500`}
-                                placeholder="Nama Pembuat Surat"
-                            />
+                            {userRole === 'operator' ? (
+                                <select
+                                    name="pembuat"
+                                    id="pembuat"
+                                    value={formData.pembuat}
+                                    onChange={handleChange}
+                                    className={`mt-1 block w-full border ${errors.pembuat ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                                >
+                                    <option value="">Pilih Nama Pembuat Surat</option>
+                                    {pembuatOptions.map((option, index) => (
+                                        <option key={index} value={option}>
+                                            {option}
+                                        </option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <input
+                                    type="text"
+                                    name="pembuat"
+                                    id="pembuat"
+                                    value={formData.pembuat}
+                                    onChange={handleChange}
+                                    className={`mt-1 block w-full border ${errors.pembuat ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                                    placeholder="Nama Pembuat Surat"
+                                />
+                            )}
                             {errors.pembuat && <p className="text-red-500 text-sm">{errors.pembuat}</p>}
                         </div>
                         <div>
@@ -124,7 +146,7 @@ const Createsuratsekre = () => {
                                 id="nomor"
                                 value={formData.nomor}
                                 onChange={handleChange}
-                                className={`mt-1 block w-full border ${errors.nomor ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500`}
+                                className={`mt-1 block w-full border ${errors.nomor ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
                                 placeholder="176/PL.02.1-ST/3277/2024"
                             />
                             {errors.nomor && <p className="text-red-500 text-sm">{errors.nomor}</p>}
@@ -137,8 +159,7 @@ const Createsuratsekre = () => {
                             id="kepada"
                             value={formData.kepada}
                             onChange={handleChange}
-                            className={`mt-1 block w-full border ${errors.kepada ? 'border-red-500' : 'border-gray-300'
-                                } rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 max-h-64 overflow-y-auto`}
+                            className={`mt-1 block w-full border ${errors.kepada ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 max-h-64 overflow-y-auto`}
                         >
                             <option value="">Pilih Nama Pelaksana</option>
                             {kepadaOptions.map((option, index) => (
@@ -157,7 +178,7 @@ const Createsuratsekre = () => {
                             rows="3"
                             value={formData.untuk}
                             onChange={handleChange}
-                            className={`mt-1 block w-full border ${errors.untuk ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500`}
+                            className={`mt-1 block w-full border ${errors.untuk ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
                             placeholder="Masukkan tujuan surat"
                         ></textarea>
                         {errors.untuk && <p className="text-red-500 text-sm">{errors.untuk}</p>}
@@ -171,7 +192,7 @@ const Createsuratsekre = () => {
                                 id="tanggal"
                                 value={formData.tanggal}
                                 onChange={handleChange}
-                                className={`mt-1 block w-full border ${errors.tanggal ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500`}
+                                className={`mt-1 block w-full border ${errors.tanggal ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
                             />
                             {errors.tanggal && <p className="text-red-500 text-sm">{errors.tanggal}</p>}
                         </div>
@@ -183,25 +204,23 @@ const Createsuratsekre = () => {
                                 id="tempat"
                                 value={formData.tempat}
                                 onChange={handleChange}
-                                className={`mt-1 block w-full border ${errors.tempat ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500`}
-                                placeholder="Wilayah/Tujuan"
+                                className={`mt-1 block w-full border ${errors.tempat ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                                placeholder="Masukkan lokasi tugas"
                             />
                             {errors.tempat && <p className="text-red-500 text-sm">{errors.tempat}</p>}
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-6">
-                        <div>
-                            <label htmlFor="jam" className="block text-sm font-medium text-gray-700">Jam</label>
-                            <input
-                                type="text"
-                                name="jam"
-                                id="jam"
-                                value={formData.jam}
-                                onChange={handleChange}
-                                className={`mt-1 block w-full border ${errors.jam ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500`}
-                            />
-                            {errors.jam && <p className="text-red-500 text-sm">{errors.jam}</p>}
-                        </div>
+                    <div>
+                        <label htmlFor="jam" className="block text-sm font-medium text-gray-700">Jam</label>
+                        <input
+                            type="time"
+                            name="jam"
+                            id="jam"
+                            value={formData.jam}
+                            onChange={handleChange}
+                            className={`mt-1 block w-full border ${errors.jam ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                        />
+                        {errors.jam && <p className="text-red-500 text-sm">{errors.jam}</p>}
                     </div>
                     <div className="flex justify-between">
                         <button
