@@ -170,7 +170,7 @@ const Historysuratvisum = ({ userRole }) => {
 
     const handlePrint = (surat, userRole) => {
         if (userRole !== 'admin') {
-            toast.error('Operator tidak memiliki izin untuk mencetak surat.');
+            toast.error('Hanya admin yang dapat mencetak surat.');
             return;
         }
         const names = surat.nama_pelaksana.split(',').map(name => name.trim());
@@ -422,7 +422,10 @@ const Historysuratvisum = ({ userRole }) => {
                         </button>
                         <button
                             onClick={handleCreateSuratClick}
-                            className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full hover:shadow-lg transition duration-300 flex items-center text-sm"
+                            className={`px-4 py-2 bg-gradient-to-r ${userRole === 'admin'
+                                    ? 'from-gray-400 to-gray-500 cursor-not-allowed'
+                                    : 'from-green-500 to-green-600 hover:shadow-lg'
+                                } text-white rounded-full transition duration-300 flex items-center text-sm`}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -432,14 +435,11 @@ const Historysuratvisum = ({ userRole }) => {
                                 stroke="currentColor"
                                 className="w-4 h-4 mr-2"
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M12 4.5v15m7.5-7.5h-15"
-                                />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
                             Buat Surat
                         </button>
+
                         {/* Total Surat Button */}
                     </div>
                 </div>
@@ -542,7 +542,15 @@ const Historysuratvisum = ({ userRole }) => {
                                                 value={pelaksana}
                                                 onChange={(e) => {
                                                     const newNamaPelaksana = [...editingSurat.namaPelaksana];
-                                                    newNamaPelaksana[index] = e.target.value;
+                                                    const selectedName = e.target.value;
+
+                                                    // Cek apakah nama sudah ada di array (kecuali pada index yang sedang diedit)
+                                                    if (newNamaPelaksana.includes(selectedName) && newNamaPelaksana[index] !== selectedName) {
+                                                        toast.error("Nama Pelaksana sudah dipilih.");
+                                                        return;
+                                                    }
+
+                                                    newNamaPelaksana[index] = selectedName;
                                                     setEditingSurat({ ...editingSurat, namaPelaksana: newNamaPelaksana });
                                                 }}
                                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
@@ -603,6 +611,7 @@ const Historysuratvisum = ({ userRole }) => {
                                         + Tambah Pelaksana
                                     </button>
                                 </div>
+
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label htmlFor="hari" className="block text-sm font-medium text-gray-700 mb-1">Hari:</label>

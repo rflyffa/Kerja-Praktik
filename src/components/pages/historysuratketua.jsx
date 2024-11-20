@@ -117,7 +117,7 @@ const Historysuratketua = ({ userRole }) => {
 
     const handlePrint = (surat, userRole) => {
         if (userRole !== 'admin') {
-            toast.error('Operator tidak memiliki izin untuk mencetak surat.');
+            toast.error('Hanya admin yang dapat mencetak surat.');
             return;
         }
         const printContent = `

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Createsuratvisum = () => {
     const [formData, setFormData] = useState({
@@ -71,13 +72,24 @@ const Createsuratvisum = () => {
 
         if (name === 'namaPelaksana') {
             const newNamaPelaksana = [...formData.namaPelaksana];
+
+            // Cek apakah nama sudah ada di array, kecuali pada posisi index yang sedang diedit
+            if (newNamaPelaksana.includes(value) && newNamaPelaksana[index] !== value) {
+                toast.error("Nama Pelaksana sudah dipilih. Pilih nama lain.");
+                return;
+            }
+
+            // Update nilai pada index yang sesuai
             newNamaPelaksana[index] = value;
             setFormData({ ...formData, namaPelaksana: newNamaPelaksana });
         } else {
             setFormData({ ...formData, [name]: value });
         }
+
+        // Reset error untuk input yang sedang diubah
         setErrors({ ...errors, [name]: '' });
     };
+
 
     const handleAddPelaksana = () => {
         setFormData({ ...formData, namaPelaksana: [...formData.namaPelaksana, ''] });
@@ -162,7 +174,7 @@ const Createsuratvisum = () => {
                                 >
                                     <option value="">Pilih Nama Pelaksana</option>
                                     {namaPelaksanaOptions.map((option, i) => (
-                                        <option key={i} value={option}>
+                                        <option key={i} value={option} disabled={formData.namaPelaksana.includes(option) && formData.namaPelaksana[index] !== option}>
                                             {option}
                                         </option>
                                     ))}
@@ -187,6 +199,7 @@ const Createsuratvisum = () => {
                             + Tambah Pelaksana
                         </button>
                     </div>
+
                     <div className="grid grid-cols-2 gap-6">
                         <div className="grid grid-cols-2 gap-6">
                             <div>
