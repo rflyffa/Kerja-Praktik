@@ -92,11 +92,17 @@ const Historysuratsekre = ({ userRole }) => {
     };
 
     const handleUpdate = async () => {
+        // Validasi data surat
+        if (!editingSurat.pembuat || !editingSurat.nomor || !editingSurat.kepada || !editingSurat.untuk || !editingSurat.tanggal || !editingSurat.tempat) {
+            toast.error('Semua data surat harus diisi.');
+            return;
+        }
+    
         if (userRole === 'admin') {
             toast.error('Admin tidak diperbolehkan mengupdate surat.');
             return;
         }
-
+    
         try {
             await axios.put(`http://localhost:5000/historysuratsekre/${editingSurat.id}`, editingSurat);
             setEditingSurat(null);
@@ -107,6 +113,7 @@ const Historysuratsekre = ({ userRole }) => {
             toast.error('Gagal mengupdate surat.');
         }
     };
+    
 
     const handleSort = (field) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
