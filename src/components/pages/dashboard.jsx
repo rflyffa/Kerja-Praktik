@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaFileAlt, FaEye } from 'react-icons/fa';
-import { toast } from 'react-toastify'; // Import toast for alerts
+import { toast } from 'react-toastify';
 
 const Dashboard = ({ userRole }) => {
   return (
@@ -18,21 +18,21 @@ const Dashboard = ({ userRole }) => {
         <div className="flex justify-center">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2">
             <DashboardCard
-              to="/surat-tugas-options" // Navigasi ke suratoptions.jsx
+              to="/surat-tugas-options"
               icon={<FaFileAlt className="w-12 h-12 text-blue-600" />}
               title="Surat Tugas"
               description="Buat dan kelola surat tugas dengan mudah"
               userRole={userRole}
-              hideViewHistory={true} // No view history link for "Surat Tugas"
+              hideViewHistory={true}
             />
             <DashboardCard
-              to="/createsuratvisum" // Navigasi ke createsuratvisum.jsx
+              to="/createsuratvisum"
               icon={<FaEye className="w-12 h-12 text-green-600" />}
               title="Surat Visum"
               description="Proses surat visum dengan cepat dan efisien"
               userRole={userRole}
-              hideViewHistory={false} // Show view history link for "Surat Visum"
-              restrictedForAdmin={true} // Restrict access for admin
+              hideViewHistory={false}
+              restrictedForAdmin={true}
             />
           </div>
         </div>

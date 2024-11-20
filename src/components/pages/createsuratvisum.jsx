@@ -23,6 +23,7 @@ const Createsuratvisum = () => {
     ];
 
     const namaPelaksanaOptions = [
+        "Anzhar Ishal Afryand M.Pd",
         "Yosi Sundansyah S.T. S.Pd.i",
         "Djayadi Rachmat",
         "Emsidelva Okasti S.ST.",
