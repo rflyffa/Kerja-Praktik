@@ -97,12 +97,12 @@ const Historysuratsekre = ({ userRole }) => {
             toast.error('Semua data surat harus diisi.');
             return;
         }
-    
+
         if (userRole === 'admin') {
             toast.error('Admin tidak diperbolehkan mengupdate surat.');
             return;
         }
-    
+
         try {
             await axios.put(`http://localhost:5000/historysuratsekre/${editingSurat.id}`, editingSurat);
             setEditingSurat(null);
@@ -113,7 +113,7 @@ const Historysuratsekre = ({ userRole }) => {
             toast.error('Gagal mengupdate surat.');
         }
     };
-    
+
 
     const handleSort = (field) => {
         const direction = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
@@ -485,18 +485,22 @@ const Historysuratsekre = ({ userRole }) => {
                                     </div>
                                 </div>
                                 <div className="flex-none px-4 py-2 bg-gray-100 flex justify-end items-center space-x-2">
-                                    <button
-                                        onClick={() => handleEdit(surat)}
-                                        className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                    >
-                                        <FaEdit />
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(surat.id)}
-                                        className="text-red-500 hover:bg-red-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                    >
-                                        <FaTrash />
-                                    </button>
+                                    {userRole !== 'admin' && (
+                                        <>
+                                            <button
+                                                onClick={() => handleEdit(surat)}
+                                                className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                            >
+                                                <FaEdit />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(surat.id)}
+                                                className="text-red-500 hover:bg-red-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                            >
+                                                <FaTrash />
+                                            </button>
+                                        </>
+                                    )}
                                     <button
                                         onClick={() => handlePrint(surat, userRole)}
                                         className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
@@ -504,6 +508,7 @@ const Historysuratsekre = ({ userRole }) => {
                                         <FaPrint />
                                     </button>
                                 </div>
+
                             </div>
                         ))}
 
@@ -573,6 +578,7 @@ const Historysuratsekre = ({ userRole }) => {
                                             "Yosi Sundansyah, S.T., S.Pd.i",
                                             "Djayadi Rachmat",
                                             "Emsidelva Okasti, S.ST.",
+                                            "La Media S.Hut. MM",
                                             "Charlyasi M. Siadari, S.Pd, M.Si",
                                             "Wina Winiarti, SH",
                                             "Vivid Firmawan, SH",

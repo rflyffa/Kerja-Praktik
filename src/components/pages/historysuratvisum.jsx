@@ -189,7 +189,6 @@ const Historysuratvisum = ({ userRole }) => {
             </tr>
         `).join('');
 
-        // HTML content
         const printContent = `
             <!DOCTYPE html>
             <html lang="en">
@@ -309,11 +308,11 @@ const Historysuratvisum = ({ userRole }) => {
                     </table>
     
                     <div class="signature">
-                        <p>KETUA KOMISI PEMILIHAN UMUM</p>
+                        <p>SEKRETARIS KOMISI PEMILIHAN UMUM</p>
                         <p>KOTA CIMAHI</p>
                         <br /><br /><br />
-                        <img src="${Logo}" alt="Ketua Komisi Pemilihan Umum" class="signature-img" />
-                        <p><strong>Anzhar Ishal Afryand</strong></p>
+                        <img src="${Logo}" alt="" class="signature-img" />
+                        <p><strong>CHARLYASI M. SIADARI</strong></p>
                     </div>
                 </div>
             </body>
@@ -372,11 +371,11 @@ const Historysuratvisum = ({ userRole }) => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-200 to-indigo-400 py-8 px-4 sm:px-6 lg:px-8">
             <div className="mt-20 max-w-7xl mx-auto">
-            <div className="flex justify-center items-center">
-  <h2 className="text-5xl font-helvetica-extrabold text-gray-900 mb-4 animate-fade-in">
-    History Surat Visum
-  </h2>
-</div>
+                <div className="flex justify-center items-center">
+                    <h2 className="text-5xl font-helvetica-extrabold text-gray-900 mb-4 animate-fade-in">
+                        History Surat Visum
+                    </h2>
+                </div>
 
 
                 <div className="mb-6 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -427,8 +426,8 @@ const Historysuratvisum = ({ userRole }) => {
                         <button
                             onClick={handleCreateSuratClick}
                             className={`px-4 py-2 bg-gradient-to-r ${userRole === 'admin'
-                                    ? 'from-gray-400 to-gray-500 cursor-not-allowed'
-                                    : 'from-green-500 to-green-600 hover:shadow-lg'
+                                ? 'from-gray-400 to-gray-500 cursor-not-allowed'
+                                : 'from-green-500 to-green-600 hover:shadow-lg'
                                 } text-white rounded-full transition duration-300 flex items-center text-sm`}
                         >
                             <svg
@@ -480,18 +479,22 @@ const Historysuratvisum = ({ userRole }) => {
                                     </div>
                                 </div>
                                 <div className="flex-none px-4 py-2 bg-gray-100 flex justify-end items-center space-x-2">
-                                    <button
-                                        onClick={() => handleEdit(surat)}
-                                        className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                    >
-                                        <FaEdit />
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(surat.id)}
-                                        className="text-red-500 hover:bg-red-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
-                                    >
-                                        <FaTrash />
-                                    </button>
+                                    {userRole !== 'admin' && (
+                                        <>
+                                            <button
+                                                onClick={() => handleEdit(surat)}
+                                                className="text-green-500 hover:bg-green-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                            >
+                                                <FaEdit />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(surat.id)}
+                                                className="text-red-500 hover:bg-red-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
+                                            >
+                                                <FaTrash />
+                                            </button>
+                                        </>
+                                    )}
                                     <button
                                         onClick={() => handlePrint(surat, userRole)}
                                         className="text-blue-500 hover:bg-blue-100 p-2 rounded-full transition duration-300 text-sm flex items-center"
@@ -499,6 +502,7 @@ const Historysuratvisum = ({ userRole }) => {
                                         <FaPrint />
                                     </button>
                                 </div>
+
                             </div>
                         ))}
 
@@ -548,7 +552,6 @@ const Historysuratvisum = ({ userRole }) => {
                                                     const newNamaPelaksana = [...editingSurat.namaPelaksana];
                                                     const selectedName = e.target.value;
 
-                                                    // Cek apakah nama sudah ada di array (kecuali pada index yang sedang diedit)
                                                     if (newNamaPelaksana.includes(selectedName) && newNamaPelaksana[index] !== selectedName) {
                                                         toast.error("Nama Pelaksana sudah dipilih.");
                                                         return;
@@ -567,6 +570,7 @@ const Historysuratvisum = ({ userRole }) => {
                                                     "Yosi Sundansyah S.T. S.Pd.i",
                                                     "Djayadi Rachmat",
                                                     "Emsidelva Okasti S.ST.",
+                                                    "La Media S.Hut. MM",
                                                     "Charlyasi M. Siadari S.Pd M.Si",
                                                     "Wina Winiarti SH",
                                                     "Vivid Firmawan SH",
@@ -669,7 +673,7 @@ const Historysuratvisum = ({ userRole }) => {
                                             type="date"
                                             id="tanggal"
                                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                                            value={editingSurat.tanggal || ''} // Pastikan ada default nilai kosong jika undefined
+                                            value={editingSurat.tanggal || ''}
                                             onChange={(e) => setEditingSurat({ ...editingSurat, tanggal: e.target.value })}
                                         />
                                     </div>

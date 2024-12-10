@@ -26,6 +26,7 @@ const Createsuratketua = ({ userRole }) => {
         "Yosi Sundansyah, S.T., S.Pd.i",
         "Djayadi Rachmat",
         "Emsidelva Okasti, S.ST.",
+        "La Media S.Hut. MM",
         "Charlyasi M. Siadari, S.Pd, M.Si",
         "Wina Winiarti, SH",
         "Vivid Firmawan, SH",
