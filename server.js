@@ -1,4 +1,6 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable max-len */
+/* eslint-disable linebreak-style */
 /* eslint-disable spaced-comment */
 /* eslint-disable linebreak-style */
 /* eslint-disable camelcase */
@@ -97,10 +99,10 @@ suratDb.connect((err) => {
  *******************************************************/
 
 app.post('/createsuratketua', (req, res) => {
-  const { pembuat, nomor, kepada, untuk, tanggal, jam, tempat } = req.body;
+  const { pembuat, nomor, menimbang, dasar, kepada, untuk, tanggal, jam, tempat } = req.body;
 
-  const query = 'INSERT INTO surat_tugas (pembuat, nomor, kepada, untuk, tanggal, jam, tempat) VALUES (?, ?, ?, ?, ?, ?, ?)';
-  suratDb.query(query, [pembuat, nomor, kepada, untuk, tanggal, jam, tempat], (err, result) => {
+  const query = 'INSERT INTO surat_tugas (pembuat, nomor, menimbang, dasar, kepada, untuk, tanggal, jam, tempat) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  suratDb.query(query, [pembuat, nomor, menimbang, dasar, kepada, untuk, tanggal, jam, tempat], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
@@ -138,10 +140,10 @@ app.get('/historysuratketua/:id', (req, res) => {
 
 app.put('/historysuratketua/:id', (req, res) => {
   const { id } = req.params;
-  const { pembuat, nomor, kepada, untuk, tanggal, jam, tempat } = req.body;
-  const query = 'UPDATE surat_tugas SET pembuat = ?, nomor = ?, kepada = ?, untuk = ?, tanggal = ?, jam = ?, tempat = ? WHERE id = ?';
+  const { pembuat, nomor, menimbang, dasar, kepada, untuk, tanggal, jam, tempat } = req.body;
 
-  suratDb.query(query, [pembuat, nomor, kepada, untuk, tanggal, jam, tempat, id], (err, result) => {
+  const query = 'UPDATE surat_tugas SET pembuat = ?, nomor = ?, menimbang = ?, dasar = ?, kepada = ?, untuk = ?, tanggal = ?, jam = ?, tempat = ? WHERE id = ?';
+  suratDb.query(query, [pembuat, nomor, menimbang, dasar, kepada, untuk, tanggal, jam, tempat, id], (err, result) => {
     if (err) {
       console.error('Error during query execution:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
