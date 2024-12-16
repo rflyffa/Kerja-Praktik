@@ -97,29 +97,79 @@ const Historysuratvisum = ({ userRole }) => {
     };
 
     const handleEdit = (surat) => {
+        // Cek apakah user adalah admin
         if (userRole === 'admin') {
             toast.error('Admin tidak diperbolehkan mengedit surat.', {
                 autoClose: 1000
             });
             return;
         }
-
+    
+        // Hitung selisih hari antara tanggal surat dan hari ini
+        const suratDate = new Date(surat.tanggal);
+        const today = new Date();
+        
+        // Reset jam untuk perbandingan akurat
+        suratDate.setHours(0, 0, 0, 0);
+        today.setHours(0, 0, 0, 0);
+    
+        // Hitung selisih hari
+        const daysDifference = Math.ceil((today - suratDate) / (1000 * 60 * 60 * 24));
+    
+        // Jika surat sudah lewat seminggu, tidak bisa diedit
+        if (daysDifference > 7) {
+            toast.error('Surat sudah tidak dapat diedit karena melewati batas waktu.', {
+                autoClose: 2100
+            });
+            return;
+        }
+    
+        // Proses split nama pelaksana
         const namaPelaksanaArray = surat.nama_pelaksana.split(',').map(name => name.trim());
-
+    
         setEditingSurat({
             ...surat,
             namaPelaksana: namaPelaksanaArray,
             tanggal: surat.tanggal
         });
     };
-
-
+    
     const handleUpdate = async () => {
+        // Cek apakah user adalah admin
         if (userRole === 'admin') {
             toast.error('Admin tidak diperbolehkan mengupdate surat.');
             return;
         }
-
+    
+        // Validasi input wajib (sesuaikan dengan kebutuhan form Anda)
+        if (!editingSurat.nama || !editingSurat.tanggal || !editingSurat.hari || !editingSurat.jam) {
+            toast.error('Semua data surat harus diisi.');
+            return;
+        }
+    
+        // Konversi tanggal yang akan diupdate dan tanggal saat ini
+        const updatedDate = new Date(editingSurat.tanggal);
+        const today = new Date();
+    
+        // Reset jam, menit, detik, dan milidetik untuk perbandingan yang akurat
+        updatedDate.setHours(0, 0, 0, 0);
+        today.setHours(0, 0, 0, 0);
+    
+        // Hitung selisih hari
+        const daysBefore = new Date(today);
+        daysBefore.setDate(today.getDate() - 1);
+    
+        const daysAfter = new Date(today);
+        daysAfter.setDate(today.getDate() + 7);
+    
+        // Validasi tanggal update dengan memperbolehkan rentang yang tepat
+        if (updatedDate < daysBefore || updatedDate > daysAfter) {
+            toast.error('Tanggal surat hanya dapat diupdate 1 hari sebelum hingga 7 hari ke depan.', {
+                autoClose: 2000
+            });
+            return;
+        }
+    
         try {
             const payload = {
                 nama: editingSurat.nama,
@@ -129,11 +179,11 @@ const Historysuratvisum = ({ userRole }) => {
                 tanggal: editingSurat.tanggal,
                 estimasi: editingSurat.estimasi
             };
-
+    
             console.log('Mengirim request PUT ke server dengan data:', payload);
             const response = await axios.put(`http://localhost:5000/historysuratvisum/${editingSurat.id}`, payload);
             console.log('Response dari server:', response);
-
+    
             if (response.status === 200) {
                 setEditingSurat(null);
                 await fetchSuratList();

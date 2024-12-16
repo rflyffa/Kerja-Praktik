@@ -83,27 +83,66 @@ const Historysuratketua = ({ userRole }) => {
     };
 
     const handleEdit = (surat) => {
+        // Cek apakah user adalah admin
         if (userRole === 'admin') {
             toast.error('Admin tidak diperbolehkan mengedit surat.', {
                 autoClose: 1000
             });
             return;
         }
+    
+        // Hitung selisih hari antara tanggal surat dan hari ini
+        const suratDate = new Date(surat.tanggal);
+        const today = new Date();
+        const daysDifference = Math.ceil((today - suratDate) / (1000 * 60 * 60 * 24));
+    
+        // Jika surat sudah lewat seminggu, tidak bisa diedit
+        if (daysDifference > 7) {
+            toast.error('Surat sudah tidak dapat diedit karena melewati batas waktu.', {
+                autoClose: 2100
+            });
+            return;
+        }
+    
         setEditingSurat(surat);
     };
-
+    
     const handleUpdate = async () => {
-
+        // Validasi input wajib
         if (!editingSurat.pembuat || !editingSurat.nomor || !editingSurat.kepada || !editingSurat.untuk || !editingSurat.tanggal || !editingSurat.tempat) {
             toast.error('Data surat harus diisi.');
             return;
         }
-
+    
+        // Cek apakah user adalah admin
         if (userRole === 'admin') {
             toast.error('Admin tidak diperbolehkan mengupdate surat.');
             return;
         }
+    
+        // Konversi tanggal yang akan diupdate dan tanggal saat ini
+    const updatedDate = new Date(editingSurat.tanggal);
+    const today = new Date();
 
+    // Reset jam, menit, detik, dan milidetik untuk perbandingan yang akurat
+    updatedDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    // Hitung selisih hari
+    const daysBefore = new Date(today);
+    daysBefore.setDate(today.getDate() - 1);
+
+    const daysAfter = new Date(today);
+    daysAfter.setDate(today.getDate() + 7);
+
+    // Validasi tanggal update dengan memperbolehkan rentang yang tepat
+    if (updatedDate < daysBefore || updatedDate > daysAfter) {
+        toast.error('Tanggal surat hanya dapat diupdate 1 hari sebelum hingga 7 hari ke depan.', {
+            autoClose: 2000
+        });
+        return;
+    }
+    
         try {
             await axios.put(`http://localhost:5000/historysuratketua/${editingSurat.id}`, editingSurat);
             setEditingSurat(null);

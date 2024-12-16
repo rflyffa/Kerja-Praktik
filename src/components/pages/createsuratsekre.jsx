@@ -75,21 +75,34 @@ const Createsuratsekre = ({ userRole }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
+        const today = new Date();
+        const inputDate = new Date(formData.tanggal);
+    
+        // Hitung batas maksimal 7 hari dari hari ini
+        const maxDate = new Date();
+        maxDate.setDate(today.getDate() + 7);
+    
         const newErrors = {};
         if (!formData.pembuat) newErrors.pembuat = 'Pembuat Surat is required';
         if (!formData.nomor) newErrors.nomor = 'Nomor Surat is required';
         if (!formData.kepada) newErrors.kepada = 'Kepada is required';
         if (!formData.untuk) newErrors.untuk = 'Untuk is required';
-        if (!formData.tanggal) newErrors.tanggal = 'Hari/Tanggal is required';
+        if (!formData.tanggal) {
+            newErrors.tanggal = 'Hari/Tanggal is required';
+        } else if (inputDate < today.setHours(0, 0, 0, 0)) {
+            newErrors.tanggal = 'Tanggal tidak boleh sebelum hari ini';
+        } else if (inputDate > maxDate) {
+            newErrors.tanggal = 'Tanggal tidak boleh lebih dari 7 hari dari hari ini';
+        }
         if (!formData.tempat) newErrors.tempat = 'Tempat is required';
         if (!formData.jam) newErrors.jam = 'Jam is required';
-
+    
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
-
+    
         axios.post('http://localhost:5000/createsuratsekre', formData)
             .then(() => {
                 navigate('/historysuratsekre');
@@ -98,7 +111,7 @@ const Createsuratsekre = ({ userRole }) => {
                 console.error('There was an error saving the surat!', error);
             });
     };
-
+    
     const handleBackClick = () => {
         navigate('/surat-tugas-options');
     };

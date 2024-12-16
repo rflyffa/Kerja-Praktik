@@ -6,6 +6,8 @@ const Createsuratketua = ({ userRole }) => {
     const [formData, setFormData] = useState({
         pembuat: '',
         nomor: '',
+        menimbang: '',
+        dasar: '',
         kepada: '',
         untuk: '',
         tanggal: '',
@@ -74,21 +76,36 @@ const Createsuratketua = ({ userRole }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
+        const today = new Date();
+        const inputDate = new Date(formData.tanggal);
+    
+        // Hitung batas maksimal 7 hari dari hari ini
+        const maxDate = new Date();
+        maxDate.setDate(today.getDate() + 7);
+    
         const newErrors = {};
         if (!formData.pembuat) newErrors.pembuat = 'Pembuat Surat is required';
         if (!formData.nomor) newErrors.nomor = 'Nomor Surat is required';
+        if (!formData.menimbang) newErrors.menimbang = 'Menimbang is required';
+        if (!formData.dasar) newErrors.dasar = 'Dasar is required';
         if (!formData.kepada) newErrors.kepada = 'Kepada is required';
         if (!formData.untuk) newErrors.untuk = 'Untuk is required';
-        if (!formData.tanggal) newErrors.tanggal = 'Hari/Tanggal is required';
+        if (!formData.tanggal) {
+            newErrors.tanggal = 'Hari/Tanggal is required';
+        } else if (inputDate < today.setHours(0, 0, 0, 0)) {
+            newErrors.tanggal = 'Tanggal tidak boleh sebelum hari ini';
+        } else if (inputDate > maxDate) {
+            newErrors.tanggal = 'Tanggal tidak boleh lebih dari 7 hari dari hari ini';
+        }
         if (!formData.tempat) newErrors.tempat = 'Tempat is required';
         if (!formData.jam) newErrors.jam = 'Jam is required';
-
+    
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
-
+    
         axios.post('http://localhost:5000/createsuratketua', formData)
             .then(() => {
                 navigate('/historysuratketua');
@@ -96,7 +113,7 @@ const Createsuratketua = ({ userRole }) => {
             .catch((error) => {
                 console.error('There was an error saving the surat!', error);
             });
-    };
+    }; 
 
     const handleBackClick = () => {
         navigate('/surat-tugas-options');
@@ -151,6 +168,32 @@ const Createsuratketua = ({ userRole }) => {
                             />
                             {errors.nomor && <p className="text-red-500 text-sm">{errors.nomor}</p>}
                         </div>
+                    </div>
+                    <div>
+                        <label htmlFor="menimbang" className="block text-sm font-medium text-gray-700">Menimbang</label>
+                        <textarea
+                            name="menimbang"
+                            id="menimbang"
+                            rows="3"
+                            value={formData.menimbang}
+                            onChange={handleChange}
+                            className={`mt-1 block w-full border ${errors.menimbang ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                            placeholder="Masukkan pertimbangan surat"
+                        ></textarea>
+                        {errors.menimbang && <p className="text-red-500 text-sm">{errors.menimbang}</p>}
+                    </div>
+                    <div>
+                        <label htmlFor="dasar" className="block text-sm font-medium text-gray-700">Dasar</label>
+                        <textarea
+                            name="dasar"
+                            id="dasar"
+                            rows="3"
+                            value={formData.dasar}
+                            onChange={handleChange}
+                            className={`mt-1 block w-full border ${errors.dasar ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                            placeholder="Masukkan dasar surat"
+                        ></textarea>
+                        {errors.dasar && <p className="text-red-500 text-sm">{errors.dasar}</p>}
                     </div>
                     <div>
                         <label htmlFor="kepada" className="block text-sm font-medium text-gray-700">Nama Pelaksana</label>

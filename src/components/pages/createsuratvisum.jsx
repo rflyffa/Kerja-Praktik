@@ -104,22 +104,35 @@ const Createsuratvisum = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         console.log('Form Data:', formData);
-
+    
+        const today = new Date();
+        const inputDate = new Date(formData.tanggal);
+    
+        // Hitung batas maksimal 7 hari dari hari ini
+        const maxDate = new Date();
+        maxDate.setDate(today.getDate() + 7);
+    
         const newErrors = {};
         if (!formData.jam) newErrors.jam = 'Jam is required';
         if (!formData.nama) newErrors.nama = 'Nama is required';
         if (formData.namaPelaksana.some((name) => !name)) newErrors.namaPelaksana = 'All Pelaksana names are required';
         if (!formData.hari) newErrors.hari = 'Hari is required';
-        if (!formData.tanggal) newErrors.tanggal = 'Tanggal is required';
+        if (!formData.tanggal) {
+            newErrors.tanggal = 'Tanggal is required';
+        } else if (inputDate < today.setHours(0, 0, 0, 0)) {
+            newErrors.tanggal = 'Tanggal tidak boleh sebelum hari ini';
+        } else if (inputDate > maxDate) {
+            newErrors.tanggal = 'Tanggal tidak boleh lebih dari 7 hari dari hari ini';
+        }
         if (!formData.estimasi) newErrors.estimasi = 'Waktu is required';
-
+    
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
-
+    
         try {
             const payload = {
                 jam: formData.jam,
@@ -129,13 +142,14 @@ const Createsuratvisum = () => {
                 tanggal: formData.tanggal,
                 estimasi: formData.estimasi,
             };
-
+    
             await axios.post('http://localhost:5000/createsuratvisum', payload);
             navigate('/historysuratvisum');
         } catch (error) {
             console.error('There was an error saving the data!', error);
         }
     };
+    
 
     const handleBackClick = () => {
         navigate('/dashboard');
