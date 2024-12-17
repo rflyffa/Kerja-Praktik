@@ -54,7 +54,25 @@ const Createsuratsekre = ({ userRole }) => {
         "Ahmad Solihin",
     ];
 
-        const getCurrentTime = () => {
+    const validateTempat = (value) => {
+        // Check if the first letter is capitalized
+        const isCapitalized = /^[A-Z]/.test(value);
+
+        // Check if the value has at least 2 letters
+        const hasMinimumLength = value.trim().length >= 2;
+
+        if (!value) {
+            return 'Tempat is required';
+        } else if (!isCapitalized) {
+            return 'Tempat must start with a capital letter';
+        } else if (!hasMinimumLength) {
+            return 'Tempat must be at least 2 characters long';
+        }
+
+        return '';
+    };
+
+    const getCurrentTime = () => {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
         const minutes = now.getMinutes().toString().padStart(2, '0');
@@ -69,20 +87,31 @@ const Createsuratsekre = ({ userRole }) => {
     }, []);
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-        setErrors({ ...errors, [e.target.name]: '' });
+        const { name, value } = e.target;
+
+        // Special handling for tempat field
+        if (name === 'tempat') {
+            // Automatically capitalize the first letter
+            const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
+            setFormData({ ...formData, [name]: capitalizedValue });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
+
+        // Clear specific field error
+        setErrors({ ...errors, [name]: '' });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         const today = new Date();
         const inputDate = new Date(formData.tanggal);
-    
+
         // Hitung batas maksimal 7 hari dari hari ini
         const maxDate = new Date();
         maxDate.setDate(today.getDate() + 7);
-    
+
         const newErrors = {};
         if (!formData.pembuat) newErrors.pembuat = 'Pembuat Surat is required';
         if (!formData.nomor) newErrors.nomor = 'Nomor Surat is required';
@@ -95,14 +124,20 @@ const Createsuratsekre = ({ userRole }) => {
         } else if (inputDate > maxDate) {
             newErrors.tanggal = 'Tanggal tidak boleh lebih dari 7 hari dari hari ini';
         }
-        if (!formData.tempat) newErrors.tempat = 'Tempat is required';
+
+        // Add tempat validation
+        const tempatError = validateTempat(formData.tempat);
+        if (tempatError) {
+            newErrors.tempat = tempatError;
+        }
+
         if (!formData.jam) newErrors.jam = 'Jam is required';
-    
+
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
-    
+
         axios.post('http://localhost:5000/createsuratsekre', formData)
             .then(() => {
                 navigate('/historysuratsekre');
@@ -111,7 +146,7 @@ const Createsuratsekre = ({ userRole }) => {
                 console.error('There was an error saving the surat!', error);
             });
     };
-    
+
     const handleBackClick = () => {
         navigate('/surat-tugas-options');
     };
