@@ -77,7 +77,7 @@ const DashboardCard = ({ to, icon, title, description, userRole, hideViewHistory
         </button>
         {!hideViewHistory && (
           <Link 
-            to="/historysuratvisum"  // Navigasi ke halaman historysuratvisum.jsx
+            to="/historysuratvisum"
             className="block text-indigo-600 hover:text-indigo-800 text-base font-small transition-colors duration-300"
           >
             View History

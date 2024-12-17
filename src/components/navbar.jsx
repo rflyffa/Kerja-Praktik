@@ -33,7 +33,7 @@ const Navbar = ({ onHomeClick, onLogout, isAuthenticated, userRole }) => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    if (isProfileMenuOpen) setIsProfileMenuOpen(false); // Close profile menu when toggling side menu
+    if (isProfileMenuOpen) setIsProfileMenuOpen(false);
   };
 
   const toggleProfileMenu = () => {
@@ -42,12 +42,12 @@ const Navbar = ({ onHomeClick, onLogout, isAuthenticated, userRole }) => {
 
   // Reset profile menu when authenticated state changes (e.g. login, logout)
   useEffect(() => {
-    setIsProfileMenuOpen(false); // Close profile menu after login or logout
+    setIsProfileMenuOpen(false);
   }, [isAuthenticated]);
 
   const handleLogout = () => {
     if (onLogout) {
-      onLogout();  // Execute the onLogout function
+      onLogout();
       toast.error('Logout berhasil!', {
         position: 'top-center',
         autoClose: 1700,
@@ -94,7 +94,7 @@ const Navbar = ({ onHomeClick, onLogout, isAuthenticated, userRole }) => {
           {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage || isCreateSura2tPage || isHistory2Page || isCreatesuratvisumPage|| isHistoryvisumPage) && isAuthenticated && (
             <div className="relative">
               <button
-                onClick={toggleProfileMenu} // Open profile menu on click
+                onClick={toggleProfileMenu}
                 className="relative group"
               >
                 <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
@@ -114,7 +114,7 @@ const Navbar = ({ onHomeClick, onLogout, isAuthenticated, userRole }) => {
                     </div>
                   </div>
                   <button
-                    onClick={handleLogout}  // Call handleLogout function here
+                    onClick={handleLogout}
                     className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-b-lg transition duration-150 ease-in-out bg-white"
                   >
                     Logout
@@ -146,8 +146,8 @@ const Navbar = ({ onHomeClick, onLogout, isAuthenticated, userRole }) => {
               to={homeLink}
               className="relative group"
               onClick={() => {
-                toggleMenu(); // Close menu on link click
-                if (onHomeClick) onHomeClick(); // Trigger onHomeClick
+                toggleMenu();
+                if (onHomeClick) onHomeClick();
               }}
             >
               <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
@@ -158,10 +158,10 @@ const Navbar = ({ onHomeClick, onLogout, isAuthenticated, userRole }) => {
               </span>
             </Link>
           )}
-          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isHistoryPage) && isAuthenticated && (
+          {(isDashboardPage || isSuratOptionsPage || isCreateSuratPage || isCreatesuratvisumPage || isHistoryPage || isHistoryvisumPage) && isAuthenticated && (
             <div className="relative">
               <button
-                onClick={toggleProfileMenu} // Open profile menu on click
+                onClick={toggleProfileMenu}
                 className="relative group w-full"
               >
                 <div className="flex items-center justify-center p-3 bg-gradient-to-r from-black via-gray-800 to-black rounded-full transition-transform transform hover:scale-105 shadow-md">
@@ -181,7 +181,7 @@ const Navbar = ({ onHomeClick, onLogout, isAuthenticated, userRole }) => {
                     </div>
                   </div>
                   <button
-                    onClick={handleLogout}  // Call handleLogout function here
+                    onClick={handleLogout}
                     className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-b-lg transition duration-150 ease-in-out bg-white"
                   >
                     Logout
